@@ -1,0 +1,18 @@
+.superInput {
+    border: 1px solid gray;
+    background-color: aliceblue;
+    margin: 5px 0;
+}
+
+.errorInput {
+    border: 3px solid red;
+    background: pink;
+}
+
+.superInput:focus{
+    outline: none;
+}
+
+.error {
+    color: red;
+}

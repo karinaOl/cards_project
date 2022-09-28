@@ -1,0 +1,12 @@
+.default {
+    background-color: lavender;
+    margin: 5px;
+}
+
+.default:disabled{
+    background-color: palevioletred;
+}
+
+.red {
+    background: red;
+}

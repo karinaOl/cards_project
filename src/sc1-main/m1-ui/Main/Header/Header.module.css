@@ -1,0 +1,17 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+    background-color: antiquewhite;
+    margin: 5px;
+}
+
+
+.active {
+    background-color: violet;
+}
