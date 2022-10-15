@@ -19,7 +19,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 const rootReducer = combineReducers({
     login: loginReducer,
     newPassword: newPasswordReducer,
-    RecoveryPassword: recoveryPasswordReducer,
+    recoveryPassword: recoveryPasswordReducer,
     registration: registrationReducer,
     profile: profileReducer
 })
