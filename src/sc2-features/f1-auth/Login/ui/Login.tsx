@@ -1,4 +1,8 @@
 import {useFormik} from "formik";
+import {useAppDispatch, useAppSelector} from "../../../../sc1-main/m2-bll/store";
+import {loginTC} from "../bll/loginReducer";
+import {PATH} from "../../../../sc1-main/m1-ui/Main/Pages";
+import { Navigate } from "react-router-dom";
 
 type FormikErrorType = {
     email?: string
@@ -7,6 +11,10 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
+
+    const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+
 
     const formik = useFormik({
         initialValues: {
@@ -23,17 +31,22 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = "Required"
-            } else if(values.password.length <= 5){
+            } else if (values.password.length <= 5) {
                 errors.password = "Password must be more symbol"
             }
 
             return errors
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(loginTC(values))
             formik.resetForm()
         },
     });
+
+    if(isLoggedIn){
+        return <Navigate to={PATH.PROFILE}/>
+    }
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <label htmlFor="email">email</label>
@@ -42,14 +55,15 @@ export const Login = () => {
                 type="text"
                 {...formik.getFieldProps("email")}
             />
-            {formik.touched.email && formik.errors.email && <div style={{color:"red"}}>{formik.errors.email}</div>}
+            {formik.touched.email && formik.errors.email && <div style={{color: "red"}}>{formik.errors.email}</div>}
             <label htmlFor="password">password</label>
             <input
                 id="password"
                 type="password"
                 {...formik.getFieldProps("password")}
             />
-            {formik.touched.password && formik.errors.password && <div style={{color:"red"}}>{formik.errors.password}</div>}
+            {formik.touched.password && formik.errors.password &&
+            <div style={{color: "red"}}>{formik.errors.password}</div>}
             <label htmlFor="rememberMe">rememberMe</label>
             <input
                 id="rememberMe"
