@@ -2,7 +2,7 @@ import {instance} from "../../../../sc1-main/m3-dal/instance";
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instance.post("/auth/login", data)
+        return instance.post<RegistrationResponseTypeAddedUser>("/auth/login", data)
     },
     registration(data: LoginParamsType) {
         return instance.post<LoginParamsType, RegistrationResponseType>("auth/register", data)

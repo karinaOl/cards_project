@@ -1,5 +1,6 @@
 import {AppThunk} from "../../../../sc1-main/m2-bll/store";
 import {authAPI, LoginParamsType} from "../dal/login-api";
+import {setProfileDataAC} from "../../../f2-profile/bll/profileReducer";
 
 const initialState = {
     isLoggedIn: false
@@ -20,12 +21,13 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     authAPI.login(data)
         .then(res => {
             console.log(res.data)
+            dispatch(setProfileDataAC(res.data))
             dispatch(loginAC(true))
         })
         .catch(e => {
                 const error = e.response
                     ? e.response.data.error
-                    : (e.message + ', more details in the console')
+                    : (e.message + ", more details in the console")
                 console.log(error)
             }
         )
