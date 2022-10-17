@@ -20,6 +20,11 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
                 ...state,
                 name: action.name
             }
+        case "profile/SET-EMAIL":
+            return {
+                ...state,
+                email: action.email
+            }
         default:
             return state
     }
@@ -27,6 +32,7 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
 
 export const changeNameAC = (newName: string) => ({type: 'profile/CHANGE-NAME', newName} as const)
 export const setNameAC = (name: string) => ({type: 'profile/SET-NAME', name} as const)
+export const setEmailAC = (email: string) => ({type: 'profile/SET-EMAIL', email} as const)
 
 export const setNameTC = () : AppThunk => (dispatch) => {
 
@@ -51,3 +57,4 @@ export type ProfileInitialStateType = typeof initialState;
 export type ProfileActionType =
     | ReturnType<typeof changeNameAC>
     | ReturnType<typeof setNameAC>
+    | ReturnType<typeof setEmailAC>
