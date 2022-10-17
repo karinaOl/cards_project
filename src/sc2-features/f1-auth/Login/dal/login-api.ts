@@ -6,6 +6,9 @@ export const authAPI = {
     },
     registration(data: LoginParamsType) {
         return instance.post<LoginParamsType, RegistrationResponseType>("auth/register", data)
+    },
+    logout(){
+        return instance.delete('/auth/me')
     }
 }
 

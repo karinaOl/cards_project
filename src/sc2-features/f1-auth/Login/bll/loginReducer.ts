@@ -14,7 +14,7 @@ export const loginReducer = (state: LoginInitialStateType = initialState, action
     }
 }
 
-const loginAC = (value: boolean) => ({type: "login/LOGIN", value } as const);
+export const loginAC = (value: boolean) => ({type: "login/LOGIN", value } as const);
 
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     authAPI.login(data)
