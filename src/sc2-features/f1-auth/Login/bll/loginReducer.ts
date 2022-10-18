@@ -1,6 +1,7 @@
 import {AppThunk} from "../../../../sc1-main/m2-bll/store";
 import {authAPI, LoginParamsType} from "../dal/login-api";
 import {setProfileDataAC} from "../../../f2-profile/bll/profileReducer";
+import {handleAppError} from "../../../../utils/error-utils";
 
 const initialState = {
     isLoggedIn: false
@@ -15,7 +16,7 @@ export const loginReducer = (state: LoginInitialStateType = initialState, action
     }
 }
 
-export const loginAC = (value: boolean) => ({type: "login/LOGIN", value } as const);
+export const loginAC = (value: boolean) => ({type: "login/LOGIN", value} as const);
 
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     authAPI.login(data)
@@ -25,12 +26,8 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
             dispatch(loginAC(true))
         })
         .catch(e => {
-                const error = e.response
-                    ? e.response.data.error
-                    : (e.message + ", more details in the console")
-                console.log(error)
-            }
-        )
+            handleAppError(e, dispatch)
+        })
 }
 
 export type LoginInitialStateType = typeof initialState;
