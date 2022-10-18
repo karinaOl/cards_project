@@ -6,9 +6,9 @@ export const profileApi = {
     }
 }
 
-type UpdateUserParamsType = {
-    name: string,
-    avatar: string
+export type UpdateUserParamsType = {
+    name: string
+    avatar: string | null
 }
 
 type UpdateUserResponseType = {
@@ -17,14 +17,15 @@ type UpdateUserResponseType = {
 }
 
 export type UserDataResponseType = {
-    _id: string;
-    email: string;
-    rememberMe: boolean;
-    isAdmin: boolean;
-    name: string;
-    verified: boolean;
-    publicCardPacksCount: number;
-    created: string;
-    updated: string;
-    __v: number;
+    _id: string
+    email: string
+    avatar : string | null
+    rememberMe: boolean
+    isAdmin: boolean
+    name: string
+    verified: boolean
+    publicCardPacksCount: number
+    created: string
+    updated: string
+    __v: number
 }

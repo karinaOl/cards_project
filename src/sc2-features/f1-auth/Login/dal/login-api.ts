@@ -1,6 +1,7 @@
 import {instance} from "../../../../sc1-main/m3-dal/instance";
 import {UserDataResponseType} from "../../../f2-profile/dal/profile-api";
 
+
 export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<UserDataResponseType>("/auth/login", data)
