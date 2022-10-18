@@ -2,7 +2,24 @@ import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../../../sc1-main/m2-bll/store";
 import {loginTC} from "../bll/loginReducer";
 import {PATH} from "../../../../sc1-main/m1-ui/Main/Pages";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
+import Button from "@mui/material/Button";
+import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
+import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Paper from '@mui/material/Paper';
+import IconButton from "@mui/material/IconButton";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {useState} from "react";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 
 type FormikErrorType = {
     email?: string
@@ -14,6 +31,7 @@ export const Login = () => {
 
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const formik = useFormik({
@@ -43,34 +61,63 @@ export const Login = () => {
         },
     });
 
-    if(isLoggedIn){
+    if (isLoggedIn) {
         return <Navigate to={PATH.PROFILE}/>
     }
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="email">email</label>
-            <input
-                id="email"
-                type="text"
-                {...formik.getFieldProps("email")}
-            />
-            {formik.touched.email && formik.errors.email && <div style={{color: "red"}}>{formik.errors.email}</div>}
-            <label htmlFor="password">password</label>
-            <input
-                id="password"
-                type="password"
-                {...formik.getFieldProps("password")}
-            />
-            {formik.touched.password && formik.errors.password &&
-            <div style={{color: "red"}}>{formik.errors.password}</div>}
-            <label htmlFor="rememberMe">rememberMe</label>
-            <input
-                id="rememberMe"
-                type="checkbox"
-                {...formik.getFieldProps("rememberMe")}
-            />
-            <button type="submit">login</button>
-        </form>
+        <Grid container justifyContent={"center"}>
+            <Grid item justifyContent={"center"}>
+                <Paper style={{padding: "30px"}}>
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormControl>
+                            <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
+                                Sign in
+                            </Typography>
+                            <FormGroup>
+                                <TextField label="email"
+                                           variant="standard"
+                                           {...formik.getFieldProps("email")}/>
+                                {formik.touched.email && formik.errors.email &&
+                                <div style={{color: "red"}}>{formik.errors.email}</div>}
+                                <FormControl variant="standard">
+                                    <InputLabel htmlFor="standard-adornment-password">password</InputLabel>
+                                    <Input
+                                        type={showPassword ? 'text' : 'password'}
+                                        {...formik.getFieldProps("password")}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                                {formik.touched.password && formik.errors.password &&
+                                <div style={{color: "red"}}>{formik.errors.password}</div>}
+                                <FormControlLabel
+                                    label={'Remember me'}
+                                    control={<Checkbox
+                                        checked={formik.values.rememberMe}
+                                        {...formik.getFieldProps("rememberMe")}
+                                    />}
+                                />
+                                <Button type={'submit'} variant={'contained'}>
+                                    Sign In
+                                </Button>
+                            </FormGroup>
+                            <FormLabel>
+                                <p>Already have an account?</p>
+                                <a href={"http://localhost:3000/cards_project#/registration"}>Sign Up</a>
+                            </FormLabel>
+                        </FormControl>
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
     )
 }
