@@ -2,6 +2,8 @@ import {profileApi, UpdateUserParamsType, UserDataResponseType} from "../dal/pro
 import {authAPI} from "../../f1-auth/Login/dal/login-api";
 import {AppThunk} from "../../../sc1-main/m2-bll/store";
 import {loginAC} from "../../f1-auth/Login/bll/loginReducer";
+import {handleAppError} from "../../../utils/error-utils";
+import {setIsLoadingAC} from "../../../sc1-main/m2-bll/appReducer";
 
 
 const initialState = {
@@ -10,7 +12,7 @@ const initialState = {
     avatar: null as string | null,
     rememberMe: false,
     isAdmin: false,
-    name: '',
+    name: 'Default Name',
     verified: true,
     publicCardPacksCount: 0,
     created: '',
@@ -43,18 +45,33 @@ export const setProfileDataAC = (profileData: UserDataResponseType) =>
 export const updateUserNameTC = (name: string): AppThunk => (dispatch, getState) => {
     const avatar = getState().profile.avatar
     const payload: UpdateUserParamsType = {name, avatar}
+
+    dispatch(setIsLoadingAC(true))
+
     profileApi.updateUser(payload)
         .then((res) => {
-            console.log(res)
+        })
+        .catch((e) => {
+            handleAppError(e, dispatch)
+        })
+        .finally(() => {
+            dispatch(setIsLoadingAC(false))
         })
 }
 
 // создать санку с аватаркой
 
 export const logoutTC = (): AppThunk => (dispatch) => {
+    dispatch(setIsLoadingAC(true))
     authAPI.logout()
         .then((res) => {
             dispatch(loginAC(false))
+        })
+        .catch((e) => {
+            handleAppError(e, dispatch)
+        })
+        .finally(()=> {
+            dispatch(setIsLoadingAC(false))
         })
 }
 

@@ -67,58 +67,59 @@ export const Login = () => {
 
     return (
         <Grid container justifyContent={"center"}>
-                <Paper style={{padding: "70px"}}>
-                    <form onSubmit={formik.handleSubmit}>
-                        <FormControl>
-                            <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
-                                Sign in
-                            </Typography>
-                            <FormGroup>
-                                <TextField label="email"
-                                           variant="standard"
-                                           {...formik.getFieldProps("email")}/>
-                                {formik.touched.email && formik.errors.email &&
+            <Paper style={{padding: "70px"}}>
+                <form onSubmit={formik.handleSubmit}>
+                    <FormControl>
+                        <Typography variant="h5" component="h3" sx={{flexGrow: 1}}>
+                            Sign in
+                        </Typography>
+                        <FormGroup>
+                            <TextField label="email"
+                                       variant="standard"
+                                       {...formik.getFieldProps("email")}/>
+                            {formik.touched.email && formik.errors.email &&
                                 <div style={{color: "red"}}>{formik.errors.email}</div>}
-                                <FormControl variant="standard">
-                                    <InputLabel htmlFor="standard-adornment-password">password</InputLabel>
-                                    <Input
-                                        type={showPassword ? 'text' : 'password'}
-                                        {...formik.getFieldProps("password")}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                >
-                                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
-                                {formik.touched.password && formik.errors.password &&
-                                <div style={{color: "red"}}>{formik.errors.password}</div>}
-                                <FormControlLabel
-                                    label={'Remember me'}
-                                    control={<Checkbox
-                                        checked={formik.values.rememberMe}
-                                        {...formik.getFieldProps("rememberMe")}
-                                    />}
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="standard-adornment-password">password</InputLabel>
+                                <Input
+                                    type={showPassword ? 'text' : 'password'}
+                                    {...formik.getFieldProps("password")}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
                                 />
-                                <FormLabel style={{padding: "10px"}}>
-                                    <a href={"http://localhost:3000/cards_project#/new-password"} style={{textDecoration: "none"}}>Forgot Password?</a>
-                                </FormLabel>
-                                <Button type={'submit'} variant={'contained'}>
-                                    Sign In
-                                </Button>
-                            </FormGroup>
-                            <FormLabel>
-                                <p>Already have an account?</p>
-                                <a href={"http://localhost:3000/cards_project#/registration"}>Sign Up</a>
+                            </FormControl>
+                            {formik.touched.password && formik.errors.password &&
+                                <div style={{color: "red"}}>{formik.errors.password}</div>}
+                            <FormControlLabel
+                                label={'Remember me'}
+                                control={<Checkbox
+                                    checked={formik.values.rememberMe}
+                                    {...formik.getFieldProps("rememberMe")}
+                                />}
+                            />
+                            <FormLabel style={{padding: "10px"}}>
+                                <a href={"http://localhost:3000/cards_project#/new-password"}
+                                   style={{textDecoration: "none"}}>Forgot Password?</a>
                             </FormLabel>
-                        </FormControl>
-                    </form>
-                </Paper>
+                            <Button type={'submit'} variant={'contained'}>
+                                Sign In
+                            </Button>
+                        </FormGroup>
+                        <FormLabel>
+                            <p>Already have an account?</p>
+                            <a href={"http://localhost:3000/cards_project#/registration"}>Sign Up</a>
+                        </FormLabel>
+                    </FormControl>
+                </form>
+            </Paper>
         </Grid>
     )
 }

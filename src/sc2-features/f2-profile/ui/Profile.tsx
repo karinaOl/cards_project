@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../../sc1-main/m2-bll/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../../sc1-main/m1-ui/Main/Pages";
 import {updateUserNameTC, logoutTC} from "../bll/profileReducer";
+import Button from "@mui/material/Button";
 
 export const Profile = () => {
 
@@ -37,8 +38,8 @@ export const Profile = () => {
                               changeName={changeName}
                 />
             </h3>
-            <div>{email}</div>
-            <button onClick={logoutHandler}>Logout</button>
+            <p>{email}</p>
+            <Button variant="outlined" onClick={logoutHandler}>Logout</Button>
         </div>
     )
 }
