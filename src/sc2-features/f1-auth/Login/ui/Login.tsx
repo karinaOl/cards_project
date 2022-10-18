@@ -67,8 +67,7 @@ export const Login = () => {
 
     return (
         <Grid container justifyContent={"center"}>
-            <Grid item justifyContent={"center"}>
-                <Paper style={{padding: "30px"}}>
+                <Paper style={{padding: "70px"}}>
                     <form onSubmit={formik.handleSubmit}>
                         <FormControl>
                             <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
@@ -106,6 +105,9 @@ export const Login = () => {
                                         {...formik.getFieldProps("rememberMe")}
                                     />}
                                 />
+                                <FormLabel style={{padding: "10px"}}>
+                                    <a href={"http://localhost:3000/cards_project#/new-password"} style={{textDecoration: "none"}}>Forgot Password?</a>
+                                </FormLabel>
                                 <Button type={'submit'} variant={'contained'}>
                                     Sign In
                                 </Button>
@@ -117,7 +119,6 @@ export const Login = () => {
                         </FormControl>
                     </form>
                 </Paper>
-            </Grid>
         </Grid>
     )
 }
