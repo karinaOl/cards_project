@@ -15,13 +15,15 @@ import {
 import {ProfileActionType, profileReducer} from "../../sc2-features/f2-profile/bll/profileReducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {appReducer} from "./appReducer";
 
 const rootReducer = combineReducers({
     login: loginReducer,
     newPassword: newPasswordReducer,
     recoveryPassword: recoveryPasswordReducer,
     registration: registrationReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    app: appReducer
 })
 export const store = createStore(rootReducer, applyMiddleware(thunk))
 
