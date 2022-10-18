@@ -6,15 +6,21 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import {useAppDispatch, useAppSelector} from "../../../sc1-main/m2-bll/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../../sc1-main/m1-ui/Main/Pages";
-import {logoutTC} from "../bll/profileReducer";
+import {updateUserNameTC, logoutTC} from "../bll/profileReducer";
 
 export const Profile = () => {
 
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const email = useAppSelector(state => state.profile.email)
+    const name = useAppSelector(state => state.profile.name)
+    // avatar
     const dispatch = useAppDispatch()
 
     const logoutHandler = () => {
         dispatch(logoutTC())
+    }
+    const changeName = (name: string) => {
+        dispatch(updateUserNameTC(name))
     }
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
@@ -26,26 +32,32 @@ export const Profile = () => {
                  src={profileImg}
                  alt='profileImg'
             />
-            <h3><EditableName/></h3>
-            <div>Email</div>
+            <h3>
+                <EditableName name={name}
+                              changeName={changeName}
+                />
+            </h3>
+            <div>{email}</div>
             <button onClick={logoutHandler}>Logout</button>
         </div>
     )
 }
 
-const EditableName = () => {
+const EditableName = (props: EditableNamePropsType) => {
 
     const [edit, setEdit] = useState(false)
-    const [text, setText] = useState('User Name')
+    const [text, setText] = useState(props.name)
 
     const activateEditMode = () => {
         setEdit(true)
-
     }
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value)
     }
+
     const activateViewMode = () => {
+        props.changeName(text)
         setEdit(false)
     }
 
@@ -58,5 +70,9 @@ const EditableName = () => {
         </div>
 
     )
+}
 
+export type EditableNamePropsType = {
+    name: string
+    changeName: (name: string) => void
 }
