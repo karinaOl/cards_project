@@ -3,6 +3,23 @@ import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import { registrationTC, setError } from "../bll/registrationReducer";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import FormControl from "@mui/material/FormControl";
+import Typography from "@mui/material/Typography";
+import FormGroup from "@mui/material/FormGroup";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import FormLabel from "@mui/material/FormLabel";
+import Button from "@mui/material/Button";
+import * as React from "react";
+import { useState } from "react";
 
 type FormikErrorType = {
     email?: string;
@@ -14,6 +31,7 @@ export const Registration = () => {
     const dispatch = useAppDispatch();
     const isRegistration = useAppSelector<boolean>((state) => state.registration.isRegistration);
     const error = useAppSelector<string>((state) => state.registration.error);
+    const [showPassword, setShowPassword] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -51,39 +69,78 @@ export const Registration = () => {
     }
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <div>Email</div>
-            <div>
-                <input id="email" type="text" {...formik.getFieldProps("email")} />
-            </div>
-            {formik.touched.email && formik.errors.email && (
-                <div style={{ color: "red" }}>{formik.errors.email}</div>
-            )}
-
-            <div>Password</div>
-            <div>
-                <input id="password" type="password" {...formik.getFieldProps("password")} />
-            </div>
-            {formik.touched.password && formik.errors.password && (
-                <div style={{ color: "red" }}>{formik.errors.password}</div>
-            )}
-
-            <div>Confirm password</div>
-            <div>
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    {...formik.getFieldProps("confirmPassword")}
-                />
-            </div>
-            {formik.touched.password && formik.errors.password && (
-                <div style={{ color: "red" }}>{formik.errors.password}</div>
-            )}
-            {error ? <div style={{ color: "red" }}>{error}</div> : ""}
-
-            <div>
-                <button type="submit">Sign Up</button>
-            </div>
-        </form>
+        <Grid container justifyContent={"center"}>
+            <Paper style={{ padding: "70px" }}>
+                <form onSubmit={formik.handleSubmit}>
+                    <FormControl>
+                        <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
+                            Sign up
+                        </Typography>
+                        <FormGroup>
+                            <TextField
+                                label="Email"
+                                variant="standard"
+                                {...formik.getFieldProps("email")}
+                            />
+                            {formik.touched.email && formik.errors.email && (
+                                <div style={{ color: "red" }}>{formik.errors.email}</div>
+                            )}
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="standard-adornment-password">
+                                    Password
+                                </InputLabel>
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    {...formik.getFieldProps("password")}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
+                            {formik.touched.password && formik.errors.password && (
+                                <div style={{ color: "red" }}>{formik.errors.password}</div>
+                            )}
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="standard-adornment-password">
+                                    Confirm password
+                                </InputLabel>
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    {...formik.getFieldProps("password")}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
+                            <br />
+                            <br />
+                            <Button type={"submit"} variant={"contained"}>
+                                Sign Up
+                            </Button>
+                        </FormGroup>
+                        <FormLabel>
+                            <p>Already have an account?</p>
+                            <a href={"http://localhost:3000/cards_project#/registration"}>
+                                Sign In
+                            </a>
+                        </FormLabel>
+                    </FormControl>
+                </form>
+            </Paper>
+        </Grid>
     );
 };
