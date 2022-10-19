@@ -28,6 +28,7 @@ type FormikErrorType = {
 export const Registration = () => {
     const dispatch = useAppDispatch();
     const isRegistration = useAppSelector<boolean>((state) => state.registration.isRegistration);
+    const error = useAppSelector<string>((state) => state.registration.error);
     const [showPassword, setShowPassword] = useState(false);
 
     const formik = useFormik({
