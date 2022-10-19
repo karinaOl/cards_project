@@ -1,7 +1,6 @@
 import { authAPI, LoginParamsType } from "../../Login/dal/login-api";
 import { AppThunk } from "../../../../sc1-main/m2-bll/store";
 import { handleAppError } from "../../../../utils/error-utils";
-import { setIsLoadingAC } from "../../../../sc1-main/m2-bll/appReducer";
 
 const initialState = {
     isRegistration: false,
@@ -28,7 +27,6 @@ export const setError = (error: string) => ({ type: "registration/SET-ERROR", er
 export const registrationTC =
     (data: LoginParamsType): AppThunk =>
     (dispatch) => {
-        dispatch(setIsLoadingAC(true));
         authAPI
             .registration(data)
             .then((res) => {
@@ -36,9 +34,6 @@ export const registrationTC =
             })
             .catch((e) => {
                 handleAppError(e, dispatch);
-            })
-            .finally(() => {
-                dispatch(setIsLoadingAC(false));
             });
     };
 

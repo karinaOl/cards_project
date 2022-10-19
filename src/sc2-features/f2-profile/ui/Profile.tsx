@@ -13,7 +13,7 @@ export const Profile = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const email = useAppSelector((state) => state.profile.email);
     const name = useAppSelector((state) => state.profile.name);
-    // avatar
+
     const dispatch = useAppDispatch();
 
     const logoutHandler = () => {
