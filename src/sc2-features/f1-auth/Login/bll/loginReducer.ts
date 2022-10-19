@@ -5,19 +5,22 @@ import {handleAppError} from "../../../../utils/error-utils";
 import {setIsLoadingAC} from "../../../../sc1-main/m2-bll/appReducer";
 
 const initialState = {
-    isLoggedIn: false
-}
+    isLoggedIn: false,
+};
 
-export const loginReducer = (state: LoginInitialStateType = initialState, action: LoginActionType): LoginInitialStateType => {
+export const loginReducer = (
+    state: LoginInitialStateType = initialState,
+    action: LoginActionType
+): LoginInitialStateType => {
     switch (action.type) {
         case "login/LOGIN":
-            return {...state, isLoggedIn: action.value}
+            return { ...state, isLoggedIn: action.value };
         default:
-            return state
+            return state;
     }
-}
+};
 
-export const loginAC = (value: boolean) => ({type: "login/LOGIN", value} as const);
+export const loginAC = (value: boolean) => ({ type: "login/LOGIN", value } as const);
 
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     dispatch(setIsLoadingAC(true))
@@ -36,4 +39,4 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
 }
 
 export type LoginInitialStateType = typeof initialState;
-export type LoginActionType = ReturnType<typeof loginAC>
+export type LoginActionType = ReturnType<typeof loginAC>;

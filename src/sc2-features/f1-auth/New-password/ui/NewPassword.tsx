@@ -1,5 +1,3 @@
 export const NewPassword = () => {
-  return(
-      <>NewPassword</>
-  )
-}
+    return <>NewPassword</>;
+};
