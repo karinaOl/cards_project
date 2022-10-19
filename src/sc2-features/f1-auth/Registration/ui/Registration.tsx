@@ -51,12 +51,18 @@ export const Registration = () => {
             } else if (values.password.length < 8) {
                 errors.password = "Password must be more 7 characters";
             }
+            if (!values.confirmPassword) {
+                errors.confirmPassword = "Required";
+            } else if (values.confirmPassword.length < 8) {
+                errors.confirmPassword = "Password must be more 7 characters";
+            }
 
             return errors;
         },
         onSubmit: (values) => {
             if (values.password === values.confirmPassword) {
                 dispatch(registrationTC(values));
+                dispatch(setError(""));
                 formik.resetForm();
             } else {
                 dispatch(setError("Incorrect password!"));
@@ -113,7 +119,7 @@ export const Registration = () => {
                                 </InputLabel>
                                 <Input
                                     type={showPassword ? "text" : "password"}
-                                    {...formik.getFieldProps("password")}
+                                    {...formik.getFieldProps("confirmPassword")}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -126,6 +132,10 @@ export const Registration = () => {
                                     }
                                 />
                             </FormControl>
+                            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                <div style={{ color: "red" }}>{formik.errors.confirmPassword}</div>
+                            )}
+                            {error && <div style={{ color: "red" }}>{error}</div>}
                             <br />
                             <br />
                             <Button type={"submit"} variant={"contained"}>
@@ -134,9 +144,7 @@ export const Registration = () => {
                         </FormGroup>
                         <FormLabel>
                             <p>Already have an account?</p>
-                            <a href={"http://localhost:3000/cards_project#/registration"}>
-                                Sign In
-                            </a>
+                            <a href={"http://localhost:3000/cards_project#/login"}>Sign In</a>
                         </FormLabel>
                     </FormControl>
                 </form>
