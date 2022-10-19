@@ -68,8 +68,6 @@ export const updateUserNameTC =
             });
     };
 
-// создать санку с аватаркой
-
 export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setIsLoadingAC(true));
     authAPI
