@@ -1,11 +1,11 @@
-import {Pages} from "./Pages";
-import {Header} from "./Header/Header";
+import { Pages } from "./Pages";
+import { Header } from "./Header/Header";
 
 export const Main = () => {
-  return(
-      <div>
-          <Header/>
-          <Pages/>
-      </div>
-  )
-}
+    return (
+        <div>
+            <Header />
+            <Pages />
+        </div>
+    );
+};

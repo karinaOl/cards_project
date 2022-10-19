@@ -1,35 +1,43 @@
-import {authAPI, LoginParamsType} from "../../Login/dal/login-api";
-import {AppThunk} from "../../../../sc1-main/m2-bll/store";
-import {handleAppError} from "../../../../utils/error-utils";
+import { authAPI, LoginParamsType } from "../../Login/dal/login-api";
+import { AppThunk } from "../../../../sc1-main/m2-bll/store";
+import { handleAppError } from "../../../../utils/error-utils";
 
 const initialState = {
     isRegistration: false,
-    error: ""
-}
+    error: "",
+};
 
-export const registrationReducer = (state: InitialStateType = initialState, action: RegistrationActionType): InitialStateType => {
+export const registrationReducer = (
+    state: InitialStateType = initialState,
+    action: RegistrationActionType
+): InitialStateType => {
     switch (action.type) {
         case "registration/REGISTER":
-            return {...state, isRegistration: action.value}
+            return { ...state, isRegistration: action.value };
         case "registration/SET-ERROR":
-            return {...state, error: action.error}
+            return { ...state, error: action.error };
         default:
-            return state
+            return state;
     }
-}
+};
 
-const registrationAC = (value: boolean) => ({type: "registration/REGISTER", value} as const)
-export const setError = (error: string) => ({type: "registration/SET-ERROR", error} as const)
+const registrationAC = (value: boolean) => ({ type: "registration/REGISTER", value } as const);
+export const setError = (error: string) => ({ type: "registration/SET-ERROR", error } as const);
 
-export const registrationTC = (data: LoginParamsType): AppThunk => (dispatch) => {
-    authAPI.registration(data)
-        .then(res => {
-            dispatch(registrationAC(true))
-        })
-        .catch((e) => {
-            handleAppError(e, dispatch)
-        })
-}
+export const registrationTC =
+    (data: LoginParamsType): AppThunk =>
+    (dispatch) => {
+        authAPI
+            .registration(data)
+            .then((res) => {
+                dispatch(registrationAC(true));
+            })
+            .catch((e) => {
+                handleAppError(e, dispatch);
+            });
+    };
 
 type InitialStateType = typeof initialState;
-export type RegistrationActionType = ReturnType<typeof registrationAC> | ReturnType<typeof setError>
+export type RegistrationActionType =
+    | ReturnType<typeof registrationAC>
+    | ReturnType<typeof setError>;

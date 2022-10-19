@@ -3,7 +3,7 @@
     margin: 5px;
 }
 
-.default:disabled{
+.default:disabled {
     background-color: palevioletred;
 }
 
