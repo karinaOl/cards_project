@@ -134,9 +134,7 @@ export const Registration = () => {
                         </FormGroup>
                         <FormLabel>
                             <p>Already have an account?</p>
-                            <a href={"http://localhost:3000/cards_project#/registration"}>
-                                Sign In
-                            </a>
+                            <a href={"http://localhost:3000/cards_project#/login"}>Sign In</a>
                         </FormLabel>
                     </FormControl>
                 </form>
