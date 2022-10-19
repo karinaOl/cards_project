@@ -14,8 +14,6 @@ import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import * as React from "react";
@@ -30,7 +28,6 @@ type FormikErrorType = {
 export const Registration = () => {
     const dispatch = useAppDispatch();
     const isRegistration = useAppSelector<boolean>((state) => state.registration.isRegistration);
-    const error = useAppSelector<string>((state) => state.registration.error);
     const [showPassword, setShowPassword] = useState(false);
 
     const formik = useFormik({
