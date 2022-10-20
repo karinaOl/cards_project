@@ -30,6 +30,7 @@ export const Registration = () => {
     const isRegistration = useAppSelector<boolean>((state) => state.registration.isRegistration);
     const error = useAppSelector<string>((state) => state.registration.error);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -116,15 +117,21 @@ export const Registration = () => {
                                     Confirm password
                                 </InputLabel>
                                 <Input
-                                    type={showPassword ? "text" : "password"}
+                                    type={showConfirmPassword ? "text" : "password"}
                                     {...formik.getFieldProps("confirmPassword")}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
                                                 aria-label="toggle password visibility"
-                                                onClick={() => setShowPassword(!showPassword)}
+                                                onClick={() =>
+                                                    setShowConfirmPassword(!showConfirmPassword)
+                                                }
                                             >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                {showConfirmPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
                                             </IconButton>
                                         </InputAdornment>
                                     }
