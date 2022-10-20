@@ -8,6 +8,9 @@ import { Navigate } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 import { updateUserNameTC, logoutTC } from "../bll/profileReducer";
 import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import { EditableName } from "../../../sc1-main/m1-ui/common/EditableName/EditableName";
 
 export const Profile = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
@@ -26,56 +29,20 @@ export const Profile = () => {
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
-        <div className={style.profile}>
-            <h1>Personal information</h1>
-            <img className={style.profileImg} src={profileImg} alt="profileImg" />
-            <h3>
-                <EditableName name={name} changeName={changeName} />
-            </h3>
-            <p>{email}</p>
-            <Button variant="outlined" onClick={logoutHandler}>
-                Logout
-            </Button>
-        </div>
+        <Grid container justifyContent={"center"}>
+            <Paper style={{ padding: "0 70px 20px" }}>
+                <div className={style.profile}>
+                    <h1>Personal information</h1>
+                    <img className={style.profileImg} src={profileImg} alt="profileImg" />
+                    <h3>
+                        <EditableName name={name} changeName={changeName} />
+                    </h3>
+                    <p>{email}</p>
+                    <Button variant="outlined" onClick={logoutHandler}>
+                        Logout
+                    </Button>
+                </div>
+            </Paper>
+        </Grid>
     );
-};
-
-const EditableName = (props: EditableNamePropsType) => {
-    const [edit, setEdit] = useState(false);
-    const [text, setText] = useState(props.name);
-
-    const activateEditMode = () => {
-        setEdit(true);
-    };
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setText(e.currentTarget.value);
-    };
-
-    const activateViewMode = () => {
-        props.changeName(text);
-        setEdit(false);
-    };
-
-    return (
-        <div>
-            {edit ? (
-                <TextField
-                    autoFocus
-                    onBlur={activateViewMode}
-                    value={text}
-                    onChange={onChangeHandler}
-                    type="text"
-                />
-            ) : (
-                <span onDoubleClick={activateEditMode}>{text} </span>
-            )}
-            <BorderColorOutlinedIcon onClick={activateEditMode} />
-        </div>
-    );
-};
-
-export type EditableNamePropsType = {
-    name: string;
-    changeName: (name: string) => void;
 };
