@@ -29,7 +29,6 @@ export const loginTC =
         authAPI
             .login(data)
             .then((res) => {
-                console.log(res.data);
                 dispatch(setProfileDataAC(res.data));
                 dispatch(loginAC(true));
             })
