@@ -1,3 +1,8 @@
 export const Error = () => {
-    return <h1>Error</h1>;
+    return (
+        <div>
+            <h1>Error</h1>
+            <h2>Page not found!</h2>
+        </div>
+    );
 };
