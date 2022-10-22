@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAppDispatch, useAppSelector } from "../../m2-bll/store";
 import { logoutTC } from "../../../sc2-features/f2-profile/bll/profileReducer";
+import { Navigate } from "react-router-dom";
 
 export default function ButtonAppBar() {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
@@ -16,6 +17,7 @@ export default function ButtonAppBar() {
     const logout = () => {
         dispatch(logoutTC());
     };
+    const login = () => <Navigate to="/login" />;
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -33,9 +35,13 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Friday Project
                     </Typography>
-                    {isLoggedIn && (
+                    {isLoggedIn ? (
                         <Button onClick={logout} color="inherit">
                             Logout
+                        </Button>
+                    ) : (
+                        <Button onClick={login} color="inherit">
+                            Login
                         </Button>
                     )}
                 </Toolbar>
