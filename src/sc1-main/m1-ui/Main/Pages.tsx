@@ -7,14 +7,15 @@ import { Error } from "./Error/Error";
 import { Profile } from "../../../sc2-features/f2-profile/ui/Profile";
 import { Test } from "../../../sc2-features/f0-test/Test";
 
-export const PATH = {
-    LOGIN: "/login",
-    NEW_PASSWORD: "/new-password",
-    RECOVERY_PASSWORD: "/recovery-password",
-    REGISTRATION: "/registration",
-    PROFILE: "/profile",
-    TEST: "/test",
-};
+export enum PATH {
+    LOGIN = "/login",
+    NEW_PASSWORD = "/new-password",
+    RECOVERY_PASSWORD = "/recovery-password",
+    REGISTRATION = "/registration",
+    PROFILE = "/profile",
+    TEST = "/test",
+    ERROR404 = "/404",
+}
 
 export const Pages = () => {
     return (
@@ -29,8 +30,8 @@ export const Pages = () => {
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.TEST} element={<Test />} />
 
-                <Route path={"/404"} element={<Error />} />
-                <Route path={"*"} element={<Navigate to={"/404"} />} />
+                <Route path={PATH.ERROR404} element={<Error />} />
+                <Route path={"*"} element={<Navigate to={PATH.ERROR404} />} />
             </Routes>
         </div>
     );
