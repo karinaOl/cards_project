@@ -24,20 +24,17 @@ export const loginAC = (value: boolean) => ({ type: "login/LOGIN", value } as co
 
 export const loginTC =
     (data: LoginParamsType): AppThunk =>
-    (dispatch) => {
+    async (dispatch) => {
         dispatch(setIsLoadingAC(true));
-        authAPI
-            .login(data)
-            .then((res) => {
-                dispatch(setProfileDataAC(res.data));
-                dispatch(loginAC(true));
-            })
-            .catch((e) => {
-                handleAppError(e, dispatch);
-            })
-            .finally(() => {
-                dispatch(setIsLoadingAC(false));
-            });
+        try {
+            let response = await authAPI.login(data);
+            dispatch(setProfileDataAC(response.data));
+            dispatch(loginAC(true));
+        } catch (e) {
+            handleAppError(e, dispatch);
+        } finally {
+            dispatch(setIsLoadingAC(false));
+        }
     };
 
 export type LoginInitialStateType = typeof initialState;
