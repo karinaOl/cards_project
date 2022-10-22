@@ -1,3 +1,3 @@
 export const Packs = () => {
-    return <div>packs</div>;
+    return <button>+</button>;
 };
