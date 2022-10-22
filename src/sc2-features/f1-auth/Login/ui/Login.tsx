@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import { loginTC } from "../bll/loginReducer";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
@@ -47,7 +47,7 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = "Required";
-            } else if (values.password.length <= 5) {
+            } else if (values.password.length <= 8) {
                 errors.password = "Password must be more symbol";
             }
 
@@ -112,22 +112,17 @@ export const Login = () => {
                                 }
                             />
                             <FormLabel style={{ padding: "10px" }}>
-                                <a
-                                    href={"http://localhost:3000/cards_project#/new-password"}
-                                    style={{ textDecoration: "none" }}
-                                >
+                                <NavLink to={PATH.NEW_PASSWORD} style={{ textDecoration: "none" }}>
                                     Forgot Password?
-                                </a>
+                                </NavLink>
                             </FormLabel>
                             <Button type={"submit"} variant={"contained"}>
                                 Sign In
                             </Button>
                         </FormGroup>
                         <FormLabel>
-                            <p>Already have an account?</p>
-                            <a href={"http://localhost:3000/cards_project#/registration"}>
-                                Sign Up
-                            </a>
+                            <p>Don’t have an account?</p>
+                            <NavLink to={PATH.REGISTRATION}>Sign Up</NavLink>
                         </FormLabel>
                     </FormControl>
                 </form>
