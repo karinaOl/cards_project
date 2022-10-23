@@ -4,14 +4,14 @@ export const packsApi = {
     getCardsPacks(params: GetCardsPackRequestParamsType) {
         return instance.get<CardPacksResponseType>("cards/pack", { params });
     },
-    createPacks(params: CreateCardsPackRequestParamsType) {
-        return instance.post<CreateCardsPackResponseType>("cards/pack", { params });
+    createCardsPack(data: CreateCardsPackRequestDataType) {
+        return instance.post<CreateCardsPackResponseType>("cards/pack", data);
     },
-    deletePacks(id: string) {
+    deleteCardsPack(id: string) {
         return instance.delete<DeleteCardsPackResponseType>(`cards/pack/?id=${id}`);
     },
-    putPacks(params: UpDateCardsPackRequestParamsType) {
-        return instance.put<UpDateCardsPackResponseType>("cards/pack");
+    updateCardsPack(data: UpDateCardsPackRequestDataType) {
+        return instance.put<UpDateCardsPackResponseType>("cards/pack", data);
     },
 };
 
@@ -55,7 +55,7 @@ type GetCardsPackRequestParamsType = {
     block?: boolean;
 };
 
-type CreateCardsPackRequestParamsType = {
+type CreateCardsPackRequestDataType = {
     cardsPack: {
         name: string;
         deckCover?: string;
@@ -75,12 +75,7 @@ type DeleteCardsPackResponseType = {
     tokenDeathTime: number;
 };
 
-type UpDateCardsPackRequestParamsType = {
-    cardsPack: {
-        id: string;
-        name?: string;
-    };
-};
+type UpDateCardsPackRequestDataType = { _id: string } & Partial<Omit<PackType, "_id">>;
 
 type UpDateCardsPackResponseType = {
     updatedCardsPack: PackType;
