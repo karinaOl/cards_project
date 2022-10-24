@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
-import { registrationTC, setError } from "../bll/registrationReducer";
+import { registrationTC, setErrorAC } from "../bll/registrationReducer";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import FormControl from "@mui/material/FormControl";
@@ -61,10 +61,10 @@ export const Registration = () => {
         onSubmit: (values) => {
             if (values.password === values.confirmPassword) {
                 dispatch(registrationTC(values));
-                dispatch(setError(""));
+                dispatch(setErrorAC(""));
                 formik.resetForm();
             } else {
-                dispatch(setError("Incorrect password!"));
+                dispatch(setErrorAC("Incorrect password!"));
             }
         },
     });

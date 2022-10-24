@@ -7,7 +7,7 @@ import { ErrorSnackbar } from "./common/ErrorSnackbar/ErrorSnackbar";
 import { LinearProgress } from "@mui/material";
 import { useAppSelector } from "../m2-bll/store";
 
-function App() {
+export const App = () => {
     const isLoading = useAppSelector((state) => state.app.isLoading);
 
     return (
@@ -20,6 +20,4 @@ function App() {
             </HashRouter>
         </div>
     );
-}
-
-export default App;
+};
