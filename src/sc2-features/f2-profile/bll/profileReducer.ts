@@ -6,16 +6,16 @@ import { handleAppError } from "../../../utils/error-utils";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
 
 const initialState = {
-    _id: "",
-    email: "",
+    _id: null as string | null,
+    email: null as string | null,
     avatar: null as string | null,
     rememberMe: false,
     isAdmin: false,
     name: "Default Name",
     verified: true,
     publicCardPacksCount: 0,
-    created: "",
-    updated: "",
+    created: null as string | null,
+    updated: null as string | null,
 };
 
 export const profileReducer = (
@@ -40,6 +40,8 @@ export const profileReducer = (
     }
 };
 
+// Action Creators
+
 export const updateUserAC = (model: UserDataResponseType) =>
     ({ type: "profile/UPDATE-USER", model } as const);
 export const setProfileDataAC = (profileData: UserDataResponseType) =>
@@ -49,38 +51,37 @@ export const setProfileDataAC = (profileData: UserDataResponseType) =>
         email: profileData.email,
     } as const);
 
+// Thunks
+
 export const updateUserNameTC =
     (name: string): AppThunk =>
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const avatar = getState().profile.avatar;
         const payload: UpdateUserParamsType = { name, avatar };
 
         dispatch(setIsLoadingAC(true));
 
-        profileApi
-            .updateUser(payload)
-            .then((res) => {})
-            .catch((e) => {
-                handleAppError(e, dispatch);
-            })
-            .finally(() => {
-                dispatch(setIsLoadingAC(false));
-            });
+        try {
+            const res = await profileApi.updateUser(payload);
+            console.log(res);
+        } catch (e) {
+            handleAppError(e, dispatch);
+        } finally {
+            dispatch(setIsLoadingAC(false));
+        }
     };
 
-export const logoutTC = (): AppThunk => (dispatch) => {
+export const logoutTC = (): AppThunk => async (dispatch) => {
     dispatch(setIsLoadingAC(true));
-    authAPI
-        .logout()
-        .then((res) => {
-            dispatch(loginAC(false));
-        })
-        .catch((e) => {
-            handleAppError(e, dispatch);
-        })
-        .finally(() => {
-            dispatch(setIsLoadingAC(false));
-        });
+    try {
+        const res = await authAPI.logout();
+        console.log(res);
+        dispatch(loginAC(false));
+    } catch (e) {
+        handleAppError(e, dispatch);
+    } finally {
+        dispatch(setIsLoadingAC(false));
+    }
 };
 
 export type ProfileInitialStateType = typeof initialState;

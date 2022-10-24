@@ -23,7 +23,7 @@ export const registrationReducer = (
 };
 
 const registrationAC = (value: boolean) => ({ type: "registration/REGISTER", value } as const);
-export const setError = (error: string) => ({ type: "registration/SET-ERROR", error } as const);
+export const setErrorAC = (error: string) => ({ type: "registration/SET-ERROR", error } as const);
 
 export const registrationTC =
     (data: LoginParamsType): AppThunk =>
@@ -45,4 +45,4 @@ export const registrationTC =
 type InitialStateType = typeof initialState;
 export type RegistrationActionType =
     | ReturnType<typeof registrationAC>
-    | ReturnType<typeof setError>;
+    | ReturnType<typeof setErrorAC>;
