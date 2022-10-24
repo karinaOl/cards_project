@@ -45,7 +45,7 @@ export type CardPacksResponseType = {
     tokenDeathTime: number;
 };
 
-type GetCardsPackRequestParamsType = {
+export type GetCardsPackRequestParamsType = {
     packName?: string;
     min?: number;
     max?: number;
