@@ -4,7 +4,7 @@ import profileImg from "./../../../assets/images/profile-img.png";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
-import { logoutTC, setProfileDataAC } from "../bll/profileReducer";
+import { logoutTC } from "../bll/profileReducer";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -15,7 +15,6 @@ import { CircularProgress } from "@mui/material";
 export const Profile = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const email = useAppSelector((state) => state.profile.email);
-    const name = useAppSelector((state) => state.profile.name);
     const isInitialized = useAppSelector((state) => state.app.isInitialized);
     const dispatch = useAppDispatch();
 
@@ -42,7 +41,7 @@ export const Profile = () => {
                     <h1>Personal information</h1>
                     <img className={style.profileImg} src={profileImg} alt="profileImg" />
                     <h3>
-                        <EditableName name={name} />
+                        <EditableName />
                     </h3>
                     <p>{email}</p>
                     <Button variant="outlined" onClick={logoutHandler}>

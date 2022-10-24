@@ -5,7 +5,6 @@ import { setIsLoadingAC } from "../../../../sc1-main/m2-bll/appReducer";
 
 const initialState = {
     isRegistration: false,
-    error: "",
 };
 
 export const registrationReducer = (
@@ -15,34 +14,26 @@ export const registrationReducer = (
     switch (action.type) {
         case "registration/REGISTER":
             return { ...state, isRegistration: action.value };
-        case "registration/SET-ERROR":
-            return { ...state, error: action.error };
         default:
             return state;
     }
 };
 
 const registrationAC = (value: boolean) => ({ type: "registration/REGISTER", value } as const);
-export const setErrorAC = (error: string) => ({ type: "registration/SET-ERROR", error } as const);
 
 export const registrationTC =
     (data: LoginParamsType): AppThunk =>
-    (dispatch) => {
+    async (dispatch) => {
         dispatch(setIsLoadingAC(true));
-        authAPI
-            .registration(data)
-            .then((res) => {
-                dispatch(registrationAC(true));
-            })
-            .catch((e) => {
-                handleAppError(e, dispatch);
-            })
-            .finally(() => {
-                dispatch(setIsLoadingAC(false));
-            });
+        try {
+            const res = authAPI.registration(data);
+            dispatch(registrationAC(true));
+        } catch (e) {
+            handleAppError(e, dispatch);
+        } finally {
+            dispatch(setIsLoadingAC(false));
+        }
     };
 
 type InitialStateType = typeof initialState;
-export type RegistrationActionType =
-    | ReturnType<typeof registrationAC>
-    | ReturnType<typeof setErrorAC>;
+export type RegistrationActionType = ReturnType<typeof registrationAC>;

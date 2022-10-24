@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useState } from "react";
 import TextField from "@mui/material/TextField/TextField";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useAppDispatch } from "../../../m2-bll/store";
+import { useAppDispatch, useAppSelector } from "../../../m2-bll/store";
 import { updateUserNameTC } from "../../../../sc2-features/f2-profile/bll/profileReducer";
 import style from "./EditableName.module.css";
 import { Icon } from "@mui/material";
 
-export const EditableName = (props: EditableNamePropsType) => {
+export const EditableName = () => {
+    const name = useAppSelector<string>((state) => state.profile.name);
+
     const [edit, setEdit] = useState(false);
-    const [text, setText] = useState(props.name);
+    const [value, setValue] = useState(name);
     const [error, setError] = useState<null | string>(null);
 
     const dispatch = useAppDispatch();
@@ -18,17 +20,19 @@ export const EditableName = (props: EditableNamePropsType) => {
     };
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value === "") {
+        if (!e.currentTarget.value) {
             setError("to short name");
         } else {
             setError(null);
         }
-        setText(e.currentTarget.value);
+        setValue(e.currentTarget.value);
     };
 
     const activateViewMode = () => {
-        dispatch(updateUserNameTC(text));
-        setEdit(false);
+        if (value) {
+            dispatch(updateUserNameTC(value));
+            setEdit(false);
+        }
     };
 
     return (
@@ -37,12 +41,12 @@ export const EditableName = (props: EditableNamePropsType) => {
                 <TextField
                     autoFocus
                     onBlur={activateViewMode}
-                    value={text}
+                    value={value}
                     onChange={onChangeHandler}
                     type="text"
                 />
             ) : (
-                <span onDoubleClick={activateEditMode}>{text} </span>
+                <span onDoubleClick={activateEditMode}>{value} </span>
             )}
             <Icon>
                 <BorderColorOutlinedIcon onClick={activateEditMode} />
@@ -50,8 +54,4 @@ export const EditableName = (props: EditableNamePropsType) => {
             <div className={style.error}>{error}</div>
         </div>
     );
-};
-
-export type EditableNamePropsType = {
-    name: string;
 };

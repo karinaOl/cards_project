@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
-import { registrationTC, setErrorAC } from "../bll/registrationReducer";
+import { registrationTC } from "../bll/registrationReducer";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import FormControl from "@mui/material/FormControl";
@@ -28,7 +28,6 @@ type FormikErrorType = {
 export const Registration = () => {
     const dispatch = useAppDispatch();
     const isRegistration = useAppSelector<boolean>((state) => state.registration.isRegistration);
-    const error = useAppSelector<string>((state) => state.registration.error);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -54,17 +53,15 @@ export const Registration = () => {
                 errors.confirmPassword = "Required";
             } else if (values.confirmPassword.length < 8) {
                 errors.confirmPassword = "Password must be more 7 characters";
+            } else if (values.password !== values.confirmPassword) {
+                errors.confirmPassword = "Passwords do not match";
             }
-
             return errors;
         },
         onSubmit: (values) => {
             if (values.password === values.confirmPassword) {
                 dispatch(registrationTC(values));
-                dispatch(setErrorAC(""));
                 formik.resetForm();
-            } else {
-                dispatch(setErrorAC("Incorrect password!"));
             }
         },
     });
@@ -140,16 +137,22 @@ export const Registration = () => {
                             {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                 <div style={{ color: "red" }}>{formik.errors.confirmPassword}</div>
                             )}
-                            {error && <div style={{ color: "red" }}>{error}</div>}
                             <br />
                             <br />
-                            <Button type={"submit"} variant={"contained"}>
+                            <Button
+                                disabled={
+                                    formik.values.password !== formik.values.confirmPassword ||
+                                    !formik.values.password
+                                }
+                                type={"submit"}
+                                variant={"contained"}
+                            >
                                 Sign Up
                             </Button>
                         </FormGroup>
                         <FormLabel>
                             <p>Already have an account?</p>
-                            <a href={"http://localhost:3000/cards_project#/login"}>Sign In</a>
+                            <NavLink to={PATH.LOGIN}>Sign In</NavLink>
                         </FormLabel>
                     </FormControl>
                 </form>

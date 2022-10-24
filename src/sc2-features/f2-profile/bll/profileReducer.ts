@@ -75,7 +75,6 @@ export const logoutTC = (): AppThunk => async (dispatch) => {
     dispatch(setIsLoadingAC(true));
     try {
         const res = await authAPI.logout();
-        console.log(res);
         dispatch(loginAC(false));
     } catch (e) {
         handleAppError(e, dispatch);
