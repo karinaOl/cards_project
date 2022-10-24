@@ -24,6 +24,7 @@ import {
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { appReducer } from "./appReducer";
+import { PacksActionType, packsReducer } from "../../sc2-features/f3-packs/bll/packsReducer";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     registration: registrationReducer,
     profile: profileReducer,
     app: appReducer,
+    packs: packsReducer,
 });
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -41,7 +43,8 @@ type ActionType =
     | NewPasswordActionType
     | RecoveryPasswordActionType
     | RegistrationActionType
-    | ProfileActionType;
+    | ProfileActionType
+    | PacksActionType;
 
 export type AppDispatch = ThunkDispatch<RootReducerType, unknown, ActionType>;
 

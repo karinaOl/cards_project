@@ -6,6 +6,7 @@ import { Registration } from "../../../sc2-features/f1-auth/Registration/ui/Regi
 import { Error } from "./Error/Error";
 import { Profile } from "../../../sc2-features/f2-profile/ui/Profile";
 import { Test } from "../../../sc2-features/f0-test/Test";
+import { Packs } from "../../../sc2-features/f3-packs/ui/Packs";
 
 export enum PATH {
     LOGIN = "/login",
@@ -15,6 +16,7 @@ export enum PATH {
     PROFILE = "/profile",
     TEST = "/test",
     ERROR404 = "/404",
+    PACKS = "/packs",
 }
 
 export const Pages = () => {
@@ -29,6 +31,7 @@ export const Pages = () => {
                 <Route path={PATH.REGISTRATION} element={<Registration />} />
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.TEST} element={<Test />} />
+                <Route path={PATH.PACKS} element={<Packs />} />
 
                 <Route path={PATH.ERROR404} element={<Error />} />
                 <Route path={"*"} element={<Navigate to={PATH.ERROR404} />} />

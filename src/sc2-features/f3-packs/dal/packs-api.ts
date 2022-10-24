@@ -15,7 +15,7 @@ export const packsApi = {
     },
 };
 
-type PackType = {
+export type PackType = {
     _id: string;
     user_id: string;
     user_name: string;
@@ -34,7 +34,7 @@ type PackType = {
     __v: number;
 };
 
-type CardPacksResponseType = {
+export type CardPacksResponseType = {
     cardPacks: PackType[];
     page: number;
     pageCount: number;
@@ -51,6 +51,7 @@ type GetCardsPackRequestParamsType = {
     max?: number;
     sortPacks?: string;
     page?: number;
+    pageCount?: number;
     user_id?: string;
     block?: boolean;
 };
@@ -59,7 +60,7 @@ type CreateCardsPackRequestDataType = {
     cardsPack: {
         name: string;
         deckCover?: string;
-        private: false;
+        private?: boolean;
     };
 };
 

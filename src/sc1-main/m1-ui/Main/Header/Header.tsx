@@ -46,6 +46,14 @@ export const Header = () => {
                 profile
             </NavLink>
             <NavLink
+                to={PATH.PACKS}
+                className={({ isActive }) =>
+                    isActive ? `${style.item} ${style.active}` : style.item
+                }
+            >
+                packs
+            </NavLink>
+            <NavLink
                 to={PATH.TEST}
                 className={({ isActive }) =>
                     isActive ? `${style.item} ${style.active}` : style.item
