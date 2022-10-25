@@ -53,7 +53,7 @@ export const Packs = () => {
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <NavLink to={PATH.PACKS}>{row.name}</NavLink>
+                                    <NavLink to={PATH.CARDS + "/" + row._id}>{row.name}</NavLink>
                                 </TableCell>
                                 <TableCell>{row.cardsCount}</TableCell>
                                 <TableCell>{row.updated}</TableCell>

@@ -8,10 +8,10 @@ export const cardsApi = {
         return instance.post<CreateCardResponseType>("cards/card", cardData);
     },
     deleteCard(cardID: string) {
-        return instance.delete<DeleteCardResponseType>(`card/card?id=${cardID}`);
+        return instance.delete<DeleteCardResponseType>(`cards/card?id=${cardID}`);
     },
-    updateCard(upDataCard: UpDateCardRequestDataType) {
-        return instance.put<UpDataCardResponseType>("cards/card", upDataCard);
+    updateCard(updateCard: UpdateCardRequestDataType) {
+        return instance.put<UpDataCardResponseType>("cards/card", { card: updateCard });
     },
 };
 
@@ -36,18 +36,19 @@ export type CardType = {
     questionVideo?: string;
 };
 
-type GetCardsRequestParamsType = {
+export type GetCardsRequestParamsType = {
     cardAnswer?: string;
     cardQuestion?: string;
     cardsPack_id: string;
     min?: number;
     max?: number;
-    sortCards?: number;
+    sortCards?: string;
     grade?: number;
+    page?: number;
     pageCount?: number;
 };
 
-type GetCardsResponseTYpe = {
+export type GetCardsResponseTYpe = {
     cards: CardType[];
     packUserId: string;
     packName: string;
@@ -64,7 +65,7 @@ type GetCardsResponseTYpe = {
     tokenDeathTime: number;
 };
 
-type CreateCardDataType = {
+export type CreateCardDataType = {
     card: {
         cardsPack_id: string;
         question?: string;
@@ -90,7 +91,7 @@ type DeleteCardResponseType = {
     tokenDeathTime: number;
 };
 
-type UpDateCardRequestDataType = { _id: string } & Partial<Omit<CardType, "_id">>;
+export type UpdateCardRequestDataType = { _id: string } & Partial<Omit<CardType, "_id">>;
 
 type UpDataCardResponseType = {
     updatedCard: CardType[];
