@@ -17,6 +17,7 @@ export enum PATH {
     TEST = "/test",
     ERROR404 = "/404",
     PACKS = "/packs",
+    CARDS = "/cards",
 }
 
 export const Pages = () => {
