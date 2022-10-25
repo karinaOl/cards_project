@@ -12,7 +12,7 @@ import { handleAppError } from "../../../utils/error-utils";
 const initialState = {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 10,
+    pageCount: 10 as number | string,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,

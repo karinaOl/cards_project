@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
     MenuItem,
+    Pagination,
     Paper,
     Select,
     SelectChangeEvent,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -18,30 +20,35 @@ import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import { GetCardsPackRequestParamsType, PackType } from "../dal/packs-api";
+import { PackType } from "../dal/packs-api";
 import FormControl from "@mui/material/FormControl";
+import Typography from "@mui/material/Typography";
 
 export const Packs = () => {
     const dispatch = useAppDispatch();
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
 
     const [currentCardsPerPage, setCurrentCardsPerPage] = useState("10");
-    const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const [currentPage, setCurrentPage] = React.useState(1);
     const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
-    const choosePage = (page: number) => {
-        const payload: GetCardsPackRequestParamsType = {
-            page,
-            pageCount: currentCardsPerPage,
-        };
-        dispatch(getPacksTC(payload));
-    };
+    // const choosePage = (page: number) => {
+    //     const payload: GetCardsPackRequestParamsType = {
+    //         page,
+    //         pageCount: currentCardsPerPage,
+    //     };
+    //     // dispatch(getPacksTC(payload));
+    // };
     const handleChange = (e: SelectChangeEvent) => {
         setCurrentCardsPerPage(e.target.value);
         const payload = {
             pageCount: e.target.value,
         };
-        dispatch(getPacksTC(payload));
+        // dispatch(getPacksTC(payload));
+    };
+
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
     };
 
     const addPacks = () => {
@@ -91,14 +98,16 @@ export const Packs = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {pages.map((page, index) => (
-                <span key={index} onClick={() => choosePage(page)}>
-                    {page}
-                </span>
-                // <Pagination count={pages.length} onClick={() => choosePage(page)} color="primary" />
-            ))}
-            <span> Show </span>
-            <FormControl sx={{ m: 1, minWidth: 40 }} size="small">
+            {/*{pages.map((currentPage, index) => (*/}
+            {/*    <span key={index} onClick={() => choosePage(currentPage)}>*/}
+            {/*        {currentPage}*/}
+            {/*    </span>*/}
+            {/*))}*/}
+            <Stack spacing={2}>
+                <Typography>Current Page: {currentPage}</Typography>
+                <Pagination count={10} page={currentPage} onChange={handleChangePage} />
+            </Stack>
+            <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
                 <Select value={currentCardsPerPage} onChange={handleChange}>
                     {cardsPerPage.map((page, index) => (
                         <MenuItem key={index} value={page}>
@@ -107,6 +116,7 @@ export const Packs = () => {
                     ))}
                 </Select>
             </FormControl>
+            {/*<span>Cards per Page</span>*/}
         </>
     );
 };
