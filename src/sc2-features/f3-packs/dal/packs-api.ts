@@ -11,7 +11,7 @@ export const packsApi = {
         return instance.delete<DeleteCardsPackResponseType>(`cards/pack/?id=${id}`);
     },
     updateCardsPack(data: UpDateCardsPackRequestDataType) {
-        return instance.put<UpDateCardsPackResponseType>("cards/pack", data);
+        return instance.put<UpDateCardsPackResponseType>("cards/pack", { cardsPack: data });
     },
 };
 
@@ -76,7 +76,7 @@ type DeleteCardsPackResponseType = {
     tokenDeathTime: number;
 };
 
-type UpDateCardsPackRequestDataType = { _id: string } & Partial<Omit<PackType, "_id">>;
+export type UpDateCardsPackRequestDataType = { _id: string } & Partial<Omit<PackType, "_id">>;
 
 type UpDateCardsPackResponseType = {
     updatedCardsPack: PackType;
