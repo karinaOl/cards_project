@@ -3,7 +3,6 @@ import {
     GetCardsPackRequestParamsType,
     packsApi,
     PackType,
-    UpDateCardsPackRequestDataType,
 } from "../dal/packs-api";
 import { AppThunk } from "../../../sc1-main/m2-bll/store";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
@@ -12,12 +11,10 @@ import { handleAppError } from "../../../utils/error-utils";
 const initialState = {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 10,
+    pageCount: 0,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
-    searchFilter: "",
-    sortPacks: "0updated",
     token: "",
     tokenDeathTime: 0,
 };
@@ -28,43 +25,35 @@ export const packsReducer = (
 ): PackInitialStateType => {
     switch (action.type) {
         case "packs/SET-PACKS-DATA":
-            return { ...state, ...action.data };
+            return { ...action.data };
         default:
             return state;
     }
 };
-export const setPacksDataAC = (data: CardPacksResponseType) =>
+export const setPacksData = (data: CardPacksResponseType) =>
     ({ type: "packs/SET-PACKS-DATA", data } as const);
 
-export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
-    const { page, pageCount, minCardsCount, maxCardsCount, sortPacks, searchFilter } =
-        getState().packs;
-    const queryParams: GetCardsPackRequestParamsType = {
-        page,
-        pageCount,
-        sortPacks,
-        packName: searchFilter,
-        min: minCardsCount,
-        max: maxCardsCount,
+export const getPacksTC =
+    (params: GetCardsPackRequestParamsType): AppThunk =>
+    async (dispatch) => {
+        dispatch(setIsLoadingAC(true));
+        try {
+            let response = await packsApi.getCardsPacks(params);
+            dispatch(setPacksData(response.data));
+        } catch (e) {
+            handleAppError(e, dispatch);
+        } finally {
+            dispatch(setIsLoadingAC(false));
+        }
     };
-    dispatch(setIsLoadingAC(true));
-    try {
-        let response = await packsApi.getCardsPacks(queryParams);
-        dispatch(setPacksDataAC(response.data));
-    } catch (e) {
-        handleAppError(e, dispatch);
-    } finally {
-        dispatch(setIsLoadingAC(false));
-    }
-};
 
 export const addPackTC =
-    (name: string): AppThunk =>
+    (name: string, params: GetCardsPackRequestParamsType): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
             await packsApi.createCardsPack({ cardsPack: { name } });
-            dispatch(getPacksTC());
+            dispatch(getPacksTC(params));
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -73,26 +62,12 @@ export const addPackTC =
     };
 
 export const deletePackTC =
-    (id: string): AppThunk =>
+    (id: string, params: GetCardsPackRequestParamsType): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
             await packsApi.deleteCardsPack(id);
-            dispatch(getPacksTC());
-        } catch (e) {
-            handleAppError(e, dispatch);
-        } finally {
-            dispatch(setIsLoadingAC(false));
-        }
-    };
-
-export const updatePackTC =
-    (data: UpDateCardsPackRequestDataType): AppThunk =>
-    async (dispatch) => {
-        dispatch(setIsLoadingAC(true));
-        try {
-            await packsApi.updateCardsPack(data);
-            dispatch(getPacksTC());
+            dispatch(getPacksTC(params));
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -101,5 +76,5 @@ export const updatePackTC =
     };
 
 export type PackInitialStateType = typeof initialState;
-export type SetPacksDataType = ReturnType<typeof setPacksDataAC>;
+export type SetPacksDataType = ReturnType<typeof setPacksData>;
 export type PacksActionType = SetPacksDataType;

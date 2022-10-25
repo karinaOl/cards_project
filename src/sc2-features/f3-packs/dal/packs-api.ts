@@ -51,7 +51,7 @@ export type GetCardsPackRequestParamsType = {
     max?: number;
     sortPacks?: string;
     page?: number;
-    pageCount?: number;
+    pageCount?: number | string;
     user_id?: string;
     block?: boolean;
 };
