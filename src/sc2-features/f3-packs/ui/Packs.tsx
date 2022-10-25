@@ -22,15 +22,15 @@ export const Packs = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
 
     const addPacks = () => {
-        dispatch(addPackTC("TEST_FROM_DELETE", {}));
+        dispatch(addPackTC("TEST_FROM_DELETE"));
     };
 
     const deletePacks = () => {
-        dispatch(deletePackTC("6356b38d65c36e000499fa36", {}));
+        dispatch(deletePackTC("6356b38d65c36e000499fa36"));
     };
 
     useEffect(() => {
-        dispatch(getPacksTC({ pageCount: 5 }));
+        dispatch(getPacksTC());
     }, []);
 
     return (

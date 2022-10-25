@@ -1,9 +1,4 @@
-import {
-    CardPacksResponseType,
-    GetCardsPackRequestParamsType,
-    packsApi,
-    PackType,
-} from "../dal/packs-api";
+import { CardPacksResponseType, packsApi, PackType } from "../dal/packs-api";
 import { AppThunk } from "../../../sc1-main/m2-bll/store";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
 import { handleAppError } from "../../../utils/error-utils";
@@ -25,7 +20,7 @@ export const packsReducer = (
 ): PackInitialStateType => {
     switch (action.type) {
         case "packs/SET-PACKS-DATA":
-            return { ...action.data };
+            return { ...state, ...action.data };
         default:
             return state;
     }
@@ -33,27 +28,25 @@ export const packsReducer = (
 export const setPacksData = (data: CardPacksResponseType) =>
     ({ type: "packs/SET-PACKS-DATA", data } as const);
 
-export const getPacksTC =
-    (params: GetCardsPackRequestParamsType): AppThunk =>
-    async (dispatch) => {
-        dispatch(setIsLoadingAC(true));
-        try {
-            let response = await packsApi.getCardsPacks(params);
-            dispatch(setPacksData(response.data));
-        } catch (e) {
-            handleAppError(e, dispatch);
-        } finally {
-            dispatch(setIsLoadingAC(false));
-        }
-    };
+export const getPacksTC = (): AppThunk => async (dispatch) => {
+    dispatch(setIsLoadingAC(true));
+    try {
+        let response = await packsApi.getCardsPacks({ pageCount: 8 });
+        dispatch(setPacksData(response.data));
+    } catch (e) {
+        handleAppError(e, dispatch);
+    } finally {
+        dispatch(setIsLoadingAC(false));
+    }
+};
 
 export const addPackTC =
-    (name: string, params: GetCardsPackRequestParamsType): AppThunk =>
+    (name: string): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
             await packsApi.createCardsPack({ cardsPack: { name } });
-            dispatch(getPacksTC(params));
+            dispatch(getPacksTC());
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -62,12 +55,12 @@ export const addPackTC =
     };
 
 export const deletePackTC =
-    (id: string, params: GetCardsPackRequestParamsType): AppThunk =>
+    (id: string): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
             await packsApi.deleteCardsPack(id);
-            dispatch(getPacksTC(params));
+            dispatch(getPacksTC());
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
