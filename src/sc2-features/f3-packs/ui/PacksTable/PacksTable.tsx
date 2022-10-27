@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Paper,
     Table,
@@ -14,11 +14,9 @@ import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import { PackType } from "../dal/packs-api";
-import { deletePackTC, sortPackListByCardsCountAC } from "../bll/packsReducer";
-import style from "./Packs.module.css";
+import style from "./PacksTable.module.css";
+import { deletePackTC, sortPackListByCardsCountAC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
-import { addPackTC, deletePackTC } from "../../bll/packsReducer";
 
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);

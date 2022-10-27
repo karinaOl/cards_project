@@ -1,0 +1,21 @@
+.showSpanText {
+    margin: 12px;
+    position: absolute;
+    right: 60px;
+}
+
+.spanCardsText {
+    margin: -28px;
+    position: relative;
+    left: 100px;
+}
+
+.sort {
+    cursor: pointer;
+}
+.sort button{
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: darkgray;
+}
