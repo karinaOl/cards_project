@@ -1,6 +1,7 @@
-import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
+import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import {
     Paper,
+    Rating,
     Table,
     TableBody,
     TableCell,
@@ -9,12 +10,12 @@ import {
     TableRow,
 } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
-import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
+import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import React, { useEffect } from "react";
-import { addCardTC, deleteCardTC, getCardsTC, updateCardTC } from "../bll/cardsReducer";
+import { deleteCardTC, getCardsTC, updateCardTC } from "../../bll/cardsReducer";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import { UpdateCardRequestDataType } from "../dal/cards-api";
+import { UpdateCardRequestDataType } from "../../dal/cards-api";
 
 export const CardsTable = () => {
     const cards = useAppSelector((state) => state.cards.cards);
@@ -25,18 +26,6 @@ export const CardsTable = () => {
     useEffect(() => {
         if (cardPackID) dispatch(getCardsTC({ cardsPack_id: cardPackID }));
     }, []);
-
-    const addCard = () => {
-        dispatch(
-            addCardTC({
-                card: {
-                    cardsPack_id: cardPackID as string,
-                    question: "Test question",
-                    answer: "Test answer",
-                },
-            })
-        );
-    };
 
     const deleteCard = (cardID: string) => {
         dispatch(deleteCardTC(cardPackID as string, cardID));
@@ -49,7 +38,6 @@ export const CardsTable = () => {
 
     return (
         <>
-            <button onClick={addCard}>+</button>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -58,7 +46,7 @@ export const CardsTable = () => {
                             <TableCell>Answer</TableCell>
                             <TableCell>Last Updated</TableCell>
                             <TableCell>Grade</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -72,7 +60,13 @@ export const CardsTable = () => {
                                 </TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updated}</TableCell>
-                                <TableCell>{row.grade}</TableCell>
+                                <TableCell>
+                                    <Rating
+                                        name="half-rating"
+                                        defaultValue={row.grade}
+                                        precision={0.5}
+                                    />
+                                </TableCell>
                                 <TableCell>
                                     <BorderColorRoundedIcon
                                         fontSize={"small"}

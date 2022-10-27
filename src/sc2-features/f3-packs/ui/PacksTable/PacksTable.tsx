@@ -9,20 +9,20 @@ import {
     TableRow,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
-import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
+import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
+import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import { PackType } from "../dal/packs-api";
-import { addPackTC, deletePackTC } from "../bll/packsReducer";
+import { PackType } from "../../dal/packs-api";
+import { addPackTC, deletePackTC } from "../../bll/packsReducer";
 
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
 
-    const deletePacks = () => {
-        dispatch(deletePackTC("6356b38d65c36e000499fa36"));
+    const deletePacks = (id: string) => {
+        dispatch(deletePackTC(id));
     };
 
     return (
@@ -53,7 +53,12 @@ export const PacksTable = () => {
                                 <TableCell>
                                     <SchoolRoundedIcon fontSize={"small"} />
                                     <BorderColorRoundedIcon fontSize={"small"} />
-                                    <DeleteForeverRoundedIcon fontSize={"small"} />
+                                    <DeleteForeverRoundedIcon
+                                        onClick={() => {
+                                            deletePacks(row._id);
+                                        }}
+                                        fontSize={"small"}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}

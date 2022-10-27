@@ -4,8 +4,8 @@ import { useAppDispatch } from "../../../sc1-main/m2-bll/store";
 import { addPackTC, getPacksTC } from "../bll/packsReducer";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
-import { PacksTable } from "./PacksTable";
-import { Title } from "./Title/Title";
+import { PacksTable } from "./PacksTable/PacksTable";
+import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import { SettingsBar } from "./SettingsBar/SettingsBar";
 import s from "./Packs.module.css";
 

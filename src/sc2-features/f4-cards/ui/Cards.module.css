@@ -1,0 +1,13 @@
+.cards {
+    margin: 0 130px;
+    text-align: start;
+}
+
+.input {
+    width: 100%;
+}
+
+.titleBlock {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
