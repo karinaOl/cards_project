@@ -64,15 +64,21 @@ export const PacksTable = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell className={style.sort} onClick={sortPackListByName}>
+                            <TableCell className={style.commonButtons} onClick={sortPackListByName}>
                                 Name
                                 <button>▼</button>
                             </TableCell>
-                            <TableCell className={style.sort} onClick={sortCardsCountInPack}>
+                            <TableCell
+                                className={style.commonButtons}
+                                onClick={sortCardsCountInPack}
+                            >
                                 Cards
                                 <button>▼</button>
                             </TableCell>
-                            <TableCell className={style.sort} onClick={sortPackListByUpdatedTime}>
+                            <TableCell
+                                className={style.commonButtons}
+                                onClick={sortPackListByUpdatedTime}
+                            >
                                 Last Updated <button>▼</button>
                             </TableCell>
                             <TableCell>Created by</TableCell>
@@ -91,7 +97,7 @@ export const PacksTable = () => {
                                 <TableCell>{row.cardsCount}</TableCell>
                                 <TableCell>{row.updated}</TableCell>
                                 <TableCell>{row.user_name}</TableCell>
-                                <TableCell>
+                                <TableCell className={style.commonButtons}>
                                     <SchoolRoundedIcon fontSize={"small"} />
                                     <BorderColorRoundedIcon fontSize={"small"} />
                                     <DeleteForeverRoundedIcon

@@ -1,7 +1,7 @@
-.sort {
+.commonButtons {
     cursor: pointer;
 }
-.sort button{
+.commonButtons button{
     cursor: pointer;
     border: none;
     background: none;
