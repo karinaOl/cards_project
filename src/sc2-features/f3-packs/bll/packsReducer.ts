@@ -12,7 +12,7 @@ import { handleAppError } from "../../../utils/error-utils";
 const initialState = {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 10 as number | string,
+    pageCount: 3,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
@@ -29,12 +29,50 @@ export const packsReducer = (
     switch (action.type) {
         case "packs/SET-PACKS-DATA":
             return { ...state, ...action.data };
+        case "packs/CHANGE-CURRENT-PAGE":
+            return {
+                ...state,
+                page: action.page,
+            };
+        case "packs/CHANGE-COUNT-OF-PACKS-ON-PAGE":
+            return {
+                ...state,
+                pageCount: action.count,
+            };
+        case "SORT-CARDS-COUNT":
+            return {
+                ...state,
+                cardPacks: action.sortedCardPacks,
+            };
         default:
             return state;
     }
 };
+
+// Action Creators
+
 export const setPacksDataAC = (data: CardPacksResponseType) =>
     ({ type: "packs/SET-PACKS-DATA", data } as const);
+
+export const changeCurrentPageAC = (page: number) =>
+    ({
+        type: "packs/CHANGE-CURRENT-PAGE",
+        page,
+    } as const);
+
+export const changeCountOfPacksOnPageAC = (count: number) =>
+    ({
+        type: "packs/CHANGE-COUNT-OF-PACKS-ON-PAGE",
+        count,
+    } as const);
+
+export const sortCardsCountAC = (sortedCardPacks: PackType[]) =>
+    ({
+        type: "SORT-CARDS-COUNT",
+        sortedCardPacks,
+    } as const);
+
+// Thunk Creators
 
 export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
     const { page, pageCount, minCardsCount, maxCardsCount, sortPacks, searchFilter } =
@@ -102,4 +140,8 @@ export const updatePackTC =
 
 export type PackInitialStateType = typeof initialState;
 export type SetPacksDataType = ReturnType<typeof setPacksDataAC>;
-export type PacksActionType = SetPacksDataType;
+export type PacksActionType =
+    | SetPacksDataType
+    | ReturnType<typeof changeCurrentPageAC>
+    | ReturnType<typeof changeCountOfPacksOnPageAC>
+    | ReturnType<typeof sortCardsCountAC>;

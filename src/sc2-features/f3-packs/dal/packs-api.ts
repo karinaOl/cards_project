@@ -37,7 +37,7 @@ export type PackType = {
 export type CardPacksResponseType = {
     cardPacks: PackType[];
     page: number;
-    pageCount: number | string;
+    pageCount: number;
     cardPacksTotalCount: number;
     minCardsCount: number;
     maxCardsCount: number;
