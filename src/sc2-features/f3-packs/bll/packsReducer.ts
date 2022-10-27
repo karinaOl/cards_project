@@ -39,12 +39,7 @@ export const packsReducer = (
                 ...state,
                 pageCount: action.count,
             };
-        case "SORT-PACK-LIST-BY-CARDS-COUNT":
-            return {
-                ...state,
-                cardPacks: action.sortedCardPacks,
-            };
-        case "SORT-PACK-LIST-BY-NAME":
+        case "SORT-PACK-LIST":
             return {
                 ...state,
                 cardPacks: action.sortedCardPacks,
@@ -71,15 +66,9 @@ export const changeCountOfPacksOnPageAC = (count: number) =>
         count,
     } as const);
 
-export const sortPackListByCardsCountAC = (sortedCardPacks: PackType[]) =>
+export const sortPackListAC = (sortedCardPacks: PackType[]) =>
     ({
-        type: "SORT-PACK-LIST-BY-CARDS-COUNT",
-        sortedCardPacks,
-    } as const);
-
-export const sortPackListByNameAC = (sortedCardPacks: PackType[]) =>
-    ({
-        type: "SORT-PACK-LIST-BY-NAME",
+        type: "SORT-PACK-LIST",
         sortedCardPacks,
     } as const);
 
@@ -155,5 +144,4 @@ export type PacksActionType =
     | SetPacksDataType
     | ReturnType<typeof changeCurrentPageAC>
     | ReturnType<typeof changeCountOfPacksOnPageAC>
-    | ReturnType<typeof sortPackListByCardsCountAC>
-    | ReturnType<typeof sortPackListByNameAC>;
+    | ReturnType<typeof sortPackListAC>;

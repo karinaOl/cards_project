@@ -15,37 +15,49 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
-import { deletePackTC, sortPackListByCardsCountAC } from "../../bll/packsReducer";
+import { deletePackTC, sortPackListAC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
+    // const cardsCount = useAppSelector((state) => state.packs.cardPacks);
+
     const [sort, setSort] = useState(false);
 
     const deletePacks = (id: string) => {
         dispatch(deletePackTC(id));
     };
 
-    // const sortFunction = (array: Array, value?: string | number) => {
-    //     return array.sort((a, b) => a.value - b.value);
-    // };
+    // Sort common functions
+
+    const sortFunctionByCardsCount = (): PackType[] =>
+        packs.sort((a, b) => (sort ? a.cardsCount - b.cardsCount : b.cardsCount - a.cardsCount));
+
+    const sortFunctionByName = (): PackType[] =>
+        packs.sort((a, b) => (sort ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
+
+    const sortFunctionByUpdatedTime = (): PackType[] =>
+        packs.sort((a, b) =>
+            sort ? a.updated.localeCompare(b.updated) : b.updated.localeCompare(a.updated)
+        );
+
+    // Sort handle functions
 
     const sortCardsCountInPack = () => {
-        dispatch(
-            sortPackListByCardsCountAC([
-                ...packs.sort((a, b) =>
-                    sort ? a.cardsCount - b.cardsCount : b.cardsCount - a.cardsCount
-                ),
-            ])
-        );
-        // sortFunction(cardsCount)
-        // dispatch(sortPackListByCardsCountAC())
-        console.log(packs);
+        dispatch(sortPackListAC(sortFunctionByCardsCount()));
         setSort(!sort);
     };
 
-    const sortPackListByName = () => {};
+    const sortPackListByName = () => {
+        dispatch(sortPackListAC(sortFunctionByName()));
+        setSort(!sort);
+    };
+
+    const sortPackListByUpdatedTime = () => {
+        dispatch(sortPackListAC(sortFunctionByUpdatedTime()));
+        setSort(!sort);
+    };
 
     return (
         <>
@@ -61,7 +73,7 @@ export const PacksTable = () => {
                                 Cards
                                 <button>▼</button>
                             </TableCell>
-                            <TableCell className={style.sort} onClick={() => {}}>
+                            <TableCell className={style.sort} onClick={sortPackListByUpdatedTime}>
                                 Last Updated <button>▼</button>
                             </TableCell>
                             <TableCell>Created by</TableCell>
