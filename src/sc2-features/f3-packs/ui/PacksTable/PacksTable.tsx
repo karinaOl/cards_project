@@ -21,7 +21,6 @@ import { PackType } from "../../dal/packs-api";
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
-    // const cardsCount = useAppSelector((state) => state.packs.cardPacks);
 
     const [sort, setSort] = useState(false);
 

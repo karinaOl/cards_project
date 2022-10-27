@@ -5,7 +5,6 @@ import {
     addPackTC,
     changeCountOfPacksOnPageAC,
     changeCurrentPageAC,
-    deletePackTC,
     getPacksTC,
 } from "../bll/packsReducer";
 import FormControl from "@mui/material/FormControl";
@@ -32,10 +31,6 @@ export const Packs = () => {
 
     const addPacks = () => {
         dispatch(addPackTC("TEST_FROM_DELETE"));
-    };
-
-    const deletePacks = () => {
-        dispatch(deletePackTC("6356b38d65c36e000499fa36"));
     };
 
     useEffect(() => {
