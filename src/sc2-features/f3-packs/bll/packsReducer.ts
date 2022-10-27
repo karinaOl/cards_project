@@ -12,7 +12,7 @@ import { handleAppError } from "../../../utils/error-utils";
 const initialState = {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 3,
+    pageCount: 10,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
@@ -39,7 +39,12 @@ export const packsReducer = (
                 ...state,
                 pageCount: action.count,
             };
-        case "SORT-CARDS-COUNT":
+        case "SORT-PACK-LIST-BY-CARDS-COUNT":
+            return {
+                ...state,
+                cardPacks: action.sortedCardPacks,
+            };
+        case "SORT-PACK-LIST-BY-NAME":
             return {
                 ...state,
                 cardPacks: action.sortedCardPacks,
@@ -66,9 +71,15 @@ export const changeCountOfPacksOnPageAC = (count: number) =>
         count,
     } as const);
 
-export const sortCardsCountAC = (sortedCardPacks: PackType[]) =>
+export const sortPackListByCardsCountAC = (sortedCardPacks: PackType[]) =>
     ({
-        type: "SORT-CARDS-COUNT",
+        type: "SORT-PACK-LIST-BY-CARDS-COUNT",
+        sortedCardPacks,
+    } as const);
+
+export const sortPackListByNameAC = (sortedCardPacks: PackType[]) =>
+    ({
+        type: "SORT-PACK-LIST-BY-NAME",
         sortedCardPacks,
     } as const);
 
@@ -144,4 +155,5 @@ export type PacksActionType =
     | SetPacksDataType
     | ReturnType<typeof changeCurrentPageAC>
     | ReturnType<typeof changeCountOfPacksOnPageAC>
-    | ReturnType<typeof sortCardsCountAC>;
+    | ReturnType<typeof sortPackListByCardsCountAC>
+    | ReturnType<typeof sortPackListByNameAC>;

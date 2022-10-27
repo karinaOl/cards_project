@@ -24,7 +24,6 @@ export const Packs = () => {
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));
-        dispatch(getPacksTC());
     };
 
     const changeCurrentPage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -41,7 +40,7 @@ export const Packs = () => {
 
     useEffect(() => {
         dispatch(getPacksTC());
-    }, [dispatch, currentPage]);
+    }, [dispatch, currentPage, countOfPacksOnPage]);
 
     return (
         <div className={style.packs}>

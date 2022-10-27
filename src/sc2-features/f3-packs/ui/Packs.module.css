@@ -14,9 +14,12 @@
     left: 100px;
 }
 
-.sortButton {
+.sort {
+    cursor: pointer;
+}
+.sort button{
+    cursor: pointer;
     border: none;
     background: none;
-    cursor: pointer;
     color: darkgray;
 }

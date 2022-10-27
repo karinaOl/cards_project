@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Paper,
     Table,
@@ -15,20 +15,37 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import { PackType } from "../dal/packs-api";
-import { deletePackTC, sortCardsCountAC } from "../bll/packsReducer";
+import { deletePackTC, sortPackListByCardsCountAC } from "../bll/packsReducer";
 import style from "./Packs.module.css";
 
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
+    const [sort, setSort] = useState(false);
 
     const deletePacks = () => {
         dispatch(deletePackTC("6356b38d65c36e000499fa36"));
     };
 
+    // const sortFunction = (array: Array, value?: string | number) => {
+    //     return array.sort((a, b) => a.value - b.value);
+    // };
+
     const sortCardsCountInPack = () => {
-        dispatch(sortCardsCountAC([...packs.sort((a, b) => a.cardsCount - b.cardsCount)]));
+        dispatch(
+            sortPackListByCardsCountAC([
+                ...packs.sort((a, b) =>
+                    sort ? a.cardsCount - b.cardsCount : b.cardsCount - a.cardsCount
+                ),
+            ])
+        );
+        // sortFunction(cardsCount)
+        // dispatch(sortPackListByCardsCountAC())
+        console.log(packs);
+        setSort(!sort);
     };
+
+    const sortPackListByName = () => {};
 
     return (
         <>
@@ -36,14 +53,16 @@ export const PacksTable = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell onClick={() => {}}>
-                                Name<button className={style.sortButton}>▼</button>
+                            <TableCell className={style.sort} onClick={sortPackListByName}>
+                                Name
+                                <button>▼</button>
                             </TableCell>
-                            <TableCell onClick={sortCardsCountInPack}>
-                                Cards<button className={style.sortButton}>▼</button>
+                            <TableCell className={style.sort} onClick={sortCardsCountInPack}>
+                                Cards
+                                <button>▼</button>
                             </TableCell>
-                            <TableCell onClick={() => {}}>
-                                Last Updated <button className={style.sortButton}>▼</button>
+                            <TableCell className={style.sort} onClick={() => {}}>
+                                Last Updated <button>▼</button>
                             </TableCell>
                             <TableCell>Created by</TableCell>
                             <TableCell>Actions</TableCell>
