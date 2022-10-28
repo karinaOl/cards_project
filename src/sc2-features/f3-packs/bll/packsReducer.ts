@@ -44,6 +44,11 @@ export const packsReducer = (
                 ...state,
                 cardPacks: action.sortedCardPacks,
             };
+        case "FIND-PACK-BY-NAME":
+            return {
+                ...state,
+                searchFilter: action.name,
+            };
         default:
             return state;
     }
@@ -70,6 +75,12 @@ export const sortPackListAC = (sortedCardPacks: PackType[]) =>
     ({
         type: "SORT-PACK-LIST",
         sortedCardPacks,
+    } as const);
+
+export const findPackByNameAC = (name: string) =>
+    ({
+        type: "FIND-PACK-BY-NAME",
+        name,
     } as const);
 
 // Thunk Creators
@@ -144,4 +155,5 @@ export type PacksActionType =
     | SetPacksDataType
     | ReturnType<typeof changeCurrentPageAC>
     | ReturnType<typeof changeCountOfPacksOnPageAC>
-    | ReturnType<typeof sortPackListAC>;
+    | ReturnType<typeof sortPackListAC>
+    | ReturnType<typeof findPackByNameAC>;

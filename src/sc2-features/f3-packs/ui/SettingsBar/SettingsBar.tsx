@@ -1,27 +1,47 @@
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import s from "./SettingsBar.module.css";
 import Box from "@mui/material/Box";
 import { ButtonGroup, Slider } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField/TextField";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import { useDebounce } from "../../../../utils/useDebounce/useDebounceHook";
+import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
+import { findPackByNameAC, getPacksTC } from "../../bll/packsReducer";
 
 function valuetext(value: number) {
     return `${value}°C`;
 }
 
 export const SettingsBar = () => {
+    const dispatch = useAppDispatch();
+
     const [value, setValue] = React.useState<number[]>([20, 37]);
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
+    const [debounceValue, setDebounceValue] = useState<string>("");
+    const debouncedValue = useDebounce<string>(debounceValue, 500);
+
+    const debounceHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDebounceValue(event.target.value);
+        dispatch(findPackByNameAC(event.target.value));
+    };
+
+    const sliderHandleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
     };
+
+    useEffect(() => {
+        dispatch(getPacksTC());
+    }, [dispatch, debouncedValue]);
 
     return (
         <div className={s.settingsBar}>
             <Box className={s.itemBlock}>
                 <div className={s.titleBlock}>Search</div>
                 <TextField
+                    type="text"
+                    value={debounceValue}
+                    onChange={debounceHandleChange}
                     className={s.input}
                     id="outlined-basic"
                     label="Search"
@@ -42,7 +62,7 @@ export const SettingsBar = () => {
                     <Slider
                         getAriaLabel={() => "Temperature range"}
                         value={value}
-                        onChange={handleChange}
+                        onChange={sliderHandleChange}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
                     />

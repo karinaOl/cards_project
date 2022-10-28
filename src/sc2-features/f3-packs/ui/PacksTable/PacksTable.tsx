@@ -15,7 +15,7 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
-import { deletePackTC, sortPackListAC } from "../../bll/packsReducer";
+import { deletePackTC, sortPackListAC, updatePackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 
 export const PacksTable = () => {
@@ -26,6 +26,10 @@ export const PacksTable = () => {
 
     const deletePacks = (id: string) => {
         dispatch(deletePackTC(id));
+    };
+
+    const changePackHandler = (_id: string) => {
+        dispatch(updatePackTC({ _id }));
     };
 
     // Sort common functions
@@ -43,7 +47,7 @@ export const PacksTable = () => {
 
     // Sort handle functions
 
-    const sortCardsCountInPack = () => {
+    const sortPackListByCardsCount = () => {
         dispatch(sortPackListAC(sortFunctionByCardsCount()));
         setSort(!sort);
     };
@@ -70,7 +74,7 @@ export const PacksTable = () => {
                             </TableCell>
                             <TableCell
                                 className={style.commonButtons}
-                                onClick={sortCardsCountInPack}
+                                onClick={sortPackListByCardsCount}
                             >
                                 Cards
                                 <button>▼</button>
@@ -99,7 +103,10 @@ export const PacksTable = () => {
                                 <TableCell>{row.user_name}</TableCell>
                                 <TableCell className={style.commonButtons}>
                                     <SchoolRoundedIcon fontSize={"small"} />
-                                    <BorderColorRoundedIcon fontSize={"small"} />
+                                    <BorderColorRoundedIcon
+                                        onClick={() => changePackHandler(row._id)}
+                                        fontSize={"small"}
+                                    />
                                     <DeleteForeverRoundedIcon
                                         onClick={() => {
                                             deletePacks(row._id);
