@@ -2,7 +2,6 @@ import { AppThunk } from "./store";
 import { authAPI } from "../../sc2-features/f1-auth/Login/dal/login-api";
 import { loginAC } from "../../sc2-features/f1-auth/Login/bll/loginReducer";
 import { setProfileDataAC } from "../../sc2-features/f2-profile/bll/profileReducer";
-import { handleAppError } from "../../utils/error-utils";
 
 const initialState = {
     error: null as null | string,
@@ -39,8 +38,6 @@ export const initializeAppTC = (): AppThunk => async (dispatch) => {
         const res = await authAPI.me();
         dispatch(loginAC(true));
         dispatch(setProfileDataAC(res.data));
-    } catch (e) {
-        handleAppError(e, dispatch);
     } finally {
         dispatch(setAppIsInitializedAC(true));
     }
