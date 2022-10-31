@@ -19,7 +19,7 @@ export const Packs = () => {
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
 
-    const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+    const cardsPerPage = [20, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));

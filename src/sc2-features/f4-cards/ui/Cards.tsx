@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import s from "./Cards.module.css";
 import TextField from "@mui/material/TextField/TextField";
 import React from "react";
+import { CustomizedMenus } from "../../../sc1-main/m1-ui/common/Customized Menus/CustomizedMenus";
 
 export const Cards = () => {
     const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ export const Cards = () => {
     return (
         <div className={s.cards}>
             <Title title={"My Pack"} buttonName={"Add new card"} callback={addCard} />
+            <CustomizedMenus />
             <div className={s.titleBlock}>Search</div>
             <TextField
                 className={s.input}
