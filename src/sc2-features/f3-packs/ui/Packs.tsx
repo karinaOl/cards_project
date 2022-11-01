@@ -1,23 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
-import {
-    addPackTC,
-    changeCountOfPacksOnPageAC,
-    changeCurrentPageAC,
-    getPacksTC,
-} from "../bll/packsReducer";
+import { changeCountOfPacksOnPageAC, changeCurrentPageAC, getPacksTC } from "../bll/packsReducer";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
 import { PacksTable } from "./PacksTable/PacksTable";
 import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import { SettingsBar } from "./SettingsBar/SettingsBar";
 import style from "./Packs.module.css";
+import { AddPackModal } from "./ModalPackWindows/AddPackModal";
 
 export const Packs = () => {
     const dispatch = useAppDispatch();
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
+    const [openAdd, setOpenAdd] = useState(false);
+    const handleOpenAdd = () => setOpenAdd(true);
 
     const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
@@ -29,17 +27,13 @@ export const Packs = () => {
         dispatch(changeCurrentPageAC(value));
     };
 
-    const addPacks = () => {
-        dispatch(addPackTC("TEST_FROM_DELETE"));
-    };
-
     useEffect(() => {
         dispatch(getPacksTC());
     }, [dispatch, currentPage, countOfPacksOnPage]);
 
     return (
         <div className={style.packs}>
-            <Title title={"Packs list"} buttonName={"Add new pack"} callback={addPacks} />
+            <Title title={"Packs list"} buttonName={"Add new pack"} callback={handleOpenAdd} />
             <SettingsBar />
             <PacksTable />
             <Stack spacing={4}>
@@ -64,6 +58,7 @@ export const Packs = () => {
                 </Select>
                 <span className={style.spanCardsText}>Cards per Page</span>
             </FormControl>
+            <AddPackModal open={openAdd} setOpen={setOpenAdd} />
         </div>
     );
 };
