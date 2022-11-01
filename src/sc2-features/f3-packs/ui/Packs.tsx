@@ -17,7 +17,7 @@ export const Packs = () => {
     const [openAdd, setOpenAdd] = useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
 
-    const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+    const cardsPerPage = [20, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));

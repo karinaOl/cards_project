@@ -8,6 +8,7 @@ import { Profile } from "../../../sc2-features/f2-profile/ui/Profile";
 import { Test } from "../../../sc2-features/f0-test/Test";
 import { Packs } from "../../../sc2-features/f3-packs/ui/Packs";
 import { Cards } from "../../../sc2-features/f4-cards/ui/Cards";
+import { LearnPage } from "../../../sc2-features/f5-learnPage/ui/LearnPage";
 
 export enum PATH {
     LOGIN = "/login",
@@ -19,6 +20,7 @@ export enum PATH {
     ERROR404 = "/404",
     PACKS = "/packs",
     CARDS = "/cards",
+    LEARN = "/learn",
 }
 
 export const Pages = () => {
@@ -36,6 +38,7 @@ export const Pages = () => {
                 <Route path={PATH.PACKS} element={<Packs />} />
                 <Route path={PATH.CARDS} element={<Cards />} />
                 <Route path={PATH.CARDS + "/:cardPackID"} element={<Cards />} />
+                <Route path={PATH.LEARN} element={<LearnPage />} />
 
                 <Route path={PATH.ERROR404} element={<Error />} />
                 <Route path={"*"} element={<Navigate to={PATH.ERROR404} />} />

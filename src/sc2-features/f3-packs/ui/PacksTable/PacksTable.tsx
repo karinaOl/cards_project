@@ -8,7 +8,7 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
@@ -29,6 +29,7 @@ export const PacksTable = () => {
     const [openEdit, setOpenEdit] = useState(false);
     const [packId, setPackId] = useState("");
     const [cardsPack, setCardsPack] = useState<PackType>({} as PackType);
+    const [learn, setLearn] = useState(false);
 
     const handleOpenDel = (packId: string) => {
         setOpenDel(true);
@@ -37,6 +38,10 @@ export const PacksTable = () => {
     const handleOpenEdit = (cardsPack: PackType) => {
         setOpenEdit(true);
         setCardsPack(cardsPack);
+    };
+
+    const learnHandler = () => {
+        setLearn(true);
     };
 
     // Sort common functions
@@ -68,6 +73,8 @@ export const PacksTable = () => {
         dispatch(sortPackListAC(sortFunctionByUpdatedTime()));
         setSort(!sort);
     };
+
+    if (learn) return <Navigate to={PATH.LEARN} />;
 
     return (
         <>
@@ -109,7 +116,7 @@ export const PacksTable = () => {
                                 <TableCell>{row.updated}</TableCell>
                                 <TableCell>{row.user_name}</TableCell>
                                 <TableCell className={style.commonButtons}>
-                                    <SchoolRoundedIcon fontSize={"small"} />
+                                    <SchoolRoundedIcon onClick={learnHandler} fontSize={"small"} />
                                     <BorderColorRoundedIcon
                                         onClick={() => handleOpenEdit(row)}
                                         fontSize={"small"}

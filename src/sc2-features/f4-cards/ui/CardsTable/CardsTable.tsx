@@ -25,7 +25,7 @@ export const CardsTable = () => {
 
     useEffect(() => {
         if (cardPackID) dispatch(getCardsTC({ cardsPack_id: cardPackID }));
-    }, []);
+    }, [dispatch, cardPackID]);
 
     const deleteCard = (cardID: string) => {
         dispatch(deleteCardTC(cardPackID as string, cardID));
