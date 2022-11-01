@@ -7,6 +7,7 @@ type AddPackModalPropsType = {
     open: boolean;
     setOpen: (value: boolean) => void;
     packId: string;
+    cardsPackName: string;
 };
 
 export const DeletePackModal = (props: AddPackModalPropsType) => {
@@ -21,7 +22,7 @@ export const DeletePackModal = (props: AddPackModalPropsType) => {
     return (
         <BasicModal title={"Delete Pack"} open={props.open} setOpen={props.setOpen}>
             <div>
-                <p>Do you really want to remove Pack Name?</p>
+                <p>Do you really want to remove {props.cardsPackName}?</p>
                 <p>All card will be delete.</p>
             </div>
             <div>

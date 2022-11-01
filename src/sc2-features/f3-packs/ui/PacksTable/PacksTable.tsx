@@ -28,16 +28,18 @@ export const PacksTable = () => {
     const [openDel, setOpenDel] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [packId, setPackId] = useState("");
+    const [cardsPackName, setCardsPackName] = useState("");
     const [cardsPack, setCardsPack] = useState<PackType>({} as PackType);
     const [learn, setLearn] = useState(false);
 
-    const handleOpenDel = (packId: string) => {
+    const handleOpenDel = (packId: string, cardsPackName: string) => {
         setOpenDel(true);
         setPackId(packId);
+        setCardsPackName(cardsPackName);
     };
     const handleOpenEdit = (cardsPack: PackType) => {
-        setOpenEdit(true);
         setCardsPack(cardsPack);
+        setOpenEdit(true);
     };
 
     const learnHandler = () => {
@@ -122,7 +124,7 @@ export const PacksTable = () => {
                                         fontSize={"small"}
                                     />
                                     <DeleteForeverRoundedIcon
-                                        onClick={() => handleOpenDel(row._id)}
+                                        onClick={() => handleOpenDel(row._id, row.name)}
                                         fontSize={"small"}
                                     />
                                 </TableCell>
@@ -131,7 +133,12 @@ export const PacksTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <DeletePackModal open={openDel} setOpen={setOpenDel} packId={packId} />
+            <DeletePackModal
+                open={openDel}
+                setOpen={setOpenDel}
+                packId={packId}
+                cardsPackName={cardsPackName}
+            />
             <EditPackModal open={openEdit} setOpen={setOpenEdit} pack={cardsPack} />
         </>
     );

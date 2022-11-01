@@ -15,15 +15,14 @@ type EditPackModalPropsType = {
 
 export const EditPackModal = (props: EditPackModalPropsType) => {
     useEffect(() => {
-        setTitle(props.pack.name);
-        setIsPrivate(props.pack.private);
+        props.pack.name ? setTitle(props.pack.name) : setTitle("");
+        props.pack.private !== undefined ? setIsPrivate(props.pack.private) : setIsPrivate(true);
     }, [props.pack]);
 
     const dispatch = useAppDispatch();
-    console.log(props.pack.name);
 
-    const [title, setTitle] = useState<string>("");
-    const [isPrivate, setIsPrivate] = useState<boolean>(true);
+    const [title, setTitle] = useState<string>(props.pack.name);
+    const [isPrivate, setIsPrivate] = useState<boolean>(props.pack.private);
 
     const handleClose = () => props.setOpen(false);
 
