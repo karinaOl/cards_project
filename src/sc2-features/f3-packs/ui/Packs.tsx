@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
     ButtonGroup,
@@ -9,6 +11,7 @@ import {
     Stack,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
+import { changeCountOfPacksOnPageAC, changeCurrentPageAC, getPacksTC } from "../bll/packsReducer";
 import {
     addPackTC,
     changeCountOfPacksOnPageAC,
@@ -21,6 +24,7 @@ import Typography from "@mui/material/Typography";
 import { PacksTable } from "./PacksTable/PacksTable";
 import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import style from "./Packs.module.css";
+import { AddPackModal } from "./ModalPackWindows/AddPackModal";
 import s from "./SettingsBar/SettingsBar.module.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField/TextField";
@@ -32,6 +36,8 @@ export const Packs = () => {
     const dispatch = useAppDispatch();
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
+    const [openAdd, setOpenAdd] = useState(false);
+    const handleOpenAdd = () => setOpenAdd(true);
 
     const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
@@ -136,6 +142,7 @@ export const Packs = () => {
                 </Select>
                 <span className={style.spanCardsText}>Cards per Page</span>
             </FormControl>
+            <AddPackModal open={openAdd} setOpen={setOpenAdd} />
         </div>
     );
 };

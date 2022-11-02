@@ -108,11 +108,11 @@ export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
 };
 
 export const addPackTC =
-    (name: string): AppThunk =>
+    (name: string, isPrivate: boolean): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            await packsApi.createCardsPack({ cardsPack: { name } });
+            await packsApi.createCardsPack({ cardsPack: { name, private: isPrivate } });
             dispatch(getPacksTC());
         } catch (e) {
             handleAppError(e, dispatch);

@@ -15,22 +15,31 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
-import { deletePackTC, sortPackListAC, updatePackTC } from "../../bll/packsReducer";
+import { sortPackListAC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
+import { DeletePackModal } from "../ModalPackWindows/DeletePackModal";
+import { EditPackModal } from "../ModalPackWindows/UpdataPackModal";
 
 export const PacksTable = () => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
 
     const [sort, setSort] = useState(false);
+    const [openDel, setOpenDel] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [packId, setPackId] = useState("");
+    const [cardsPackName, setCardsPackName] = useState("");
+    const [cardsPack, setCardsPack] = useState<PackType>({} as PackType);
     const [learn, setLearn] = useState(false);
 
-    const deletePacks = (id: string) => {
-        dispatch(deletePackTC(id));
+    const handleOpenDel = (packId: string, cardsPackName: string) => {
+        setOpenDel(true);
+        setPackId(packId);
+        setCardsPackName(cardsPackName);
     };
-
-    const changePackHandler = (_id: string) => {
-        dispatch(updatePackTC({ _id, name: "new name" }));
+    const handleOpenEdit = (cardsPack: PackType) => {
+        setCardsPack(cardsPack);
+        setOpenEdit(true);
     };
 
     const learnHandler = () => {
@@ -111,13 +120,11 @@ export const PacksTable = () => {
                                 <TableCell className={style.commonButtons}>
                                     <SchoolRoundedIcon onClick={learnHandler} fontSize={"small"} />
                                     <BorderColorRoundedIcon
-                                        onClick={() => changePackHandler(row._id)}
+                                        onClick={() => handleOpenEdit(row)}
                                         fontSize={"small"}
                                     />
                                     <DeleteForeverRoundedIcon
-                                        onClick={() => {
-                                            deletePacks(row._id);
-                                        }}
+                                        onClick={() => handleOpenDel(row._id, row.name)}
                                         fontSize={"small"}
                                     />
                                 </TableCell>
@@ -126,6 +133,13 @@ export const PacksTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <DeletePackModal
+                open={openDel}
+                setOpen={setOpenDel}
+                packId={packId}
+                cardsPackName={cardsPackName}
+            />
+            <EditPackModal open={openEdit} setOpen={setOpenEdit} pack={cardsPack} />
         </>
     );
 };

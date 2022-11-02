@@ -19,7 +19,7 @@ export type PackType = {
     _id: string;
     user_id: string;
     user_name: string;
-    private: false;
+    private: boolean;
     name: string;
     path: string;
     grade: number;
