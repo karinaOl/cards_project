@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
     ButtonGroup,
@@ -11,9 +9,7 @@ import {
     Stack,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
-import { changeCountOfPacksOnPageAC, changeCurrentPageAC, getPacksTC } from "../bll/packsReducer";
 import {
-    addPackTC,
     changeCountOfPacksOnPageAC,
     changeCurrentPageAC,
     findPackByNameAC,
@@ -49,10 +45,6 @@ export const Packs = () => {
         dispatch(changeCurrentPageAC(value));
     };
 
-    const addPacks = () => {
-        dispatch(addPackTC("TEST_FROM_DELETE"));
-    };
-
     // SettingBar Component
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
@@ -81,7 +73,7 @@ export const Packs = () => {
 
     return (
         <div className={style.packs}>
-            <Title title={"Packs list"} buttonName={"Add new pack"} callback={addPacks} />
+            <Title title={"Packs list"} buttonName={"Add new pack"} callback={handleOpenAdd} />
             <div className={s.settingsBar}>
                 <Box className={s.itemBlock}>
                     <div className={s.titleBlock}>Search</div>

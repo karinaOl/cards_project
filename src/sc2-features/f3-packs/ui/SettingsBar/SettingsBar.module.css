@@ -1,0 +1,22 @@
+.settingsBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    text-align: start;
+    margin-bottom: 45px;
+}
+
+.input {
+    width: 410px;
+}
+
+.titleBlock {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.slider {
+    display: flex;
+    gap: 20px;
+}
