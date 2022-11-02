@@ -32,7 +32,7 @@ export const CardsTable = () => {
     };
 
     const updateCard = (cardID: string) => {
-        const updatedCard: UpdateCardRequestDataType = { _id: cardID, answer: "test_update_card" };
+        const updatedCard: UpdateCardRequestDataType = { _id: cardID, answer: "4" };
         dispatch(updateCardTC(cardPackID as string, updatedCard));
     };
 
@@ -56,7 +56,9 @@ export const CardsTable = () => {
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <NavLink to={PATH.CARDS}>{row.question}</NavLink>
+                                    <NavLink to={PATH.LEARN + "/" + row.cardsPack_id}>
+                                        {row.question}
+                                    </NavLink>
                                 </TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updated}</TableCell>

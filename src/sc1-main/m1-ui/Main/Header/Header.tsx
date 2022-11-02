@@ -54,22 +54,6 @@ export const Header = () => {
                 packs
             </NavLink>
             <NavLink
-                to={PATH.CARDS}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                cards
-            </NavLink>
-            <NavLink
-                to={PATH.LEARN}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                learn
-            </NavLink>
-            <NavLink
                 to={PATH.TEST}
                 className={({ isActive }) =>
                     isActive ? `${style.item} ${style.active}` : style.item

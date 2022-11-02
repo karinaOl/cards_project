@@ -36,9 +36,8 @@ export const Pages = () => {
                 <Route path={PATH.PROFILE} element={<Profile />} />
                 <Route path={PATH.TEST} element={<Test />} />
                 <Route path={PATH.PACKS} element={<Packs />} />
-                <Route path={PATH.CARDS} element={<Cards />} />
                 <Route path={PATH.CARDS + "/:cardPackID"} element={<Cards />} />
-                <Route path={PATH.LEARN} element={<LearnPage />} />
+                <Route path={PATH.LEARN + "/:cardPackID"} element={<LearnPage />} />
 
                 <Route path={PATH.ERROR404} element={<Error />} />
                 <Route path={"*"} element={<Navigate to={PATH.ERROR404} />} />

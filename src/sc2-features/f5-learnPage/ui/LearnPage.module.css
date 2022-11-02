@@ -1,0 +1,24 @@
+.LearnPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.form {
+    background-color: lavender;
+    border: black 1px solid;
+    margin: 10px;
+    padding: 20px;
+}
+
+.cardsText {
+    font-weight: 400
+}
+
+.navLink {
+    display: flex;
+    margin: 40px;
+    text-decoration: none;
+}

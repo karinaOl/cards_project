@@ -5,11 +5,9 @@ import Menu, { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { PATH } from "../../Main/Pages";
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -54,30 +52,19 @@ const StyledMenu = styled((props: MenuProps) => (
 
 export const CustomizedMenus = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selectValue, setSelectValue] = useState<string | undefined>("");
     const open = Boolean(anchorEl);
+    const { cardPackID } = useParams<"cardPackID">();
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = (value?: string) => {
+    const handleClose = () => {
         setAnchorEl(null);
-        setSelectValue(value);
     };
-
-    if (selectValue === "learn") return <Navigate to={PATH.LEARN} />;
 
     return (
         <div>
-            <Button
-                id="demo-customized-button"
-                aria-controls={open ? "demo-customized-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-            >
+            <Button variant="text" disableElevation onClick={handleClick}>
                 <MoreVertIcon />
             </Button>
             <StyledMenu
@@ -88,16 +75,22 @@ export const CustomizedMenus = () => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={() => handleClose}
+                onBlur={() => setAnchorEl(null)}
             >
-                <MenuItem onClick={() => handleClose("learn")} disableRipple>
+                <MenuItem onClick={handleClick} disableRipple>
                     <SchoolIcon />
-                    Learn
+                    <NavLink
+                        style={{ textDecoration: "none", color: "black" }}
+                        to={PATH.LEARN + "/" + cardPackID}
+                    >
+                        Learn
+                    </NavLink>
                 </MenuItem>
-                <MenuItem onClick={() => handleClose("edit")} disableRipple>
+                <MenuItem onClick={handleClick} disableRipple>
                     <EditIcon />
                     Edit
                 </MenuItem>
-                <MenuItem onClick={() => handleClose("delete")} disableRipple>
+                <MenuItem onClick={handleClick} disableRipple>
                     <DeleteIcon />
                     Delete
                 </MenuItem>

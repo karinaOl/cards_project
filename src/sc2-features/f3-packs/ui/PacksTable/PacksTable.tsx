@@ -30,7 +30,7 @@ export const PacksTable = () => {
     };
 
     const changePackHandler = (_id: string) => {
-        dispatch(updatePackTC({ _id }));
+        dispatch(updatePackTC({ _id, name: "new name" }));
     };
 
     const learnHandler = () => {

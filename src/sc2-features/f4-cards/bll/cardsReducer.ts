@@ -3,7 +3,7 @@ import {
     CardType,
     CreateCardDataType,
     GetCardsRequestParamsType,
-    GetCardsResponseTYpe,
+    GetCardsResponseType,
     UpdateCardRequestDataType,
 } from "../dal/cards-api";
 import { AppThunk } from "../../../sc1-main/m2-bll/store";
@@ -33,13 +33,32 @@ export const cardsReducer = (
                 ...state,
                 ...action.data,
             };
+        case "UPDATE-CARDS-GRADE":
+            return {
+                ...state,
+                cards: state.cards.map((card) =>
+                    card._id === action.card_id ? { ...card, grade: action.grade } : card
+                ),
+            };
+
         default:
             return state;
     }
 };
 
-const setCardsDataAC = (data: GetCardsResponseTYpe) =>
+// Action Creators
+
+const setCardsDataAC = (data: GetCardsResponseType) =>
     ({ type: "cards/SET-CARDS-DATA", data } as const);
+
+const updateCardsGradeAC = (grade: number, card_id: string) =>
+    ({
+        type: "UPDATE-CARDS-GRADE",
+        grade,
+        card_id,
+    } as const);
+
+// Thunk Creators
 
 export const getCardsTC =
     (params: GetCardsRequestParamsType): AppThunk =>
@@ -116,6 +135,17 @@ export const updateCardTC =
         }
     };
 
+export const updateCardsGradeTC =
+    (grade: number, card_id: string): AppThunk =>
+    async (dispatch) => {
+        try {
+            await cardsApi.updateCardsGrade(grade, card_id);
+            dispatch(updateCardsGradeAC(grade, card_id));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
 type CardInitialStateType = typeof initialState;
-type SetCardsDataACType = ReturnType<typeof setCardsDataAC>;
+type SetCardsDataACType = ReturnType<typeof setCardsDataAC> | ReturnType<typeof updateCardsGradeAC>;
 export type CardsActionType = SetCardsDataACType;

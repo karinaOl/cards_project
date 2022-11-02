@@ -2,7 +2,7 @@ import { instance } from "../../../sc1-main/m3-dal/instance";
 
 export const cardsApi = {
     getCards(params: GetCardsRequestParamsType) {
-        return instance.get<GetCardsResponseTYpe>("cards/card", { params });
+        return instance.get<GetCardsResponseType>("cards/card", { params });
     },
     createCard(cardData: CreateCardDataType) {
         return instance.post<CreateCardResponseType>("cards/card", cardData);
@@ -12,6 +12,9 @@ export const cardsApi = {
     },
     updateCard(updateCard: UpdateCardRequestDataType) {
         return instance.put<UpDataCardResponseType>("cards/card", { card: updateCard });
+    },
+    updateCardsGrade(grade: number, card_id: string) {
+        return instance.put("/cards/grade", { grade, card_id });
     },
 };
 
@@ -48,7 +51,7 @@ export type GetCardsRequestParamsType = {
     pageCount?: number;
 };
 
-export type GetCardsResponseTYpe = {
+export type GetCardsResponseType = {
     cards: CardType[];
     packUserId: string;
     packName: string;
@@ -97,4 +100,9 @@ type UpDataCardResponseType = {
     updatedCard: CardType[];
     token: string;
     tokenDeathTime: number;
+};
+
+export type updateCardsGradeType = {
+    grade: number;
+    card_id: string;
 };
