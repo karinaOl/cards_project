@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,14 +9,16 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../Main/Pages";
-import { useState } from "react";
 
 const ITEM_HEIGHT = 48;
 
-export const LongMenu = () => {
+export const LongMenu = (props: { cardPackId: string | undefined }) => {
     const [learn, setLearn] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const packId = props.cardPackId;
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -23,7 +26,7 @@ export const LongMenu = () => {
         setAnchorEl(null);
     };
 
-    if (learn) return <Navigate to={PATH.LEARN} />;
+    if (learn) return <Navigate to={PATH.LEARN + "/" + packId} />;
 
     return (
         <div>

@@ -13,7 +13,7 @@ function valuetext(value: number) {
     return `${value}°C`;
 }
 
-export const SettingsBar = () => {
+export const SettingsBar = (props: { currentPage?: number; countOfPacksOnPage?: string }) => {
     const dispatch = useAppDispatch();
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
@@ -31,10 +31,8 @@ export const SettingsBar = () => {
     };
     useEffect(() => {
         console.log("render");
-        if (debounceValue) {
-            dispatch(getPacksTC());
-        }
-    }, [dispatch, debouncedValue]);
+        dispatch(getPacksTC());
+    }, [dispatch, debouncedValue, props.currentPage, props.countOfPacksOnPage]);
 
     return (
         <div className={s.settingsBar}>

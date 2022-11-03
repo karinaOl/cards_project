@@ -42,7 +42,6 @@ export const LearnPage = () => {
 
     const validCard = getCard(cards);
     const validPackArray = packs.find((elem) => elem._id === cardPackID);
-
     const packName = validPackArray ? validPackArray.name : "Default Name";
 
     return (
