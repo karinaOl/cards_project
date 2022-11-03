@@ -5,6 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { addPackTC } from "../../bll/packsReducer";
+import styles from "./AddPackModal.module.css";
 
 type AddPackModalPropsType = {
     open: boolean;
@@ -34,16 +35,17 @@ export const AddPackModal = (props: AddPackModalPropsType) => {
                 variant="standard"
                 value={title}
                 onChange={onChangeTitleHandler}
+                className={styles.textFiled}
             />
-            <div>
+            <div className={styles.checkbox}>
                 <Checkbox checked={isPrivate} onChange={onChangeCheckboxHandler} />
                 <span>Privet pack</span>
             </div>
-            <div>
+            <div className={styles.button}>
                 <Button variant="outlined" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button variant="outlined" onClick={onClickAddPacksHandler}>
+                <Button variant="contained" onClick={onClickAddPacksHandler}>
                     Save
                 </Button>
             </div>

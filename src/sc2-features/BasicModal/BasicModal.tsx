@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import styles from "./BasicModal.module.css";
 
 const style = {
     position: "absolute" as "absolute",
@@ -22,6 +23,10 @@ type BasicModalPropsType = {
 };
 
 export const BasicModal = (props: BasicModalPropsType) => {
+    const onClickHandler = () => {
+        props.setOpen(false);
+    };
+
     return (
         <div>
             <Modal
@@ -30,7 +35,12 @@ export const BasicModal = (props: BasicModalPropsType) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h2>{props.title}</h2>
+                    <h2 className={styles.title}>
+                        {props.title}
+                        <Button variant="outlined" size="small" onClick={onClickHandler}>
+                            Close
+                        </Button>
+                    </h2>
                     {props.children}
                 </Box>
             </Modal>

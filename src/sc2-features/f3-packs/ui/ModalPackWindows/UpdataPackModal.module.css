@@ -1,0 +1,13 @@
+.textFiled {
+    margin: 20px 0;
+}
+
+.checkbox {
+    margin: 10px 0;
+}
+
+.button {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}

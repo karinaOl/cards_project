@@ -6,6 +6,7 @@ import { PackType } from "../../dal/packs-api";
 import { updatePackTC } from "../../bll/packsReducer";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { ChangeEvent, useEffect, useState } from "react";
+import styles from "./UpdataPackModal.module.css";
 
 type EditPackModalPropsType = {
     open: boolean;
@@ -45,16 +46,17 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
                 variant="standard"
                 value={title}
                 onChange={onChangeTitleHandler}
+                className={styles.textFiled}
             />
-            <div>
+            <div className={styles.checkbox}>
                 <Checkbox checked={isPrivate} onChange={onChangeCheckboxHandler} />
                 <span>Privet pack</span>
             </div>
-            <div>
+            <div className={styles.button}>
                 <Button variant="outlined" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button variant="outlined" onClick={changePackHandler}>
+                <Button variant="contained" onClick={changePackHandler}>
                     Save
                 </Button>
             </div>
