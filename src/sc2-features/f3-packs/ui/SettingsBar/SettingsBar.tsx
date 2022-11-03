@@ -30,7 +30,7 @@ export const SettingsBar = () => {
         setValue(newValue as number[]);
     };
     useEffect(() => {
-        console.log("rebder");
+        console.log("render");
         if (debounceValue) {
             dispatch(getPacksTC());
         }

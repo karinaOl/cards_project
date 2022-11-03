@@ -27,6 +27,7 @@ import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { useDebounce } from "../../../utils/useDebounce/useDebounceHook";
+import { SettingsBar } from "./SettingsBar/SettingsBar";
 
 export const Packs = () => {
     const dispatch = useAppDispatch();
@@ -45,72 +46,14 @@ export const Packs = () => {
         dispatch(changeCurrentPageAC(value));
     };
 
-    // SettingBar Component
-
-    const [value, setValue] = React.useState<number[]>([20, 37]);
-
-    const [debounceValue, setDebounceValue] = useState<string>("");
-    const debouncedValue = useDebounce<string>(debounceValue, 700);
-
-    const debounceHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setDebounceValue(event.target.value);
-        dispatch(findPackByNameAC(event.target.value));
-    };
-
-    const sliderHandleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
-    };
-
-    function valuetext(value: number) {
-        return `${value}°C`;
-    }
-
-    //
-
     useEffect(() => {
         dispatch(getPacksTC());
-    }, [dispatch, debouncedValue, currentPage, countOfPacksOnPage]);
+    }, [dispatch, currentPage, countOfPacksOnPage]);
 
     return (
         <div className={style.packs}>
             <Title title={"Packs list"} buttonName={"Add new pack"} callback={handleOpenAdd} />
-            <div className={s.settingsBar}>
-                <Box className={s.itemBlock}>
-                    <div className={s.titleBlock}>Search</div>
-                    <TextField
-                        type="text"
-                        value={debounceValue}
-                        onChange={debounceHandleChange}
-                        className={s.input}
-                        id="outlined-basic"
-                        label="Search"
-                        variant="outlined"
-                    />
-                </Box>
-                <Box>
-                    <div className={s.titleBlock}>Show packs cards</div>
-                    <ButtonGroup variant="outlined" aria-label="outlined button group">
-                        <Button>My</Button>
-                        <Button>All</Button>
-                    </ButtonGroup>
-                </Box>
-                <Box sx={{ width: 300 }}>
-                    <div className={s.titleBlock}>Number of cards</div>
-                    <div className={s.slider}>
-                        <span>{value[0]}</span>
-                        <Slider
-                            getAriaLabel={() => "Temperature range"}
-                            value={value}
-                            onChange={sliderHandleChange}
-                            valueLabelDisplay="auto"
-                            getAriaValueText={valuetext}
-                        />
-                        <span>{value[1]}</span>
-                    </div>
-                </Box>
-                <FilterAltRoundedIcon />
-            </div>
-
+            <SettingsBar />
             <PacksTable />
             <Stack spacing={4}>
                 <Typography style={{ color: "dodgerblue", margin: "20px" }}>
