@@ -35,12 +35,13 @@ export const BasicModal = (props: BasicModalPropsType) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h2 className={styles.title}>
+                    <h4 className={styles.title}>
                         {props.title}
+                        <hr/>
                         <Button variant="outlined" size="small" onClick={onClickHandler}>
                             Close
                         </Button>
-                    </h2>
+                    </h4>
                     {props.children}
                 </Box>
             </Modal>
