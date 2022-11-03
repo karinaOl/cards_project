@@ -47,16 +47,19 @@ export const getCardsTC =
         const { cardAnswer, cardQuestion, sortCards, pageCount, page, maxGrade, minGrade } =
             getState().cards;
 
+        //todo: min, max
+
         const queryParams: GetCardsRequestParamsType = {
             cardAnswer,
             cardQuestion,
             sortCards,
             pageCount,
             page,
-            max: maxGrade,
-            min: minGrade,
+            // max: maxGrade,
+            // min: minGrade,
             ...params,
         };
+        console.log(queryParams);
         dispatch(setIsLoadingAC(true));
         try {
             let response = await cardsApi.getCards(queryParams);

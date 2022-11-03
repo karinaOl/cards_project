@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -30,7 +29,8 @@ export const BasicModal = (props: BasicModalPropsType) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h2>{props.title}</h2>
+                    <h4>{props.title}</h4>
+                    <hr />
                     {props.children}
                 </Box>
             </Modal>

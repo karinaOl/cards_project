@@ -1,33 +1,30 @@
 import { CardsTable } from "./CardsTable/CardsTable";
-import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
-import { addCardTC } from "../bll/cardsReducer";
-import { useAppDispatch } from "../../../sc1-main/m2-bll/store";
-import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import s from "./Cards.module.css";
 import TextField from "@mui/material/TextField/TextField";
-import React from "react";
-import { CustomizedMenus } from "../../../sc1-main/m1-ui/common/Customized Menus/CustomizedMenus";
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
+import { LongMenu } from "../../../sc1-main/m1-ui/common/CustomizedMenu/CustomizedMenu";
+import { AddNewCard } from "./ModalCard/AddNewCard";
 
 export const Cards = () => {
-    const dispatch = useAppDispatch();
-    const { cardPackID } = useParams<"cardPackID">();
-
-    const addCard = () => {
-        dispatch(
-            addCardTC({
-                card: {
-                    cardsPack_id: cardPackID as string,
-                    question: "Test question",
-                    answer: "Test answer",
-                },
-            })
-        );
-    };
+    const [openAdd, setOpenAdd] = useState(false);
 
     return (
         <div className={s.cards}>
-            <Title title={"My Pack"} buttonName={"Add new card"} callback={addCard} />
-            <CustomizedMenus />
+            <NavLink className={s.goBack} to={PATH.PACKS}>
+                ← Back to Packs List
+            </NavLink>
+            <div className={s.title}>
+                <div className={s.item}>
+                    <h2>My Pack</h2>
+                    <LongMenu />
+                </div>
+                <Button className={s.button} onClick={() => setOpenAdd(true)} variant={"contained"}>
+                    Add new card
+                </Button>
+            </div>
             <div className={s.titleBlock}>Search</div>
             <TextField
                 className={s.input}
@@ -35,7 +32,9 @@ export const Cards = () => {
                 label="Provide your text"
                 variant="outlined"
             />
+            <br />
             <CardsTable />
+            <AddNewCard open={openAdd} setOpen={setOpenAdd} />
         </div>
     );
 };

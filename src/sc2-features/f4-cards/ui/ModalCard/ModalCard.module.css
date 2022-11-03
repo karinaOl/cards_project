@@ -1,0 +1,9 @@
+.input {
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+}

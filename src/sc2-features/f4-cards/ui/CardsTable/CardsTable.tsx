@@ -11,29 +11,39 @@ import {
 } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
-import React, { useEffect } from "react";
-import { deleteCardTC, getCardsTC, updateCardTC } from "../../bll/cardsReducer";
+import React, { useEffect, useState } from "react";
+import { getCardsTC } from "../../bll/cardsReducer";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import { UpdateCardRequestDataType } from "../../dal/cards-api";
+import { UpdateCard } from "../ModalCard/UpdateCard";
+import { DeleteCard } from "../ModalCard/DeleteCard";
 
 export const CardsTable = () => {
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [question, setQuestion] = useState("");
+    const [answer, setAnswer] = useState("");
+    const [cardId, setCardId] = useState("");
     const cards = useAppSelector((state) => state.cards.cards);
-
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<"cardPackID">();
 
     useEffect(() => {
-        if (cardPackID) dispatch(getCardsTC({ cardsPack_id: cardPackID }));
+        if (cardPackID) {
+            console.log("catch");
+            dispatch(getCardsTC({ cardsPack_id: cardPackID as string }));
+        }
     }, [dispatch, cardPackID]);
 
-    const deleteCard = (cardID: string) => {
-        dispatch(deleteCardTC(cardPackID as string, cardID));
+    const deleteCardHandler = (cardID: string, question: string) => {
+        setOpenDelete(true);
+        setCardId(cardID);
+        setQuestion(question);
     };
 
-    const updateCard = (cardID: string) => {
-        const updatedCard: UpdateCardRequestDataType = { _id: cardID, answer: "test_update_card" };
-        dispatch(updateCardTC(cardPackID as string, updatedCard));
+    const updateCardHandler = (cardID: string, question: string, answer: string) => {
+        setOpenUpdate(true);
+        setCardId(cardID);
     };
 
     return (
@@ -56,7 +66,9 @@ export const CardsTable = () => {
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <NavLink to={PATH.CARDS}>{row.question}</NavLink>
+                                    <NavLink to={PATH.LEARN + "/" + row._id}>
+                                        {row.question}
+                                    </NavLink>
                                 </TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updated}</TableCell>
@@ -69,12 +81,14 @@ export const CardsTable = () => {
                                 </TableCell>
                                 <TableCell>
                                     <BorderColorRoundedIcon
+                                        onClick={() =>
+                                            updateCardHandler(row._id, row.question, row.answer)
+                                        }
                                         fontSize={"small"}
-                                        onClick={() => updateCard(row._id)}
                                     />
                                     <DeleteForeverRoundedIcon
                                         fontSize={"small"}
-                                        onClick={() => deleteCard(row._id)}
+                                        onClick={() => deleteCardHandler(row._id, row.question)}
                                     />
                                 </TableCell>
                             </TableRow>
@@ -82,6 +96,13 @@ export const CardsTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <UpdateCard cardId={cardId} open={openUpdate} setOpen={setOpenUpdate} />
+            <DeleteCard
+                open={openDelete}
+                setOpen={setOpenDelete}
+                question={question}
+                cardId={cardId}
+            />
         </>
     );
 };

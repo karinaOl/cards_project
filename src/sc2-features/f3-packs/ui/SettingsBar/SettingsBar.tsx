@@ -29,9 +29,11 @@ export const SettingsBar = () => {
     const sliderHandleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
     };
-
     useEffect(() => {
-        dispatch(getPacksTC());
+        console.log("rebder");
+        if (debounceValue) {
+            dispatch(getPacksTC());
+        }
     }, [dispatch, debouncedValue]);
 
     return (
