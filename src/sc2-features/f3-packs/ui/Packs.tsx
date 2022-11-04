@@ -9,6 +9,8 @@ import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import style from "./Packs.module.css";
 import { AddPackModal } from "./ModalPackWindows/AddPackModal";
 import { SettingsBar } from "./SettingsBar/SettingsBar";
+import { GetCardsPackRequestParamsType } from "../dal/packs-api";
+import { resetSettingsAC } from "../bll/settingsReducer";
 
 export const Packs = () => {
     const dispatch = useAppDispatch();
@@ -26,11 +28,18 @@ export const Packs = () => {
     const changeCurrentPage = (event: React.ChangeEvent<unknown>, value: number) => {
         dispatch(changeCurrentPageAC(value));
     };
+    const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
+        dispatch(resetSettingsAC(data));
+    };
 
     return (
         <div className={style.packs}>
             <Title title={"Packs list"} buttonName={"Add new pack"} callback={handleOpenAdd} />
-            <SettingsBar currentPage={currentPage} countOfPacksOnPage={countOfPacksOnPage} />
+            <SettingsBar
+                resetPackListFilter={resetPackListFilter}
+                currentPage={currentPage}
+                countOfPacksOnPage={countOfPacksOnPage}
+            />
             <PacksTable />
             <Stack spacing={4}>
                 <Typography style={{ color: "dodgerblue", margin: "20px" }}>
