@@ -8,12 +8,17 @@ import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { useDebounce } from "../../../../utils/useDebounce/useDebounceHook";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { findPackByNameAC, getPacksTC } from "../../bll/packsReducer";
+import { GetCardsPackRequestParamsType } from "../../dal/packs-api";
 
 function valuetext(value: number) {
     return `${value}°C`;
 }
 
-export const SettingsBar = (props: { currentPage?: number; countOfPacksOnPage?: string }) => {
+export const SettingsBar = (props: {
+    currentPage?: number;
+    countOfPacksOnPage?: string;
+    resetPackListFilter: (data: GetCardsPackRequestParamsType) => void;
+}) => {
     const dispatch = useAppDispatch();
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
@@ -29,6 +34,21 @@ export const SettingsBar = (props: { currentPage?: number; countOfPacksOnPage?: 
     const sliderHandleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
     };
+    const resetFilter = () => {
+        setDebounceValue("");
+        dispatch(findPackByNameAC(""));
+        props.resetPackListFilter({
+            user_id: "",
+            packName: "",
+            min: 0,
+            max: 110,
+            sortPacks: "",
+            page: 0,
+            pageCount: 8,
+            block: false,
+        });
+    };
+
     useEffect(() => {
         console.log("render");
         dispatch(getPacksTC());
@@ -69,7 +89,7 @@ export const SettingsBar = (props: { currentPage?: number; countOfPacksOnPage?: 
                     <span>{value[1]}</span>
                 </div>
             </Box>
-            <FilterAltRoundedIcon />
+            <FilterAltRoundedIcon onClick={resetFilter} />
         </div>
     );
 };
