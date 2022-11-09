@@ -6,11 +6,11 @@ import { PackType } from "../../dal/packs-api";
 import { updatePackTC } from "../../bll/packsReducer";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { ChangeEvent, useEffect, useState } from "react";
-import styles from "./UpdataPackModal.module.css";
+import styles from "./EditPackModal.module.css";
 
 type EditPackModalPropsType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalEditPack: boolean;
+    setModalEditPack: (value: boolean) => void;
     pack: PackType;
 };
 
@@ -25,11 +25,9 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
     const [title, setTitle] = useState<string>(props.pack.name);
     const [isPrivate, setIsPrivate] = useState<boolean>(props.pack.private);
 
-    const handleClose = () => props.setOpen(false);
-
     const changePackHandler = () => {
         dispatch(updatePackTC({ _id: props.pack._id, name: title, private: isPrivate }));
-        handleClose();
+        props.setModalEditPack(false);
     };
 
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +38,11 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
     };
 
     return (
-        <BasicModal title={"Edit pack"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Edit pack"}
+            open={props.modalEditPack}
+            setModal={props.setModalEditPack}
+        >
             <TextField
                 label="Name pack"
                 variant="standard"
@@ -53,7 +55,7 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
                 <span>Privet pack</span>
             </div>
             <div className={styles.button}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalEditPack(false)}>
                     Cancel
                 </Button>
                 <Button variant="contained" onClick={changePackHandler}>

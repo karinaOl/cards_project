@@ -19,12 +19,12 @@ type BasicModalPropsType = {
     children: ReactNode;
     title: string;
     open: boolean;
-    setOpen: (value: boolean) => void;
+    setModal: (value: boolean) => void;
 };
 
 export const BasicModal = (props: BasicModalPropsType) => {
-    const onClickHandler = () => {
-        props.setOpen(false);
+    const closeModalHandler = () => {
+        props.setModal(false);
     };
 
     return (
@@ -37,8 +37,7 @@ export const BasicModal = (props: BasicModalPropsType) => {
                 <Box sx={style}>
                     <h4 className={styles.title}>
                         {props.title}
-                        <hr/>
-                        <Button variant="outlined" size="small" onClick={onClickHandler}>
+                        <Button variant="outlined" size="small" onClick={closeModalHandler}>
                             Close
                         </Button>
                     </h4>

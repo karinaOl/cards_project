@@ -8,10 +8,10 @@ import { useParams } from "react-router-dom";
 import s from "../ModalCard/ModalCard.module.css";
 
 type AddNewCardType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalAddCard: boolean;
+    setModalAddCard: (value: boolean) => void;
 };
-export const AddNewCard = (props: AddNewCardType) => {
+export const ModalAddNewCard = (props: AddNewCardType) => {
     const dispatch = useAppDispatch();
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
@@ -35,12 +35,15 @@ export const AddNewCard = (props: AddNewCardType) => {
         );
         setQuestion("");
         setAnswer("");
-        handleClose();
+        props.setModalAddCard(false);
     };
-    const handleClose = () => props.setOpen(false);
 
     return (
-        <BasicModal title={"Add New Card"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Add New Card"}
+            open={props.modalAddCard}
+            setModal={props.setModalAddCard}
+        >
             <div>
                 <TextField
                     className={s.input}
@@ -58,7 +61,7 @@ export const AddNewCard = (props: AddNewCardType) => {
                 />
             </div>
             <div className={s.buttons}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalAddCard(false)}>
                     Cancel
                 </Button>
                 <Button variant="outlined" onClick={addNewCardHandler}>

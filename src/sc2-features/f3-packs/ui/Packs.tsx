@@ -9,15 +9,22 @@ import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import style from "./Packs.module.css";
 import { AddPackModal } from "./ModalPackWindows/AddPackModal";
 import { SettingsBar } from "./SettingsBar/SettingsBar";
-import { GetCardsPackRequestParamsType } from "../dal/packs-api";
+import { GetCardsPackRequestParamsType, PackType } from "../dal/packs-api";
 import { resetSettingsAC } from "../bll/settingsReducer";
+import { DeletePackModal } from "./ModalPackWindows/DeletePackModal";
+import { EditPackModal } from "./ModalPackWindows/EditPackModal";
 
 export const Packs = () => {
+    const [modalAddPack, setModalAddPack] = useState(false);
+    const [modalDeletePack, setModalDeletePack] = useState(false);
+    const [modalEditPack, setModalEditPack] = useState(false);
+    const [cardsPackName, setCardsPackName] = useState("");
+    const [packId, setPackId] = useState("");
+    const [cardsPack, setCardsPack] = useState({} as PackType);
+
     const dispatch = useAppDispatch();
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
-    const [openAdd, setOpenAdd] = useState(false);
-    const handleOpenAdd = () => setOpenAdd(true);
 
     const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
@@ -34,13 +41,23 @@ export const Packs = () => {
 
     return (
         <div className={style.packs}>
-            <Title title={"Packs list"} buttonName={"Add new pack"} callback={handleOpenAdd} />
+            <Title
+                title={"Packs list"}
+                buttonName={"Add new pack"}
+                callback={() => setModalAddPack(true)}
+            />
             <SettingsBar
                 resetPackListFilter={resetPackListFilter}
                 currentPage={currentPage}
                 countOfPacksOnPage={countOfPacksOnPage}
             />
-            <PacksTable />
+            <PacksTable
+                setModalEditPack={setModalEditPack}
+                setCardsPack={setCardsPack}
+                setModalDeletePack={setModalDeletePack}
+                setPackId={setPackId}
+                setCardsPackName={setCardsPackName}
+            />
             <Stack spacing={4}>
                 <Typography style={{ color: "dodgerblue", margin: "20px" }}>
                     Current Page: {currentPage}
@@ -63,7 +80,24 @@ export const Packs = () => {
                 </Select>
                 <span className={style.spanCardsText}>Cards per Page</span>
             </FormControl>
-            <AddPackModal open={openAdd} setOpen={setOpenAdd} />
+            {modalAddPack && (
+                <AddPackModal modalAddPack={modalAddPack} setModalAddPack={setModalAddPack} />
+            )}
+            {modalDeletePack && (
+                <DeletePackModal
+                    packId={packId}
+                    modalDeletePack={modalDeletePack}
+                    setModalDeletePack={setModalDeletePack}
+                    cardsPackName={cardsPackName}
+                />
+            )}
+            {modalEditPack && (
+                <EditPackModal
+                    modalEditPack={modalEditPack}
+                    setModalEditPack={setModalEditPack}
+                    pack={cardsPack}
+                />
+            )}
         </div>
     );
 };
