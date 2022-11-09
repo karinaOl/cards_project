@@ -5,8 +5,8 @@ import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import styles from "./DeletePackModal.module.css";
 
 type AddPackModalPropsType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalDeletePack: boolean;
+    setModalDeletePack: (value: boolean) => void;
     packId: string;
     cardsPackName: string;
 };
@@ -14,14 +14,17 @@ type AddPackModalPropsType = {
 export const DeletePackModal = (props: AddPackModalPropsType) => {
     const dispatch = useAppDispatch();
 
-    const onClickDeleteCardsPackHandler = () => {
+    const deleteCardsPackHandler = () => {
         dispatch(deletePackTC(props.packId));
-        handleClose();
+        props.setModalDeletePack(false);
     };
 
-    const handleClose = () => props.setOpen(false);
     return (
-        <BasicModal title={"Delete Pack"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Delete Pack"}
+            open={props.modalDeletePack}
+            setModal={props.setModalDeletePack}
+        >
             <div className={styles.text}>
                 <p>
                     Do you really want to remove <strong>{props.cardsPackName}</strong>?
@@ -29,13 +32,13 @@ export const DeletePackModal = (props: AddPackModalPropsType) => {
                 <p>All card will be delete.</p>
             </div>
             <div className={styles.button}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalDeletePack(false)}>
                     Cancel
                 </Button>
                 <Button
                     variant="contained"
                     style={{ backgroundColor: "red" }}
-                    onClick={onClickDeleteCardsPackHandler}
+                    onClick={deleteCardsPackHandler}
                 >
                     Delete
                 </Button>

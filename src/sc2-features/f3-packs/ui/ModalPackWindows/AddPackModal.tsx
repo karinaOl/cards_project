@@ -8,13 +8,15 @@ import { addPackTC } from "../../bll/packsReducer";
 import styles from "./AddPackModal.module.css";
 
 type AddPackModalPropsType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalAddPack: boolean;
+    setModalAddPack: (value: boolean) => void;
 };
+
 export const AddPackModal = (props: AddPackModalPropsType) => {
     const dispatch = useAppDispatch();
     const [title, setTitle] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
+
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
     };
@@ -25,11 +27,15 @@ export const AddPackModal = (props: AddPackModalPropsType) => {
         dispatch(addPackTC(title, isPrivate));
         setTitle("");
         setIsPrivate(false);
-        handleClose();
+        props.setModalAddPack(false);
     };
-    const handleClose = () => props.setOpen(false);
+
     return (
-        <BasicModal title={"Add New Pack"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Add New Pack"}
+            open={props.modalAddPack}
+            setModal={props.setModalAddPack}
+        >
             <TextField
                 label="Name pack"
                 variant="standard"
@@ -39,10 +45,10 @@ export const AddPackModal = (props: AddPackModalPropsType) => {
             />
             <div className={styles.checkbox}>
                 <Checkbox checked={isPrivate} onChange={onChangeCheckboxHandler} />
-                <span>Privet pack</span>
+                <span>Private pack</span>
             </div>
             <div className={styles.button}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalAddPack(false)}>
                     Cancel
                 </Button>
                 <Button variant="contained" onClick={onClickAddPacksHandler}>

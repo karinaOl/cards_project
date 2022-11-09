@@ -11,19 +11,20 @@ import {
 } from "@mui/material";
 import { NavLink, useParams } from "react-router-dom";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getCardsTC } from "../../bll/cardsReducer";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import { UpdateCard } from "../ModalCard/UpdateCard";
-import { DeleteCard } from "../ModalCard/DeleteCard";
 
-export const CardsTable = () => {
-    const [openUpdate, setOpenUpdate] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState("");
-    const [cardId, setCardId] = useState("");
+type CardsTableType = {
+    setModalDeleteCard: (value: boolean) => void;
+    setModalUpdateCard: (value: boolean) => void;
+    setCardId: (cardId: string) => void;
+    setQuestion: (question: string) => void;
+    setAnswer: (answer: string) => void;
+};
+
+export const CardsTable = (props: CardsTableType) => {
     const cards = useAppSelector((state) => state.cards.cards);
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<"cardPackID">();
@@ -36,14 +37,16 @@ export const CardsTable = () => {
     }, [dispatch, cardPackID]);
 
     const deleteCardHandler = (cardID: string, question: string) => {
-        setOpenDelete(true);
-        setCardId(cardID);
-        setQuestion(question);
+        props.setModalDeleteCard(true);
+        props.setCardId(cardID);
+        props.setQuestion(question);
     };
 
     const updateCardHandler = (cardID: string, question: string, answer: string) => {
-        setOpenUpdate(true);
-        setCardId(cardID);
+        props.setModalUpdateCard(true);
+        props.setCardId(cardID);
+        props.setQuestion(question);
+        props.setAnswer(answer);
     };
 
     return (
@@ -96,13 +99,6 @@ export const CardsTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <UpdateCard cardId={cardId} open={openUpdate} setOpen={setOpenUpdate} />
-            <DeleteCard
-                open={openDelete}
-                setOpen={setOpenDelete}
-                question={question}
-                cardId={cardId}
-            />
         </>
     );
 };
