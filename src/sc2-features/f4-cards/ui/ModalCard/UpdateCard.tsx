@@ -2,21 +2,23 @@ import { BasicModal } from "../../../BasicModal/BasicModal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { ChangeEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
-import { addCardTC, updateCardTC } from "../../bll/cardsReducer";
+import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
+import { updateCardTC } from "../../bll/cardsReducer";
 import { useParams } from "react-router-dom";
 import s from "../ModalCard/ModalCard.module.css";
-import { CardType, UpdateCardRequestDataType } from "../../dal/cards-api";
+import { UpdateCardRequestDataType } from "../../dal/cards-api";
 
 type UpdateCardType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalUpdateCard: boolean;
+    setModalUpdateCard: (value: boolean) => void;
     cardId: string;
+    question: string;
+    answer: string;
 };
-export const UpdateCard = (props: UpdateCardType) => {
+export const ModalUpdateCard = (props: UpdateCardType) => {
     const dispatch = useAppDispatch();
-    const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState("");
+    const [question, setQuestion] = useState(props.question);
+    const [answer, setAnswer] = useState(props.answer);
     const { cardPackID } = useParams<"cardPackID">();
 
     const onChangeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,13 +30,15 @@ export const UpdateCard = (props: UpdateCardType) => {
     const updateCard = (cardID: string) => {
         const updatedCard: UpdateCardRequestDataType = { _id: cardID, question, answer };
         dispatch(updateCardTC(cardPackID as string, updatedCard));
-        handleClose();
+        props.setModalUpdateCard(false);
     };
 
-    const handleClose = () => props.setOpen(false);
-
     return (
-        <BasicModal title={"Edit Card"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Edit Card"}
+            open={props.modalUpdateCard}
+            setModal={props.setModalUpdateCard}
+        >
             <div>
                 <TextField
                     className={s.input}
@@ -52,7 +56,7 @@ export const UpdateCard = (props: UpdateCardType) => {
                 />
             </div>
             <div className={s.buttons}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalUpdateCard(false)}>
                     Cancel
                 </Button>
                 <Button

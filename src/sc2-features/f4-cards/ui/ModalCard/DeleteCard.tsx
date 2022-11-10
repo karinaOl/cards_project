@@ -6,28 +6,31 @@ import { useParams } from "react-router-dom";
 import s from "../ModalCard/ModalCard.module.css";
 
 type DeleteCardType = {
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    modalDeleteCard: boolean;
+    setModalDeleteCard: (value: boolean) => void;
     question: string;
     cardId: string;
 };
-export const DeleteCard = (props: DeleteCardType) => {
+
+export const ModalDeleteCard = (props: DeleteCardType) => {
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<"cardPackID">();
 
     const deleteCard = () => {
         dispatch(deleteCardTC(cardPackID as string, props.cardId));
-        handleClose();
+        props.setModalDeleteCard(false);
     };
 
-    const handleClose = () => props.setOpen(false);
-
     return (
-        <BasicModal title={"Add New Card"} open={props.open} setOpen={props.setOpen}>
+        <BasicModal
+            title={"Add New Card"}
+            open={props.modalDeleteCard}
+            setModal={props.setModalDeleteCard}
+        >
             <p>Do you really want to remove {props.question}?</p>
             <p>All cards will be deleted.</p>
             <div className={s.buttons}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button variant="outlined" onClick={() => props.setModalDeleteCard(false)}>
                     Cancel
                 </Button>
                 <Button color={"error"} variant="contained" onClick={deleteCard}>
