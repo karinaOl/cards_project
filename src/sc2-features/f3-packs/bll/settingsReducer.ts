@@ -21,6 +21,9 @@ export const settingsReducer = (
         case "settings/RESET-DATA": {
             return { ...state, ...action.data };
         }
+        case "settings/SET-SLIDER-FILTER": {
+            return { ...state, ...action.data };
+        }
         default:
             return state;
     }
@@ -30,6 +33,10 @@ export const settingsReducer = (
 
 export const resetSettingsAC = (data: GetCardsPackRequestParamsType) =>
     ({ type: "settings/RESET-DATA", data } as const);
+export const setSliderFilterAC = (data: GetCardsPackRequestParamsType) =>
+    ({ type: "settings/SET-SLIDER-FILTER", data } as const);
 
 //Types
-export type SettingsActionsType = ReturnType<typeof resetSettingsAC>;
+export type SettingsActionsType =
+    | ReturnType<typeof resetSettingsAC>
+    | ReturnType<typeof setSliderFilterAC>;

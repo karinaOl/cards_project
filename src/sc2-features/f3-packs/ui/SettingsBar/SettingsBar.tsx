@@ -14,14 +14,16 @@ function valuetext(value: number) {
     return `${value}°C`;
 }
 
-export const SettingsBar = (props: {
+type SettingsBarType = {
     currentPage?: number;
     countOfPacksOnPage?: string;
     resetPackListFilter: (data: GetCardsPackRequestParamsType) => void;
-}) => {
+};
+
+export const SettingsBar = (props: SettingsBarType) => {
     const dispatch = useAppDispatch();
 
-    const [value, setValue] = React.useState<number[]>([20, 37]);
+    const [value, setValue] = React.useState<number[]>([0, 110]);
 
     const [debounceValue, setDebounceValue] = useState<string>("");
     const debouncedValue = useDebounce<string>(debounceValue, 500);
@@ -44,7 +46,7 @@ export const SettingsBar = (props: {
             max: 110,
             sortPacks: "",
             page: 0,
-            pageCount: 8,
+            pageCount: 10,
             block: false,
         });
     };
