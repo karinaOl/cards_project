@@ -13,17 +13,15 @@ export const Cards = () => {
     const [openAdd, setOpenAdd] = useState(false);
 
     const { cardPackID } = useParams<"cardPackID">();
-
-    const packs = useAppSelector((state) => state.packs.cardPacks);
-
-    const validPack = packs.find((elem) => elem._id === cardPackID);
-    const packName = validPack ? validPack.name : "Default Name";
+    const packName = useAppSelector((state) => state.cards.packName);
 
     return (
         <div className={s.cards}>
-            <NavLink className={s.goBack} to={PATH.PACKS}>
-                ← Back to Packs List
-            </NavLink>
+            <span>
+                <NavLink className={s.goBack} to={PATH.PACKS}>
+                    ← Back to Packs List
+                </NavLink>
+            </span>
             <div className={s.title}>
                 <div className={s.item}>
                     <h2>{packName}</h2>

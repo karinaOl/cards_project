@@ -38,6 +38,7 @@ export const initializeAppTC = (): AppThunk => async (dispatch) => {
         const res = await authAPI.me();
         dispatch(loginAC(true));
         dispatch(setProfileDataAC(res.data));
+    } catch (e) {
     } finally {
         dispatch(setAppIsInitializedAC(true));
     }

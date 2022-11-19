@@ -32,8 +32,7 @@ export const profileReducer = (
         case "profile/SET-PROFILE-DATA":
             return {
                 ...state,
-                name: action.name,
-                email: action.email,
+                ...action.profileData,
             };
         default:
             return state;
@@ -47,23 +46,20 @@ export const updateUserAC = (model: UserDataResponseType) =>
 export const setProfileDataAC = (profileData: UserDataResponseType) =>
     ({
         type: "profile/SET-PROFILE-DATA",
-        name: profileData.name,
-        email: profileData.email,
+        profileData,
     } as const);
 
 // Thunks
 
 export const updateUserNameTC =
-    (name: string): AppThunk =>
-    async (dispatch, getState) => {
-        const avatar = getState().profile.avatar;
+    (name: string, avatar: string): AppThunk =>
+    async (dispatch) => {
         const payload: UpdateUserParamsType = { name, avatar };
 
         dispatch(setIsLoadingAC(true));
 
         try {
-            const res = await profileApi.updateUser(payload);
-            console.log(res);
+            await profileApi.updateUser(payload);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -74,7 +70,7 @@ export const updateUserNameTC =
 export const logoutTC = (): AppThunk => async (dispatch) => {
     dispatch(setIsLoadingAC(true));
     try {
-        const res = await authAPI.logout();
+        await authAPI.logout();
         dispatch(loginAC(false));
     } catch (e) {
         handleAppError(e, dispatch);

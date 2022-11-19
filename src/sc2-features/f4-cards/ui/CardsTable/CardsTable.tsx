@@ -30,7 +30,6 @@ export const CardsTable = () => {
 
     useEffect(() => {
         if (cardPackID) {
-            console.log("catch");
             dispatch(getCardsTC({ cardsPack_id: cardPackID as string }));
         }
     }, [dispatch, cardPackID]);
