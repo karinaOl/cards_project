@@ -14,6 +14,12 @@ export const authAPI = {
     me() {
         return instance.post<UserDataResponseType>("/auth/me");
     },
+    recoverPassword(data: ForgotPasswordDataType) {
+        return instance.post("/auth/forgot", data);
+    },
+    setNewPassword(data: NewPasswordType) {
+        return instance.post("/auth/set-new-password", data);
+    },
 };
 
 export type LoginParamsType = {
@@ -25,4 +31,15 @@ export type LoginParamsType = {
 export type RegistrationResponseType = {
     addedUser: UserDataResponseType;
     error?: string;
+};
+
+export type ForgotPasswordDataType = {
+    email: string;
+    from: string;
+    message: string;
+};
+
+export type NewPasswordType = {
+    password: string;
+    resetPasswordToken: string;
 };

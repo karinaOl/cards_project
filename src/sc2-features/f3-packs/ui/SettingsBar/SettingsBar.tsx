@@ -23,7 +23,8 @@ export const SettingsBar = (props: {
     const userId = useAppSelector((state) => state.profile._id);
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
-    const debouncedSliderValue = useDebounce(value, 500);
+    // const debouncedSliderValue0 = useDebounce(value[0], 500);
+    // const debouncedSliderValue1 = useDebounce(value[1], 500);
 
     const [debounceValue, setDebounceValue] = useState<string>("");
     const debouncedValue = useDebounce<string>(debounceValue, 500);

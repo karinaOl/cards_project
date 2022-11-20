@@ -41,7 +41,12 @@ export const InputTypeFile = () => {
 
     return (
         <label>
-            <input type="file" onChange={uploadHandler} style={{ display: "none" }} />
+            <input
+                type="file"
+                onChange={uploadHandler}
+                style={{ display: "none" }}
+                accept="image/*"
+            />
             <IconButton component="span">
                 <PhotoCameraIcon />
             </IconButton>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import style from "./Profile.module.css";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { Navigate } from "react-router-dom";
@@ -20,8 +20,6 @@ export const Profile = () => {
         dispatch(logoutTC());
     };
 
-    useEffect(() => {}, [dispatch, avatar]);
-
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
@@ -30,7 +28,16 @@ export const Profile = () => {
                 <div className={style.profile}>
                     <h1>Personal information</h1>
                     <div>
-                        <img className={style.profileImg} src={avatar!!} alt="profileImg" />
+                        <img
+                            style={{ borderRadius: "50%" }}
+                            className={style.profileImg}
+                            src={
+                                avatar
+                                    ? avatar
+                                    : "https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png"
+                            }
+                            alt="profileImg"
+                        />
                         <InputTypeFile />
                     </div>
                     <h3>

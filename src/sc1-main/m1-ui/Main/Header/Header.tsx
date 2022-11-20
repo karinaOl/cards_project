@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { PATH } from "../Pages";
 import style from "./Header.module.css";
+import { useAppSelector } from "../../../m2-bll/store";
 
 export const Header = () => {
+    const token = useAppSelector((state) => state.profile.token);
+
     return (
         <div className={style.navbar}>
             <NavLink
@@ -14,7 +17,7 @@ export const Header = () => {
                 login
             </NavLink>
             <NavLink
-                to={PATH.NEW_PASSWORD}
+                to={PATH.NEW_PASSWORD + "/" + token}
                 className={({ isActive }) =>
                     isActive ? `${style.item} ${style.active}` : style.item
                 }
@@ -22,7 +25,7 @@ export const Header = () => {
                 new password
             </NavLink>
             <NavLink
-                to={PATH.RECOVERY_PASSWORD}
+                to={PATH.RECOVERY_PASSWORD + "/" + token}
                 className={({ isActive }) =>
                     isActive ? `${style.item} ${style.active}` : style.item
                 }

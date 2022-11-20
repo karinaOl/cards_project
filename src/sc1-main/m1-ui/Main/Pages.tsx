@@ -30,7 +30,7 @@ export const Pages = () => {
                 <Route path={"/"} element={<Navigate to={PATH.LOGIN} />} />
 
                 <Route path={PATH.LOGIN} element={<Login />} />
-                <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
+                <Route path={PATH.NEW_PASSWORD + "/:token"} element={<NewPassword />} />
                 <Route path={PATH.RECOVERY_PASSWORD} element={<RecoveryPassword />} />
                 <Route path={PATH.REGISTRATION} element={<Registration />} />
                 <Route path={PATH.PROFILE} element={<Profile />} />

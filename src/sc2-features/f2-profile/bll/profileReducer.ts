@@ -16,6 +16,7 @@ const initialState = {
     publicCardPacksCount: 0,
     created: null as string | null,
     updated: null as string | null,
+    token: "",
 };
 
 export const profileReducer = (
