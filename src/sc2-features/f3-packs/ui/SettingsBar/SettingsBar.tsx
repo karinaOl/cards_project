@@ -54,10 +54,10 @@ export const SettingsBar = (props: {
     };
 
     const [activeMy, setActiveMy] = useState(false);
-    const [activeAll, setActiveAll] = useState(false);
+    const [activeAll, setActiveAll] = useState(true);
 
     useEffect(() => {
-        if (userId) dispatch(setUserIdAC(userId)); // выводит сразу мои колоды
+        // if (userId) dispatch(setUserIdAC(userId)); // выводит сразу мои колоды
         dispatch(getPacksTC());
     }, [
         dispatch,

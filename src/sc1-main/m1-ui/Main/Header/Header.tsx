@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../m2-bll/store";
 
 export const Header = () => {
     const token = useAppSelector((state) => state.profile.token);
+    const isLoginIn = useAppSelector((state) => state.login.isLoggedIn);
 
     return (
         <div className={style.navbar}>
@@ -16,22 +17,26 @@ export const Header = () => {
             >
                 login
             </NavLink>
-            <NavLink
-                to={PATH.NEW_PASSWORD + "/" + token}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                new password
-            </NavLink>
-            <NavLink
-                to={PATH.RECOVERY_PASSWORD + "/" + token}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                recovery password
-            </NavLink>
+            {!isLoginIn && token && (
+                <NavLink
+                    to={PATH.NEW_PASSWORD + "/" + token}
+                    className={({ isActive }) =>
+                        isActive ? `${style.item} ${style.active}` : style.item
+                    }
+                >
+                    new password
+                </NavLink>
+            )}
+            {!isLoginIn && (
+                <NavLink
+                    to={PATH.RECOVERY_PASSWORD}
+                    className={({ isActive }) =>
+                        isActive ? `${style.item} ${style.active}` : style.item
+                    }
+                >
+                    recovery password
+                </NavLink>
+            )}
             <NavLink
                 to={PATH.REGISTRATION}
                 className={({ isActive }) =>

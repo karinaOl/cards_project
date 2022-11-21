@@ -61,6 +61,7 @@ const Cards = () => {
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<{ cardPackID: string }>();
     const cards = useAppSelector((state) => state.cards.cards);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
 
     const [currentCard, setCurrentCard] = useState<CardType | undefined>(undefined);
 
@@ -81,7 +82,6 @@ const Cards = () => {
         setCurrentCard(getRandomCard(cards));
         if (currentCard) {
             await dispatch(upgradeCardGradeTC(currentCard._id, value));
-            console.log(currentCard.question, currentCard.shots);
             await dispatch(updateCardTC(cardPackID as string, { ...currentCard }));
         }
     };
@@ -92,10 +92,8 @@ const Cards = () => {
     useEffect(() => {
         if (cards.length) {
             setCurrentCard(getRandomCard(cards));
-            console.log("useEffect cards in block");
         }
-        console.log("useEffect cards ");
-    }, [cards, dispatch]);
+    }, []);
 
     return (
         <div>
@@ -135,7 +133,11 @@ const Cards = () => {
                         </div>
                     )}
                     {!showAnswer && (
-                        <Button onClick={() => setShowAnswer(!showAnswer)} variant="contained">
+                        <Button
+                            onClick={() => setShowAnswer(!showAnswer)}
+                            variant="contained"
+                            disabled={isLoading}
+                        >
                             Show answer
                         </Button>
                     )}

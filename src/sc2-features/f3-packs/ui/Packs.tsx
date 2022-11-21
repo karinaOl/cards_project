@@ -15,10 +15,13 @@ export const Packs = () => {
     const dispatch = useAppDispatch();
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
+    const packsTotalCount = useAppSelector((state) => state.packs.cardPacksTotalCount);
     const [openAdd, setOpenAdd] = useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
 
     const cardsPerPage = [5, 10, 15, 20];
+    // @ts-ignore
+    const pagesCount = Math.ceil(packsTotalCount / countOfPacksOnPage);
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));
@@ -42,7 +45,11 @@ export const Packs = () => {
             <PacksTable />
             <div className={style.paginationAndSelectBlock}>
                 <Stack className={style.stack} spacing={4}>
-                    <Pagination count={15} page={currentPage} onChange={changeCurrentPage} />
+                    <Pagination
+                        count={pagesCount}
+                        page={currentPage}
+                        onChange={changeCurrentPage}
+                    />
                 </Stack>
                 <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
                     <div className={style.spanWithSelect}>
