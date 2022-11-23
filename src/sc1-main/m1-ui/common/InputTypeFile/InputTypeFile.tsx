@@ -4,7 +4,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { useAppDispatch, useAppSelector } from "../../../m2-bll/store";
 import {
     updateUserAC,
-    updateUserNameTC,
+    updateUserAvatarTC,
 } from "../../../../sc2-features/f2-profile/bll/profileReducer";
 
 export const InputTypeFile = () => {
@@ -14,7 +14,6 @@ export const InputTypeFile = () => {
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0];
-            console.log("file: ", file);
 
             const fileSize = file.size;
             const fileSizeInMb = fileSize / 1024 ** 2;
@@ -22,7 +21,7 @@ export const InputTypeFile = () => {
             if (fileSizeInMb < 1) {
                 convertFileToBase64(file, (file64: string) => {
                     dispatch(updateUserAC({ name, avatar: file64 }));
-                    dispatch(updateUserNameTC(name, file64));
+                    dispatch(updateUserAvatarTC(name));
                 });
             } else {
                 console.error("Error: ", "Файл слишком большого размера");

@@ -4,6 +4,7 @@ import { AppThunk } from "../../../sc1-main/m2-bll/store";
 import { loginAC } from "../../f1-auth/Login/bll/loginReducer";
 import { handleAppError } from "../../../utils/error-utils";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
+import { successResponseUtils } from "../../../utils/successResponse-utils";
 
 const initialState = {
     _id: null as string | null,
@@ -53,14 +54,33 @@ export const setProfileDataAC = (profileData: UserDataResponseType) =>
 // Thunks
 
 export const updateUserNameTC =
-    (name: string, avatar: string): AppThunk =>
-    async (dispatch) => {
+    (name: string): AppThunk =>
+    async (dispatch, getState) => {
+        const avatar = getState().profile.avatar;
         const payload: UpdateUserParamsType = { name, avatar };
-
         dispatch(setIsLoadingAC(true));
+        try {
+            const response = await profileApi.updateUser(payload);
+            // @ts-ignore
+            const message = `User name has been changed to ${response.data.updatedUser.name}`;
+            successResponseUtils(message, dispatch);
+        } catch (e) {
+            handleAppError(e, dispatch);
+        } finally {
+            dispatch(setIsLoadingAC(false));
+        }
+    };
 
+export const updateUserAvatarTC =
+    (avatar: string): AppThunk =>
+    async (dispatch, getState) => {
+        const name = getState().profile.name;
+        const payload: UpdateUserParamsType = { name, avatar };
+        dispatch(setIsLoadingAC(true));
         try {
             await profileApi.updateUser(payload);
+            const message = "User photo has been changed";
+            successResponseUtils(message, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -71,8 +91,9 @@ export const updateUserNameTC =
 export const logoutTC = (): AppThunk => async (dispatch) => {
     dispatch(setIsLoadingAC(true));
     try {
-        await authAPI.logout();
+        const response = await authAPI.logout();
         dispatch(loginAC(false));
+        successResponseUtils(response.data.info, dispatch);
     } catch (e) {
         handleAppError(e, dispatch);
     } finally {

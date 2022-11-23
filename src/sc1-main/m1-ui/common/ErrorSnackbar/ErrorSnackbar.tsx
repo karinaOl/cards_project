@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../m2-bll/store";
 import { setAppErrorAC } from "../../../m2-bll/appReducer";
 import { useDispatch } from "react-redux";
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 

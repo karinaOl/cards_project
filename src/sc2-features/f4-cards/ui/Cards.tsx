@@ -1,5 +1,5 @@
 import { CardsTable } from "./CardsTable/CardsTable";
-import { NavLink, useParams } from "react-router-dom";
+import { Navigate, NavLink, useParams } from "react-router-dom";
 import s from "./Cards.module.css";
 import TextField from "@mui/material/TextField/TextField";
 import React, { useState } from "react";
@@ -10,10 +10,13 @@ import { AddNewCard } from "./ModalCard/AddNewCard";
 import { useAppSelector } from "../../../sc1-main/m2-bll/store";
 
 export const Cards = () => {
+    const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const [openAdd, setOpenAdd] = useState(false);
 
     const { cardPackID } = useParams<"cardPackID">();
     const packName = useAppSelector((state) => state.cards.packName);
+
+    if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
         <div className={s.cards}>

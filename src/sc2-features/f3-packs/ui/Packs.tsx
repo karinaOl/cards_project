@@ -10,9 +10,12 @@ import { AddPackModal } from "./ModalPackWindows/AddPackModal";
 import { SettingsBar } from "./SettingsBar/SettingsBar";
 import { GetCardsPackRequestParamsType } from "../dal/packs-api";
 import { resetSettingsAC } from "../bll/settingsReducer";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 
 export const Packs = () => {
     const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
     const packsTotalCount = useAppSelector((state) => state.packs.cardPacksTotalCount);
@@ -33,6 +36,8 @@ export const Packs = () => {
     const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
         dispatch(resetSettingsAC(data));
     };
+
+    if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
         <div className={style.packs}>

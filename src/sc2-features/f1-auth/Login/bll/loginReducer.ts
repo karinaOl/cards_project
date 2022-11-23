@@ -3,6 +3,7 @@ import { authAPI, LoginParamsType } from "../dal/login-api";
 import { setProfileDataAC } from "../../../f2-profile/bll/profileReducer";
 import { handleAppError } from "../../../../utils/error-utils";
 import { setIsLoadingAC } from "../../../../sc1-main/m2-bll/appReducer";
+import { successResponseUtils } from "../../../../utils/successResponse-utils";
 
 const initialState = {
     isLoggedIn: false,
@@ -30,6 +31,11 @@ export const loginTC =
             let response = await authAPI.login(data);
             dispatch(setProfileDataAC(response.data));
             dispatch(loginAC(true));
+
+            if (response.data.email) {
+                const message = `Logged in as ${response.data.email}`;
+                successResponseUtils(message, dispatch);
+            }
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {

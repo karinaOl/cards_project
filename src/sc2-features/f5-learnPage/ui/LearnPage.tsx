@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
-import { NavLink, useParams } from "react-router-dom";
+import { Navigate, NavLink, useParams } from "react-router-dom";
 import style from "./LearnPage.module.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -23,6 +23,7 @@ const formControlLabels = [
 ];
 
 export const LearnPage = () => {
+    const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const packName = useAppSelector((state) => state.cards.packName);
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<{ cardPackID: string }>();
@@ -39,6 +40,8 @@ export const LearnPage = () => {
             </div>
         );
     }
+
+    if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
         <div>

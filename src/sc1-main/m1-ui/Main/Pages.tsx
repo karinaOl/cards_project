@@ -9,6 +9,7 @@ import { Test } from "../../../sc2-features/f0-test/Test";
 import { Packs } from "../../../sc2-features/f3-packs/ui/Packs";
 import { Cards } from "../../../sc2-features/f4-cards/ui/Cards";
 import { LearnPage } from "../../../sc2-features/f5-learnPage/ui/LearnPage";
+import { CheckEmail } from "../../../sc2-features/f1-auth/Check-Email/CheckEmail";
 
 export enum PATH {
     LOGIN = "/login",
@@ -21,6 +22,7 @@ export enum PATH {
     PACKS = "/packs",
     CARDS = "/cards",
     LEARN = "/learn",
+    CHECK_EMAIL = "/check-email",
 }
 
 export const Pages = () => {
@@ -30,6 +32,7 @@ export const Pages = () => {
                 <Route path={"/"} element={<Navigate to={PATH.LOGIN} />} />
 
                 <Route path={PATH.LOGIN} element={<Login />} />
+                <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
                 <Route path={PATH.NEW_PASSWORD + "/:token"} element={<NewPassword />} />
                 <Route path={PATH.RECOVERY_PASSWORD} element={<RecoveryPassword />} />
                 <Route path={PATH.REGISTRATION} element={<Registration />} />

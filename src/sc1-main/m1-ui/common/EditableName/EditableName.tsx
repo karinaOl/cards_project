@@ -35,7 +35,7 @@ export const EditableName = () => {
     const activateViewMode = () => {
         if (value) {
             dispatch(updateUserAC({ name: value, avatar }));
-            dispatch(updateUserNameTC(value, avatar as string));
+            dispatch(updateUserNameTC(value));
             setEdit(false);
         }
     };
