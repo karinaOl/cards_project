@@ -68,7 +68,9 @@ export const CardsTable = (props: CardsTableType) => {
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <NavLink to={PATH.LEARN + "/" + row.cardsPack_id}>
+                                    <NavLink
+                                        to={PATH.CARDS + "/" + row.cardsPack_id + "/" + row._id}
+                                    >
                                         {row.question}
                                     </NavLink>
                                 </TableCell>

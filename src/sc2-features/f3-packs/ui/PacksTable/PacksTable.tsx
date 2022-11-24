@@ -15,7 +15,6 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
-import { deletePackTC, sortPackListAC } from "../../bll/packsReducer";
 import { sortPackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 
@@ -35,7 +34,7 @@ export const PacksTable = (props: PacksTableType) => {
     const [sortByCardsCount, setSortByCardsCount] = useState("0cardsCount");
     const [sortByUpdated, setSortByUpdated] = useState("0updated");
 
-    const [learn, setLearn] = useState(false);
+    const [learn, setLearn] = useState("");
 
     const openModalDelHandler = (packId: string, cardsPackName: string) => {
         props.setModalDeletePack(true);
@@ -47,8 +46,8 @@ export const PacksTable = (props: PacksTableType) => {
         props.setCardsPack(cardsPack);
     };
 
-    const learnHandler = () => {
-        setLearn(true);
+    const learnHandler = (packId: string) => {
+        setLearn(packId);
     };
 
     // Sort functions
@@ -68,7 +67,7 @@ export const PacksTable = (props: PacksTableType) => {
         dispatch(sortPackTC(sortByCardsCount));
     };
 
-    if (learn) return <Navigate to={PATH.LEARN} />;
+    if (learn) return <Navigate to={PATH.LEARN + "/" + learn} />;
 
     return (
         <>
@@ -110,7 +109,10 @@ export const PacksTable = (props: PacksTableType) => {
                                 <TableCell>{row.updated}</TableCell>
                                 <TableCell>{row.user_name}</TableCell>
                                 <TableCell className={style.commonButtons}>
-                                    <SchoolRoundedIcon onClick={learnHandler} fontSize={"small"} />
+                                    <SchoolRoundedIcon
+                                        onClick={() => learnHandler(row._id)}
+                                        fontSize={"small"}
+                                    />
                                     <BorderColorRoundedIcon
                                         onClick={() => openModalEditHandler(row)}
                                         fontSize={"small"}

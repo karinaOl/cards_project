@@ -4,14 +4,20 @@ import { CardsHeader } from "./CardsHeader/CardsHeader";
 import { ModalAddNewCard } from "./ModalCard/AddNewCard";
 import { ModalUpdateCard } from "./ModalCard/UpdateCard";
 import { ModalDeleteCard } from "./ModalCard/DeleteCard";
+import { useAppSelector } from "../../../sc1-main/m2-bll/store";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 
 export const Cards = () => {
+    const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const [modalAddCard, setModalAddCard] = useState(false);
     const [modalUpdateCard, setModalUpdateCard] = useState(false);
     const [modalDeleteCard, setModalDeleteCard] = useState(false);
     const [question, setQuestion] = useState("");
     const [answer, setAnswer] = useState("");
     const [cardId, setCardId] = useState("");
+
+    if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
         <div>

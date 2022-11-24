@@ -9,6 +9,7 @@ import {
 import { AppThunk } from "../../../sc1-main/m2-bll/store";
 import { handleAppError } from "../../../utils/error-utils";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
+import { successResponseUtils } from "../../../utils/successResponse-utils";
 
 const initialState = {
     cards: [] as CardType[],
@@ -97,7 +98,9 @@ export const addCardTC =
         dispatch(setIsLoadingAC(true));
         try {
             await cardsApi.createCard(newCard);
-            dispatch(getCardsTC({ cardsPack_id: newCard.card.cardsPack_id }));
+            await dispatch(getCardsTC({ cardsPack_id: newCard.card.cardsPack_id }));
+            const successMessage = `New Card was added`;
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -117,7 +120,9 @@ export const deleteCardTC =
         dispatch(setIsLoadingAC(true));
         try {
             await cardsApi.deleteCard(cardID);
-            dispatch(getCardsTC({ cardsPack_id: cardsPack_ID, page: currentPage }));
+            await dispatch(getCardsTC({ cardsPack_id: cardsPack_ID, page: currentPage }));
+            const successMessage = `Card was deleted`;
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -131,6 +136,8 @@ export const updateCardTC =
         dispatch(setIsLoadingAC(true));
         try {
             await cardsApi.updateCard(updatedCard);
+            const successMessage = "Card was changed";
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {

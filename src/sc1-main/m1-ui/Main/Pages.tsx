@@ -10,6 +10,7 @@ import { Packs } from "../../../sc2-features/f3-packs/ui/Packs";
 import { Cards } from "../../../sc2-features/f4-cards/ui/Cards";
 import { LearnPage } from "../../../sc2-features/f5-learnPage/ui/LearnPage";
 import { CheckEmail } from "../../../sc2-features/f1-auth/Check-Email/CheckEmail";
+import { CurrentCard } from "../../../sc2-features/f4-cards/ui/CurrentCard";
 
 export enum PATH {
     LOGIN = "/login",
@@ -40,8 +41,8 @@ export const Pages = () => {
                 <Route path={PATH.TEST} element={<Test />} />
                 <Route path={PATH.PACKS} element={<Packs />} />
                 <Route path={PATH.CARDS + "/:cardPackID"} element={<Cards />} />
+                <Route path={PATH.CARDS + "/:cardPackID/:cardId"} element={<CurrentCard />} />
                 <Route path={PATH.LEARN + "/:cardPackID"} element={<LearnPage />} />
-
                 <Route path={PATH.ERROR404} element={<Error />} />
                 <Route path={"*"} element={<Navigate to={PATH.ERROR404} />} />
             </Routes>

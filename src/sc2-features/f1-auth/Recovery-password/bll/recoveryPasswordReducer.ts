@@ -2,6 +2,7 @@ import { authAPI, ForgotPasswordDataType } from "../../Login/dal/login-api";
 import { AppThunk } from "../../../../sc1-main/m2-bll/store";
 import { setIsLoadingAC } from "../../../../sc1-main/m2-bll/appReducer";
 import { handleAppError } from "../../../../utils/error-utils";
+import { successResponseUtils } from "../../../../utils/successResponse-utils";
 
 const initialState = {
     success: false,
@@ -41,6 +42,8 @@ export const recoveryPasswordTC =
         try {
             const response = await authAPI.recoverPassword(data);
             dispatch(isRecoveryPasswordSuccessAC(response.data));
+            const successMessage = "The instructions were sent to your email";
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {

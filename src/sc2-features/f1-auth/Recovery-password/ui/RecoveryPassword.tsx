@@ -19,7 +19,7 @@ export const RecoveryPassword = () => {
     const dispatch = useAppDispatch();
 
     const isSuccessRecovery = useAppSelector((state) => state.recoveryPassword.success);
-    console.log(isSuccessRecovery);
+
     const formik = useFormik({
         initialValues: {
             email: "",

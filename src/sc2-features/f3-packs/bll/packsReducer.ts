@@ -8,6 +8,7 @@ import {
 import { AppThunk } from "../../../sc1-main/m2-bll/store";
 import { setIsLoadingAC } from "../../../sc1-main/m2-bll/appReducer";
 import { handleAppError } from "../../../utils/error-utils";
+import { successResponseUtils } from "../../../utils/successResponse-utils";
 
 const initialState = {
     cardPacks: [] as PackType[],
@@ -125,8 +126,12 @@ export const addPackTC =
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            await packsApi.createCardsPack({ cardsPack: { name, private: isPrivate } });
-            dispatch(getPacksTC());
+            const response = await packsApi.createCardsPack({
+                cardsPack: { name, private: isPrivate },
+            });
+            await dispatch(getPacksTC());
+            const successMessage = `Pack ${response.data.newCardsPack.name} was added`;
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -139,8 +144,10 @@ export const deletePackTC =
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            await packsApi.deleteCardsPack(id);
-            dispatch(getPacksTC());
+            const response = await packsApi.deleteCardsPack(id);
+            await dispatch(getPacksTC());
+            const successMessage = `${response.data.deletedCardsPack.name} was deleted`;
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -153,8 +160,10 @@ export const updatePackTC =
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            await packsApi.updateCardsPack(data);
-            dispatch(getPacksTC());
+            const response = await packsApi.updateCardsPack(data);
+            await dispatch(getPacksTC());
+            const successMessage = `Title has been changed to ${response.data.updatedCardsPack.name}`;
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {

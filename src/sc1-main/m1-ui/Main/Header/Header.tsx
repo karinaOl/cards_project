@@ -17,34 +17,34 @@ export const Header = () => {
             >
                 login
             </NavLink>
-            <NavLink
-                to={PATH.CHECK_EMAIL}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                CheckEmail
-            </NavLink>
-            {!isLoginIn && token && (
-                <NavLink
-                    to={PATH.NEW_PASSWORD + "/" + token}
-                    className={({ isActive }) =>
-                        isActive ? `${style.item} ${style.active}` : style.item
-                    }
-                >
-                    new password
-                </NavLink>
-            )}
-            {!isLoginIn && (
-                <NavLink
-                    to={PATH.RECOVERY_PASSWORD}
-                    className={({ isActive }) =>
-                        isActive ? `${style.item} ${style.active}` : style.item
-                    }
-                >
-                    recovery password
-                </NavLink>
-            )}
+            {/*<NavLink*/}
+            {/*    to={PATH.CHECK_EMAIL}*/}
+            {/*    className={({ isActive }) =>*/}
+            {/*        isActive ? `${style.item} ${style.active}` : style.item*/}
+            {/*    }*/}
+            {/*>*/}
+            {/*    CheckEmail*/}
+            {/*</NavLink>*/}
+            {/*{!isLoginIn && token && (*/}
+            {/*    <NavLink*/}
+            {/*        to={PATH.NEW_PASSWORD + "/" + token}*/}
+            {/*        className={({ isActive }) =>*/}
+            {/*            isActive ? `${style.item} ${style.active}` : style.item*/}
+            {/*        }*/}
+            {/*    >*/}
+            {/*        new password*/}
+            {/*    </NavLink>*/}
+            {/*)}*/}
+            {/*{!isLoginIn && (*/}
+            {/*    <NavLink*/}
+            {/*        to={PATH.RECOVERY_PASSWORD}*/}
+            {/*        className={({ isActive }) =>*/}
+            {/*            isActive ? `${style.item} ${style.active}` : style.item*/}
+            {/*        }*/}
+            {/*    >*/}
+            {/*        recovery password*/}
+            {/*    </NavLink>*/}
+            {/*)}*/}
             <NavLink
                 to={PATH.REGISTRATION}
                 className={({ isActive }) =>

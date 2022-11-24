@@ -2,6 +2,7 @@ import { AppThunk } from "../../../../sc1-main/m2-bll/store";
 import { authAPI, NewPasswordType } from "../../Login/dal/login-api";
 import { handleAppError } from "../../../../utils/error-utils";
 import { setIsLoadingAC } from "../../../../sc1-main/m2-bll/appReducer";
+import { successResponseUtils } from "../../../../utils/successResponse-utils";
 
 const initialState = {
     isNewPasswordIsSet: false,
@@ -29,10 +30,10 @@ export const setNewPasswordTC =
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            const response = await authAPI.setNewPassword(data);
-            if (response.status === 200) {
-                dispatch(setNewPasswordAC());
-            }
+            await authAPI.setNewPassword(data);
+            dispatch(setNewPasswordAC());
+            const successMessage = "The Password was changed";
+            successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
