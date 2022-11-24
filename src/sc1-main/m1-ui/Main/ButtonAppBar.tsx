@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAppDispatch, useAppSelector } from "../../m2-bll/store";
 import { logoutTC } from "../../../sc2-features/f2-profile/bll/profileReducer";
+import { NavLink } from "react-router-dom";
+import { PATH } from "./Pages";
 
 export default function ButtonAppBar() {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
@@ -54,9 +56,11 @@ export default function ButtonAppBar() {
                         </div>
                     )}
                     {!isLoggedIn && (
-                        <Button onClick={loginHandler} color="inherit">
-                            Login
-                        </Button>
+                        <NavLink style={{ textDecoration: "none", color: "white" }} to={PATH.LOGIN}>
+                            <Button onClick={loginHandler} color="inherit">
+                                Login
+                            </Button>
+                        </NavLink>
                     )}
                 </Toolbar>
             </AppBar>
