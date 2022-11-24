@@ -65,25 +65,33 @@ export const Packs = () => {
                 setPackId={setPackId}
                 setCardsPackName={setCardsPackName}
             />
-            <Stack className={style.stack} spacing={4}>
-                <Pagination count={pagesCount} page={currentPage} onChange={changeCurrentPage} />
-            </Stack>
-            <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
-                <span className={style.showSpanText}>Show</span>
-                <Select
-                    value={countOfPacksOnPage.toString()}
-                    onChange={changeCountOfCards}
-                    style={{ top: "2px" }}
-                    sx={{ top: "2px" }}
-                >
-                    {cardsPerPage.map((page, index) => (
-                        <MenuItem key={index} value={page}>
-                            {page}
-                        </MenuItem>
-                    ))}
-                </Select>
-                <span className={style.spanCardsText}>Cards per Page</span>
-            </FormControl>
+            <div className={style.paginationAndSelectBlock}>
+                <Stack className={style.stack} spacing={4}>
+                    <Pagination
+                        count={pagesCount}
+                        page={currentPage}
+                        onChange={changeCurrentPage}
+                    />
+                </Stack>
+                <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
+                    <div className={style.spanWithSelect}>
+                        <span className={style.showSpanText}>Show</span>
+                        <Select
+                            value={countOfPacksOnPage.toString()}
+                            onChange={changeCountOfCards}
+                            style={{ top: "2px" }}
+                            sx={{ top: "2px" }}
+                        >
+                            {cardsPerPage.map((page, index) => (
+                                <MenuItem key={index} value={page}>
+                                    {page}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <span className={style.spanCardsText}>Cards per Page</span>
+                    </div>
+                </FormControl>
+            </div>
             {modalAddPack && (
                 <AddPackModal modalAddPack={modalAddPack} setModalAddPack={setModalAddPack} />
             )}
