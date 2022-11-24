@@ -16,6 +16,7 @@ import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
 import { deletePackTC, sortPackListAC } from "../../bll/packsReducer";
+import { sortPackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 
 type PacksTableType = {
@@ -30,7 +31,10 @@ export const PacksTable = (props: PacksTableType) => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
 
-    const [sort, setSort] = useState(false);
+    const [sortByName, setSortByName] = useState("0name");
+    const [sortByCardsCount, setSortByCardsCount] = useState("0cardsCount");
+    const [sortByUpdated, setSortByUpdated] = useState("0updated");
+
     const [learn, setLearn] = useState(false);
 
     const openModalDelHandler = (packId: string, cardsPackName: string) => {
@@ -47,34 +51,21 @@ export const PacksTable = (props: PacksTableType) => {
         setLearn(true);
     };
 
-    // Sort common functions
-
-    const sortFunctionByCardsCount = (): PackType[] =>
-        packs.sort((a, b) => (sort ? a.cardsCount - b.cardsCount : b.cardsCount - a.cardsCount));
-
-    const sortFunctionByName = (): PackType[] =>
-        packs.sort((a, b) => (sort ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
-
-    const sortFunctionByUpdatedTime = (): PackType[] =>
-        packs.sort((a, b) =>
-            sort ? a.updated.localeCompare(b.updated) : b.updated.localeCompare(a.updated)
-        );
-
-    // Sort handle functions
-
-    const sortPackListByCardsCount = () => {
-        dispatch(sortPackListAC(sortFunctionByCardsCount()));
-        setSort(!sort);
-    };
+    // Sort functions
 
     const sortPackListByName = () => {
-        dispatch(sortPackListAC(sortFunctionByName()));
-        setSort(!sort);
+        setSortByName(sortByName === "1name" ? "0name" : "1name");
+        dispatch(sortPackTC(sortByName));
     };
 
     const sortPackListByUpdatedTime = () => {
-        dispatch(sortPackListAC(sortFunctionByUpdatedTime()));
-        setSort(!sort);
+        setSortByUpdated(sortByUpdated === "1updated" ? "0updated" : "1updated");
+        dispatch(sortPackTC(sortByUpdated));
+    };
+
+    const sortPackListByCardsCount = () => {
+        setSortByCardsCount(sortByCardsCount === "1cardsCount" ? "0cardsCount" : "1cardsCount");
+        dispatch(sortPackTC(sortByCardsCount));
     };
 
     if (learn) return <Navigate to={PATH.LEARN} />;

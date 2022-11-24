@@ -21,7 +21,7 @@ import * as React from "react";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 
-type FormikErrorType = {
+export type FormikErrorType = {
     email?: string;
     password?: string;
     rememberMe?: boolean;
@@ -112,7 +112,10 @@ export const Login = () => {
                                 }
                             />
                             <FormLabel style={{ padding: "10px" }}>
-                                <NavLink to={PATH.NEW_PASSWORD} style={{ textDecoration: "none" }}>
+                                <NavLink
+                                    to={PATH.RECOVERY_PASSWORD}
+                                    style={{ textDecoration: "none" }}
+                                >
                                     Forgot Password?
                                 </NavLink>
                             </FormLabel>

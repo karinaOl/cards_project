@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField/TextField";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { useDebounce } from "../../../../utils/useDebounce/useDebounceHook";
-import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
-import { findPackByNameAC, getPacksTC } from "../../bll/packsReducer";
+import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
+import { findPackByNameAC, getPacksTC, setUserIdAC, sortPackListAC } from "../../bll/packsReducer";
 import { GetCardsPackRequestParamsType } from "../../dal/packs-api";
 
 function valuetext(value: number) {
@@ -22,6 +22,7 @@ type SettingsBarType = {
 
 export const SettingsBar = (props: SettingsBarType) => {
     const dispatch = useAppDispatch();
+    const userId = useAppSelector((state) => state.profile._id);
 
     const [value, setValue] = React.useState<number[]>([0, 110]);
 
@@ -39,6 +40,7 @@ export const SettingsBar = (props: SettingsBarType) => {
     const resetFilter = () => {
         setDebounceValue("");
         dispatch(findPackByNameAC(""));
+        dispatch(sortPackListAC("0updated"));
         props.resetPackListFilter({
             user_id: "",
             packName: "",
@@ -51,10 +53,32 @@ export const SettingsBar = (props: SettingsBarType) => {
         });
     };
 
+    const [activeMy, setActiveMy] = useState(false);
+    const [activeAll, setActiveAll] = useState(true);
+
     useEffect(() => {
-        console.log("render");
+        // if (userId) dispatch(setUserIdAC(userId)); // выводит сразу мои колоды
         dispatch(getPacksTC());
-    }, [dispatch, debouncedValue, props.currentPage, props.countOfPacksOnPage]);
+    }, [
+        dispatch,
+        debouncedValue,
+        props.currentPage,
+        props.countOfPacksOnPage,
+        activeMy,
+        activeAll,
+        userId,
+    ]);
+
+    const onMyPacksHandler = () => {
+        setActiveAll(false);
+        setActiveMy(true);
+        if (userId) dispatch(setUserIdAC(userId));
+    };
+    const onAllPacksHandler = () => {
+        setActiveMy(false);
+        setActiveAll(true);
+        dispatch(setUserIdAC(""));
+    };
 
     return (
         <div className={s.settingsBar}>
@@ -73,8 +97,18 @@ export const SettingsBar = (props: SettingsBarType) => {
             <Box>
                 <div className={s.titleBlock}>Show packs cards</div>
                 <ButtonGroup variant="outlined" aria-label="outlined button group">
-                    <Button>My</Button>
-                    <Button>All</Button>
+                    <Button
+                        variant={activeMy ? "contained" : "outlined"}
+                        onClick={onMyPacksHandler}
+                    >
+                        My
+                    </Button>
+                    <Button
+                        variant={activeAll ? "contained" : "outlined"}
+                        onClick={onAllPacksHandler}
+                    >
+                        All
+                    </Button>
                 </ButtonGroup>
             </Box>
             <Box sx={{ width: 300 }}>

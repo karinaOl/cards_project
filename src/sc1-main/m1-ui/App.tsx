@@ -7,6 +7,7 @@ import { ErrorSnackbar } from "./common/ErrorSnackbar/ErrorSnackbar";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../m2-bll/store";
 import { initializeAppTC } from "../m2-bll/appReducer";
+import { SuccessResponseSnackBar } from "./common/SuccessResponseSnackBar/SuccessResponseSnackBar";
 
 export const App = () => {
     const isLoading = useAppSelector((state) => state.app.isLoading);
@@ -31,6 +32,7 @@ export const App = () => {
                 <ButtonAppBar />
                 {isLoading && <LinearProgress />}
                 <ErrorSnackbar />
+                <SuccessResponseSnackBar />
                 <Main />
             </HashRouter>
         </div>

@@ -13,8 +13,8 @@ export const cardsApi = {
     updateCard(updateCard: UpdateCardRequestDataType) {
         return instance.put<UpDataCardResponseType>("cards/card", { card: updateCard });
     },
-    updateCardsGrade(grade: number, card_id: string) {
-        return instance.put("/cards/grade", { grade, card_id });
+    updateCardsGrade(card_id: string, grade: number) {
+        return instance.put("/cards/grade", { card_id, grade });
     },
 };
 

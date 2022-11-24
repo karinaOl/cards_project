@@ -13,6 +13,8 @@ import { GetCardsPackRequestParamsType, PackType } from "../dal/packs-api";
 import { resetSettingsAC } from "../bll/settingsReducer";
 import { DeletePackModal } from "./ModalPackWindows/DeletePackModal";
 import { EditPackModal } from "./ModalPackWindows/EditPackModal";
+import { Navigate } from "react-router-dom";
+import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 
 export const Packs = () => {
     const [modalAddPack, setModalAddPack] = useState(false);
@@ -23,10 +25,13 @@ export const Packs = () => {
     const [cardsPack, setCardsPack] = useState({} as PackType);
 
     const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
 
-    const cardsPerPage = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+    const cardsPerPage = [5, 10, 15, 20];
+    // @ts-ignore
+    const pagesCount = Math.ceil(packsTotalCount / countOfPacksOnPage);
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));
@@ -38,6 +43,8 @@ export const Packs = () => {
     const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
         dispatch(resetSettingsAC(data));
     };
+
+    if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
         <div className={style.packs}>
@@ -58,11 +65,12 @@ export const Packs = () => {
                 setPackId={setPackId}
                 setCardsPackName={setCardsPackName}
             />
-            <Stack spacing={4}>
-                <Typography style={{ color: "dodgerblue", margin: "20px" }}>
-                    Current Page: {currentPage}
-                </Typography>
-                <Pagination style={{}} count={10} page={currentPage} onChange={changeCurrentPage} />
+            <Stack className={style.stack} spacing={4}>
+                <Pagination
+                    count={pagesCount}
+                    page={currentPage}
+                    onChange={changeCurrentPage}
+                />
             </Stack>
             <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
                 <span className={style.showSpanText}>Show</span>

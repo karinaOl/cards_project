@@ -12,7 +12,7 @@ import { handleAppError } from "../../../utils/error-utils";
 const initialState = {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 10,
+    pageCount: 5,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
@@ -20,6 +20,7 @@ const initialState = {
     sortPacks: "0updated",
     token: "",
     tokenDeathTime: 0,
+    user_id: "",
 };
 
 export const packsReducer = (
@@ -42,12 +43,17 @@ export const packsReducer = (
         case "SORT-PACK-LIST":
             return {
                 ...state,
-                cardPacks: action.sortedCardPacks,
+                sortPacks: action.sortValue,
             };
         case "FIND-PACK-BY-NAME":
             return {
                 ...state,
                 searchFilter: action.name,
+            };
+        case "SET-USER-ID":
+            return {
+                ...state,
+                user_id: action.userId,
             };
         default:
             return state;
@@ -71,10 +77,10 @@ export const changeCountOfPacksOnPageAC = (count: number) =>
         count,
     } as const);
 
-export const sortPackListAC = (sortedCardPacks: PackType[]) =>
+export const sortPackListAC = (sortValue: string) =>
     ({
         type: "SORT-PACK-LIST",
-        sortedCardPacks,
+        sortValue,
     } as const);
 
 export const findPackByNameAC = (name: string) =>
@@ -83,10 +89,16 @@ export const findPackByNameAC = (name: string) =>
         name,
     } as const);
 
+export const setUserIdAC = (userId: string) =>
+    ({
+        type: "SET-USER-ID",
+        userId,
+    } as const);
+
 // Thunk Creators
 
 export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
-    const { page, pageCount, minCardsCount, maxCardsCount, sortPacks, searchFilter } =
+    const { page, pageCount, minCardsCount, maxCardsCount, sortPacks, searchFilter, user_id } =
         getState().packs;
     const queryParams: GetCardsPackRequestParamsType = {
         page,
@@ -95,6 +107,7 @@ export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
         packName: searchFilter,
         min: minCardsCount,
         max: maxCardsCount,
+        user_id,
     };
     dispatch(setIsLoadingAC(true));
     try {
@@ -149,6 +162,13 @@ export const updatePackTC =
         }
     };
 
+export const sortPackTC =
+    (sortedValue: string): AppThunk =>
+    (dispatch) => {
+        dispatch(sortPackListAC(sortedValue));
+        dispatch(getPacksTC());
+    };
+
 export type PackInitialStateType = typeof initialState;
 export type SetPacksDataType = ReturnType<typeof setPacksDataAC>;
 export type PacksActionType =
@@ -156,4 +176,5 @@ export type PacksActionType =
     | ReturnType<typeof changeCurrentPageAC>
     | ReturnType<typeof changeCountOfPacksOnPageAC>
     | ReturnType<typeof sortPackListAC>
-    | ReturnType<typeof findPackByNameAC>;
+    | ReturnType<typeof findPackByNameAC>
+    | ReturnType<typeof setUserIdAC>;

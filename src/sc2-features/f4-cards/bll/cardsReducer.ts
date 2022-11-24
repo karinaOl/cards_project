@@ -15,6 +15,7 @@ const initialState = {
     cardAnswer: "",
     cardQuestion: "",
     cardsTotalCount: 0,
+    packName: "",
     minGrade: 1,
     maxGrade: 4,
     sortCards: "0grade",
@@ -33,7 +34,7 @@ export const cardsReducer = (
                 ...state,
                 ...action.data,
             };
-        case "UPDATE-CARDS-GRADE":
+        case "UPDATE-CARD-GRADE":
             return {
                 ...state,
                 cards: state.cards.map((card) =>
@@ -48,12 +49,12 @@ export const cardsReducer = (
 
 // Action Creators
 
-const setCardsDataAC = (data: GetCardsResponseType) =>
+export const setCardsDataAC = (data: GetCardsResponseType) =>
     ({ type: "cards/SET-CARDS-DATA", data } as const);
 
-const updateCardsGradeAC = (grade: number, card_id: string) =>
+const updateCardGradeAC = (card_id: string, grade: number) =>
     ({
-        type: "UPDATE-CARDS-GRADE",
+        type: "UPDATE-CARD-GRADE",
         grade,
         card_id,
     } as const);
@@ -78,7 +79,7 @@ export const getCardsTC =
             // min: minGrade,
             ...params,
         };
-        console.log(queryParams);
+        // console.log(queryParams);
         dispatch(setIsLoadingAC(true));
         try {
             let response = await cardsApi.getCards(queryParams);
@@ -138,17 +139,20 @@ export const updateCardTC =
         }
     };
 
-export const updateCardsGradeTC =
-    (grade: number, card_id: string): AppThunk =>
+export const upgradeCardGradeTC =
+    (card_id: string, grade: number): AppThunk =>
     async (dispatch) => {
+        dispatch(setIsLoadingAC(true));
         try {
-            await cardsApi.updateCardsGrade(grade, card_id);
-            dispatch(updateCardsGradeAC(grade, card_id));
+            await cardsApi.updateCardsGrade(card_id, grade);
+            dispatch(updateCardGradeAC(card_id, grade));
         } catch (e) {
             console.log(e);
+        } finally {
+            dispatch(setIsLoadingAC(false));
         }
     };
 
 type CardInitialStateType = typeof initialState;
-type SetCardsDataACType = ReturnType<typeof setCardsDataAC> | ReturnType<typeof updateCardsGradeAC>;
+type SetCardsDataACType = ReturnType<typeof setCardsDataAC> | ReturnType<typeof updateCardGradeAC>;
 export type CardsActionType = SetCardsDataACType;

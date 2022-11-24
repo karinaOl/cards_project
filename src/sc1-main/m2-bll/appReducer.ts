@@ -7,6 +7,7 @@ const initialState = {
     error: null as null | string,
     isLoading: false,
     isInitialized: false,
+    responseMessage: null as null | string,
 };
 
 export const appReducer = (
@@ -16,6 +17,11 @@ export const appReducer = (
     switch (action.type) {
         case "app/SET-ERROR":
             return { ...state, error: action.error };
+        case "app/SET-RESPONSE-MESSAGE":
+            return {
+                ...state,
+                responseMessage: action.message,
+            };
         case "app/SET-IS-LOADING":
             return { ...state, isLoading: action.value };
         case "app/SET-IS-INITIALIZED":
@@ -27,6 +33,8 @@ export const appReducer = (
 
 // ActionCreators
 export const setAppErrorAC = (error: null | string) => ({ type: "app/SET-ERROR", error } as const);
+export const setResponseMessageAC = (message: null | string) =>
+    ({ type: "app/SET-RESPONSE-MESSAGE", message } as const);
 export const setIsLoadingAC = (value: boolean) => ({ type: "app/SET-IS-LOADING", value } as const);
 export const setAppIsInitializedAC = (value: boolean) =>
     ({ type: "app/SET-IS-INITIALIZED", value } as const);
@@ -38,6 +46,7 @@ export const initializeAppTC = (): AppThunk => async (dispatch) => {
         const res = await authAPI.me();
         dispatch(loginAC(true));
         dispatch(setProfileDataAC(res.data));
+    } catch (e) {
     } finally {
         dispatch(setAppIsInitializedAC(true));
     }
@@ -47,4 +56,5 @@ type InitialStateType = typeof initialState;
 export type AppActionType =
     | ReturnType<typeof setAppErrorAC>
     | ReturnType<typeof setIsLoadingAC>
-    | ReturnType<typeof setAppIsInitializedAC>;
+    | ReturnType<typeof setAppIsInitializedAC>
+    | ReturnType<typeof setResponseMessageAC>;

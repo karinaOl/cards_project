@@ -2,12 +2,16 @@ import React, { ChangeEvent, useState } from "react";
 import TextField from "@mui/material/TextField/TextField";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useAppDispatch, useAppSelector } from "../../../m2-bll/store";
-import { updateUserNameTC } from "../../../../sc2-features/f2-profile/bll/profileReducer";
+import {
+    updateUserAC,
+    updateUserNameTC,
+} from "../../../../sc2-features/f2-profile/bll/profileReducer";
 import style from "./EditableName.module.css";
 import { Icon } from "@mui/material";
 
 export const EditableName = () => {
     const name = useAppSelector<string>((state) => state.profile.name);
+    const avatar = useAppSelector((state) => state.profile.avatar);
 
     const [edit, setEdit] = useState(false);
     const [value, setValue] = useState(name);
@@ -30,6 +34,7 @@ export const EditableName = () => {
 
     const activateViewMode = () => {
         if (value) {
+            dispatch(updateUserAC({ name: value, avatar }));
             dispatch(updateUserNameTC(value));
             setEdit(false);
         }

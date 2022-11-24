@@ -17,15 +17,15 @@ type UpdateUserResponseType = {
 };
 
 export type UserDataResponseType = {
-    _id: string;
-    email: string;
+    _id?: string;
+    email?: string;
     avatar: string | null;
-    rememberMe: boolean;
-    isAdmin: boolean;
+    rememberMe?: boolean;
+    isAdmin?: boolean;
     name: string;
-    verified: boolean;
-    publicCardPacksCount: number;
-    created: string;
-    updated: string;
-    __v: number;
+    verified?: boolean;
+    publicCardPacksCount?: number;
+    created?: string;
+    updated?: string;
+    __v?: number;
 };
