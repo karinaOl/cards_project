@@ -3,7 +3,6 @@ import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/mat
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { changeCountOfPacksOnPageAC, changeCurrentPageAC } from "../bll/packsReducer";
 import FormControl from "@mui/material/FormControl";
-import Typography from "@mui/material/Typography";
 import { PacksTable } from "./PacksTable/PacksTable";
 import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import style from "./Packs.module.css";
@@ -27,10 +26,11 @@ export const Packs = () => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const currentPage = useAppSelector((state) => state.packs.page);
-    const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount).toString();
+    const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount);
+    const packsTotalCount = useAppSelector((state) => state.packs.cardPacksTotalCount);
 
     const cardsPerPage = [5, 10, 15, 20];
-    // @ts-ignore
+
     const pagesCount = Math.ceil(packsTotalCount / countOfPacksOnPage);
 
     const changeCountOfCards = (e: SelectChangeEvent) => {
@@ -56,7 +56,7 @@ export const Packs = () => {
             <SettingsBar
                 resetPackListFilter={resetPackListFilter}
                 currentPage={currentPage}
-                countOfPacksOnPage={countOfPacksOnPage}
+                countOfPacksOnPage={countOfPacksOnPage.toString()}
             />
             <PacksTable
                 setModalEditPack={setModalEditPack}
@@ -66,16 +66,12 @@ export const Packs = () => {
                 setCardsPackName={setCardsPackName}
             />
             <Stack className={style.stack} spacing={4}>
-                <Pagination
-                    count={pagesCount}
-                    page={currentPage}
-                    onChange={changeCurrentPage}
-                />
+                <Pagination count={pagesCount} page={currentPage} onChange={changeCurrentPage} />
             </Stack>
             <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
                 <span className={style.showSpanText}>Show</span>
                 <Select
-                    value={countOfPacksOnPage}
+                    value={countOfPacksOnPage.toString()}
                     onChange={changeCountOfCards}
                     style={{ top: "2px" }}
                     sx={{ top: "2px" }}
