@@ -42,7 +42,16 @@ export const cardsReducer = (
                     card._id === action.card_id ? { ...card, grade: action.grade } : card
                 ),
             };
-
+        case "cards/SET-PACK-NAME":
+            return {
+                ...state,
+                packName: action.name,
+            };
+        case "cards/SET-CARDS":
+            return {
+                ...state,
+                cards: action.cards,
+            };
         default:
             return state;
     }
@@ -52,6 +61,18 @@ export const cardsReducer = (
 
 export const setCardsDataAC = (data: GetCardsResponseType) =>
     ({ type: "cards/SET-CARDS-DATA", data } as const);
+
+export const setPackNameAC = (name: string) =>
+    ({
+        type: "cards/SET-PACK-NAME",
+        name,
+    } as const);
+
+export const setCardsAC = (cards: []) =>
+    ({
+        type: "cards/SET-CARDS",
+        cards,
+    } as const);
 
 const updateCardGradeAC = (card_id: string, grade: number) =>
     ({
@@ -85,6 +106,7 @@ export const getCardsTC =
         try {
             let response = await cardsApi.getCards(queryParams);
             dispatch(setCardsDataAC(response.data));
+            dispatch(setPackNameAC(response.data.packName));
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -131,13 +153,16 @@ export const deleteCardTC =
     };
 
 export const updateCardTC =
-    (cardsPack_ID: string, updatedCard: UpdateCardRequestDataType): AppThunk =>
-    async (dispatch) => {
+    (userId: string, cardsPack_ID: string, updatedCard: UpdateCardRequestDataType): AppThunk =>
+    async (dispatch, getState) => {
         dispatch(setIsLoadingAC(true));
+        const packUserId = getState().cards.packUserId;
         try {
-            await cardsApi.updateCard(updatedCard);
-            const successMessage = "Card was changed";
-            successResponseUtils(successMessage, dispatch);
+            if (packUserId === userId) {
+                await cardsApi.updateCard(updatedCard);
+                const successMessage = "Card was changed";
+                successResponseUtils(successMessage, dispatch);
+            }
         } catch (e) {
             handleAppError(e, dispatch);
         } finally {
@@ -147,12 +172,15 @@ export const updateCardTC =
     };
 
 export const upgradeCardGradeTC =
-    (card_id: string, grade: number): AppThunk =>
-    async (dispatch) => {
+    (userId: string, card_id: string, grade: number): AppThunk =>
+    async (dispatch, getState) => {
         dispatch(setIsLoadingAC(true));
+        const packUserId = getState().cards.packUserId;
         try {
-            await cardsApi.updateCardsGrade(card_id, grade);
-            dispatch(updateCardGradeAC(card_id, grade));
+            if (packUserId === userId) {
+                await cardsApi.updateCardsGrade(card_id, grade);
+                dispatch(updateCardGradeAC(card_id, grade));
+            }
         } catch (e) {
             console.log(e);
         } finally {
@@ -161,5 +189,9 @@ export const upgradeCardGradeTC =
     };
 
 type CardInitialStateType = typeof initialState;
-type SetCardsDataACType = ReturnType<typeof setCardsDataAC> | ReturnType<typeof updateCardGradeAC>;
+type SetCardsDataACType =
+    | ReturnType<typeof setCardsDataAC>
+    | ReturnType<typeof updateCardGradeAC>
+    | ReturnType<typeof setPackNameAC>
+    | ReturnType<typeof setCardsAC>;
 export type CardsActionType = SetCardsDataACType;

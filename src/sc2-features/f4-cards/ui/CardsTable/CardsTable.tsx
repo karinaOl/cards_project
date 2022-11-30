@@ -15,6 +15,7 @@ import React, { useEffect } from "react";
 import { getCardsTC } from "../../bll/cardsReducer";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import style from "../../../f3-packs/ui/PacksTable/PacksTable.module.css";
 
 type CardsTableType = {
     setModalDeleteCard: (value: boolean) => void;
@@ -27,6 +28,7 @@ type CardsTableType = {
 export const CardsTable = (props: CardsTableType) => {
     const cards = useAppSelector((state) => state.cards.cards);
     const dispatch = useAppDispatch();
+    const userId = useAppSelector((state) => state.profile._id);
     const { cardPackID } = useParams<"cardPackID">();
 
     useEffect(() => {
@@ -70,6 +72,7 @@ export const CardsTable = (props: CardsTableType) => {
                                 <TableCell component="th" scope="row">
                                     <NavLink
                                         to={PATH.CARDS + "/" + row.cardsPack_id + "/" + row._id}
+                                        className={style.navLink}
                                     >
                                         {row.question}
                                     </NavLink>
@@ -84,16 +87,20 @@ export const CardsTable = (props: CardsTableType) => {
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <BorderColorRoundedIcon
-                                        onClick={() =>
-                                            updateCardHandler(row._id, row.question, row.answer)
-                                        }
-                                        fontSize={"small"}
-                                    />
-                                    <DeleteForeverRoundedIcon
-                                        fontSize={"small"}
-                                        onClick={() => deleteCardHandler(row._id, row.question)}
-                                    />
+                                    {row.user_id === userId && (
+                                        <BorderColorRoundedIcon
+                                            onClick={() =>
+                                                updateCardHandler(row._id, row.question, row.answer)
+                                            }
+                                            fontSize={"small"}
+                                        />
+                                    )}
+                                    {row.user_id === userId && (
+                                        <DeleteForeverRoundedIcon
+                                            fontSize={"small"}
+                                            onClick={() => deleteCardHandler(row._id, row.question)}
+                                        />
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}

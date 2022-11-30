@@ -104,10 +104,10 @@ export const NewPassword = () => {
                                         fontSize: "16px",
                                     }}
                                 >
-                                    <p style={{ textDecoration: "none" }}>
+                                    <span style={{ textDecoration: "none" }}>
                                         Create new password and we will send you further
                                         instructions to email
-                                    </p>
+                                    </span>
                                 </FormLabel>
                                 <Button
                                     disabled={

@@ -72,7 +72,7 @@ export const Registration = () => {
 
     return (
         <Grid container justifyContent={"center"}>
-            <Paper style={{ padding: "70px" }}>
+            <Paper style={{ padding: "30px" }}>
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl>
                         <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
@@ -150,8 +150,10 @@ export const Registration = () => {
                                 Sign Up
                             </Button>
                         </FormGroup>
-                        <FormLabel>
-                            <p>Already have an account?</p>
+                        <FormLabel
+                            style={{ marginTop: "20px", display: "flex", flexDirection: "column" }}
+                        >
+                            <span>Already have an account?</span>
                             <NavLink to={PATH.LOGIN}>Sign In</NavLink>
                         </FormLabel>
                     </FormControl>

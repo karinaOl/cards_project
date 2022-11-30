@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { changeCountOfPacksOnPageAC, changeCurrentPageAC } from "../bll/packsReducer";
@@ -14,6 +14,7 @@ import { DeletePackModal } from "./ModalPackWindows/DeletePackModal";
 import { EditPackModal } from "./ModalPackWindows/EditPackModal";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
+import { setCardsAC, setPackNameAC } from "../../f4-cards/bll/cardsReducer";
 
 export const Packs = () => {
     const [modalAddPack, setModalAddPack] = useState(false);
@@ -22,7 +23,7 @@ export const Packs = () => {
     const [cardsPackName, setCardsPackName] = useState("");
     const [packId, setPackId] = useState("");
     const [cardsPack, setCardsPack] = useState({} as PackType);
-
+    const isLoading = useAppSelector((state) => state.app.isLoading);
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const currentPage = useAppSelector((state) => state.packs.page);
@@ -43,6 +44,11 @@ export const Packs = () => {
     const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
         dispatch(resetSettingsAC(data));
     };
+
+    useEffect(() => {
+        dispatch(setPackNameAC(""));
+        dispatch(setCardsAC([]));
+    }, [dispatch]);
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
@@ -71,6 +77,7 @@ export const Packs = () => {
                         count={pagesCount}
                         page={currentPage}
                         onChange={changeCurrentPage}
+                        disabled={isLoading}
                     />
                 </Stack>
                 <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
@@ -81,6 +88,7 @@ export const Packs = () => {
                             onChange={changeCountOfCards}
                             style={{ top: "2px" }}
                             sx={{ top: "2px" }}
+                            disabled={isLoading}
                         >
                             {cardsPerPage.map((page, index) => (
                                 <MenuItem key={index} value={page}>

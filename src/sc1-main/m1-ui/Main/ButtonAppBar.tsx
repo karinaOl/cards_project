@@ -7,12 +7,14 @@ import { useAppDispatch, useAppSelector } from "../../m2-bll/store";
 import { logoutTC } from "../../../sc2-features/f2-profile/bll/profileReducer";
 import { NavLink } from "react-router-dom";
 import { PATH } from "./Pages";
+import defaultImg from "../../../assets/images/profile-img.png";
 
 export default function ButtonAppBar() {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const dispatch = useAppDispatch();
     const userName = useAppSelector((state) => state.profile.name);
     const userAvatar = useAppSelector((state) => state.profile.avatar);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
 
     const logoutHandler = () => {
         dispatch(logoutTC());
@@ -33,12 +35,12 @@ export default function ButtonAppBar() {
                             >
                                 <img
                                     style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-                                    src={userAvatar!!}
+                                    src={userAvatar ? userAvatar : defaultImg}
                                     alt="userAvatar"
                                 />
                                 <span style={{ margin: "10px" }}>{userName}</span>
                             </span>
-                            <Button onClick={logoutHandler} color="inherit">
+                            <Button disabled={isLoading} onClick={logoutHandler} color="inherit">
                                 Logout
                             </Button>
                         </div>

@@ -8,11 +8,12 @@
 .item {
     text-decoration: none;
     padding: 10px;
-    color: black;
-    background-color: antiquewhite;
+    color: white;
+    background-color: #1976d2;
     margin: 5px;
+    border-radius: 20%;
 }
 
 .active {
-    background-color: violet;
+    background-color: coral;
 }

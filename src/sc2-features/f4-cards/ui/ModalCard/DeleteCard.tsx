@@ -27,8 +27,8 @@ export const ModalDeleteCard = (props: DeleteCardType) => {
             open={props.modalDeleteCard}
             setModal={props.setModalDeleteCard}
         >
-            <p>Do you really want to remove {props.question}?</p>
-            <p>All cards will be deleted.</p>
+            <span>Do you really want to remove {props.question}?</span>
+            <span>All cards will be deleted.</span>
             <div className={s.buttons}>
                 <Button variant="outlined" onClick={() => props.setModalDeleteCard(false)}>
                     Cancel

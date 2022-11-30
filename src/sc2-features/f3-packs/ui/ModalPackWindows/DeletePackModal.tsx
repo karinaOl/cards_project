@@ -26,10 +26,10 @@ export const DeletePackModal = (props: AddPackModalPropsType) => {
             setModal={props.setModalDeletePack}
         >
             <div className={styles.text}>
-                <p>
+                <span>
                     Do you really want to remove <strong>{props.cardsPackName}</strong>?
-                </p>
-                <p>All card will be delete.</p>
+                </span>
+                <span>All card will be delete.</span>
             </div>
             <div className={styles.button}>
                 <Button variant="outlined" onClick={() => props.setModalDeletePack(false)}>

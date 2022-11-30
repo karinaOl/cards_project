@@ -81,10 +81,10 @@ export const RecoveryPassword = () => {
                                         fontSize: "16px",
                                     }}
                                 >
-                                    <p style={{ textDecoration: "none" }}>
+                                    <span style={{ textDecoration: "none" }}>
                                         Enter your email address and we will send you further
                                         instructions
-                                    </p>
+                                    </span>
                                 </FormLabel>
                                 <Button
                                     disabled={
@@ -99,7 +99,7 @@ export const RecoveryPassword = () => {
                                 </Button>
                             </FormGroup>
                             <FormLabel>
-                                <p>Did you remember your password ?</p>
+                                <span>Did you remember your password ?</span>
                                 <NavLink to={PATH.LOGIN} style={{ color: "blue" }}>
                                     Try logging in
                                 </NavLink>

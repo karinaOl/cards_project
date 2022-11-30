@@ -41,20 +41,26 @@ export const packsReducer = (
                 ...state,
                 pageCount: action.count,
             };
-        case "SORT-PACK-LIST":
+        case "packs/SORT-PACK-LIST":
             return {
                 ...state,
                 sortPacks: action.sortValue,
             };
-        case "FIND-PACK-BY-NAME":
+        case "packs/FIND-PACK-BY-NAME":
             return {
                 ...state,
                 searchFilter: action.name,
             };
-        case "SET-USER-ID":
+        case "packs/SET-USER-ID":
             return {
                 ...state,
                 user_id: action.userId,
+            };
+        case "packs/SET-CARDS-COUNT":
+            return {
+                ...state,
+                minCardsCount: action.value[0],
+                maxCardsCount: action.value[1],
             };
         default:
             return state;
@@ -80,20 +86,26 @@ export const changeCountOfPacksOnPageAC = (count: number) =>
 
 export const sortPackListAC = (sortValue: string) =>
     ({
-        type: "SORT-PACK-LIST",
+        type: "packs/SORT-PACK-LIST",
         sortValue,
     } as const);
 
 export const findPackByNameAC = (name: string) =>
     ({
-        type: "FIND-PACK-BY-NAME",
+        type: "packs/FIND-PACK-BY-NAME",
         name,
     } as const);
 
 export const setUserIdAC = (userId: string) =>
     ({
-        type: "SET-USER-ID",
+        type: "packs/SET-USER-ID",
         userId,
+    } as const);
+
+export const setCardsCountAC = (value: number[]) =>
+    ({
+        type: "packs/SET-CARDS-COUNT",
+        value,
     } as const);
 
 // Thunk Creators
@@ -186,4 +198,5 @@ export type PacksActionType =
     | ReturnType<typeof changeCountOfPacksOnPageAC>
     | ReturnType<typeof sortPackListAC>
     | ReturnType<typeof findPackByNameAC>
-    | ReturnType<typeof setUserIdAC>;
+    | ReturnType<typeof setUserIdAC>
+    | ReturnType<typeof setCardsCountAC>;

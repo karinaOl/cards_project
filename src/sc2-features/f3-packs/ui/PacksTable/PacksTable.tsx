@@ -17,6 +17,7 @@ import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import style from "./PacksTable.module.css";
 import { sortPackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
+import IconButton from "@mui/material/IconButton";
 
 type PacksTableType = {
     setModalDeletePack: (value: boolean) => void;
@@ -29,7 +30,8 @@ type PacksTableType = {
 export const PacksTable = (props: PacksTableType) => {
     const packs = useAppSelector<PackType[]>((state) => state.packs.cardPacks);
     const dispatch = useAppDispatch();
-
+    const isLoading = useAppSelector((state) => state.app.isLoading);
+    const userId = useAppSelector((state) => state.profile._id);
     const [sortByName, setSortByName] = useState("0name");
     const [sortByCardsCount, setSortByCardsCount] = useState("0cardsCount");
     const [sortByUpdated, setSortByUpdated] = useState("0updated");
@@ -74,22 +76,16 @@ export const PacksTable = (props: PacksTableType) => {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell className={style.commonButtons} onClick={sortPackListByName}>
+                        <TableRow className={style.commonButtons}>
+                            <TableCell onClick={sortPackListByName}>
                                 Name
                                 <button>▼</button>
                             </TableCell>
-                            <TableCell
-                                className={style.commonButtons}
-                                onClick={sortPackListByCardsCount}
-                            >
+                            <TableCell onClick={sortPackListByCardsCount}>
                                 Cards
                                 <button>▼</button>
                             </TableCell>
-                            <TableCell
-                                className={style.commonButtons}
-                                onClick={sortPackListByUpdatedTime}
-                            >
+                            <TableCell onClick={sortPackListByUpdatedTime}>
                                 Last Updated <button>▼</button>
                             </TableCell>
                             <TableCell>Created by</TableCell>
@@ -103,24 +99,50 @@ export const PacksTable = (props: PacksTableType) => {
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <NavLink to={PATH.CARDS + "/" + row._id}>{row.name}</NavLink>
+                                    <NavLink
+                                        to={PATH.CARDS + "/" + row._id}
+                                        className={style.navLink}
+                                    >
+                                        {row.name}
+                                    </NavLink>
                                 </TableCell>
                                 <TableCell>{row.cardsCount}</TableCell>
                                 <TableCell>{row.updated}</TableCell>
                                 <TableCell>{row.user_name}</TableCell>
-                                <TableCell className={style.commonButtons}>
-                                    <SchoolRoundedIcon
-                                        onClick={() => learnHandler(row._id)}
-                                        fontSize={"small"}
-                                    />
-                                    <BorderColorRoundedIcon
-                                        onClick={() => openModalEditHandler(row)}
-                                        fontSize={"small"}
-                                    />
-                                    <DeleteForeverRoundedIcon
-                                        onClick={() => openModalDelHandler(row._id, row.name)}
-                                        fontSize={"small"}
-                                    />
+                                <TableCell>
+                                    <IconButton
+                                        style={{ color: !isLoading ? "black" : "grey" }}
+                                        disabled={isLoading}
+                                    >
+                                        <SchoolRoundedIcon
+                                            onClick={() => learnHandler(row._id)}
+                                            fontSize={"small"}
+                                        />
+                                    </IconButton>
+                                    {row.user_id === userId && (
+                                        <IconButton
+                                            style={{ color: !isLoading ? "black" : "grey" }}
+                                            disabled={isLoading}
+                                        >
+                                            <BorderColorRoundedIcon
+                                                onClick={() => openModalEditHandler(row)}
+                                                fontSize={"small"}
+                                            />
+                                        </IconButton>
+                                    )}
+                                    {row.user_id === userId && (
+                                        <IconButton
+                                            style={{ color: !isLoading ? "black" : "grey" }}
+                                            disabled={isLoading}
+                                        >
+                                            <DeleteForeverRoundedIcon
+                                                onClick={() =>
+                                                    openModalDelHandler(row._id, row.name)
+                                                }
+                                                fontSize={"small"}
+                                            />
+                                        </IconButton>
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}

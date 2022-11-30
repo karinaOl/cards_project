@@ -1,9 +1,34 @@
 .commonButtons {
     cursor: pointer;
 }
-.commonButtons button{
+
+.commonButtons button {
     cursor: pointer;
     border: none;
     background: none;
     color: darkgray;
+}
+
+.navLink {
+    position: relative;
+    color: black;
+    cursor: pointer;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.navLink:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #1976d2;
+    content: "";
+    transition: width 0.3s ease-out;
+}
+
+.navLink:hover:after,
+.navLink:focus:after {
+    width: 100%;
 }

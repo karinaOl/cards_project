@@ -10,6 +10,7 @@ import { CardsForLearning } from "./CardsForLearning";
 export const LearnPage = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const packName = useAppSelector((state) => state.cards.packName);
+
     const dispatch = useAppDispatch();
     const { cardPackID } = useParams<{ cardPackID: string }>();
 

@@ -29,6 +29,7 @@ export const CardsForLearning = () => {
     const { cardPackID } = useParams<{ cardPackID: string }>();
     const cards = useAppSelector((state) => state.cards.cards);
     const isLoading = useAppSelector((state) => state.app.isLoading);
+    const userId = useAppSelector((state) => state.profile._id);
 
     const [currentCard, setCurrentCard] = useState<CardType | undefined>(undefined);
 
@@ -48,19 +49,25 @@ export const CardsForLearning = () => {
         setValue("");
         setCurrentCard(getRandomCard(cards));
         if (currentCard) {
-            await dispatch(upgradeCardGradeTC(currentCard._id, value));
-            await dispatch(updateCardTC(cardPackID as string, { ...currentCard }));
+            if (userId) {
+                await dispatch(upgradeCardGradeTC(userId, currentCard._id, value));
+                dispatch(updateCardTC(userId, cardPackID as string, { ...currentCard }));
+            }
         }
     };
 
     const nextButtonHandler = () =>
         nextButton(formControlLabels.findIndex((arrayValues) => arrayValues === value) + 1);
 
+    // useEffect(() => {
+    //     if (cardPackID) dispatch(getCardsTC({ cardsPack_id: cardPackID }));
+    // }, [cardPackID, dispatch]);
+
     useEffect(() => {
         if (cards.length) {
             setCurrentCard(getRandomCard(cards));
         }
-    }, []);
+    }, [dispatch, cardPackID]);
 
     return (
         <div>
@@ -80,11 +87,11 @@ export const CardsForLearning = () => {
                             <FormGroup>
                                 <FormControl variant="standard"></FormControl>
                                 <FormLabel>
-                                    <p style={{ textDecoration: "none" }}>
-                                        <p style={{ fontWeight: 350 }}>
+                                    <span style={{ textDecoration: "none" }}>
+                                        <span style={{ fontWeight: 350 }}>
                                             Number of attempts: {currentCard.shots}
-                                        </p>
-                                    </p>
+                                        </span>
+                                    </span>
                                 </FormLabel>
                                 {showAnswer && (
                                     <div>
@@ -142,7 +149,6 @@ export const CardsForLearning = () => {
                                     </div>
                                 )}
                             </FormGroup>
-                            <FormLabel></FormLabel>
                         </FormControl>
                     </Paper>
                 </Grid>

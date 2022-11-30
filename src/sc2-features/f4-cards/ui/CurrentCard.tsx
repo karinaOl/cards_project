@@ -53,14 +53,14 @@ export const CurrentCard = () => {
                                 <FormGroup>
                                     <FormControl variant="standard"></FormControl>
                                     <FormLabel>
-                                        <p style={{ textDecoration: "none" }}>
+                                        <span style={{ textDecoration: "none" }}>
                                             Answer :
                                             <span
                                                 style={{ fontWeight: "bold", marginLeft: "10px" }}
                                             >
                                                 {currentCard.answer}
                                             </span>
-                                        </p>
+                                        </span>
                                     </FormLabel>
                                     <Button
                                         disabled={isLoading}
@@ -75,7 +75,6 @@ export const CurrentCard = () => {
                                         </NavLink>
                                     </Button>
                                 </FormGroup>
-                                <FormLabel></FormLabel>
                             </FormControl>
                         </Paper>
                     </Grid>

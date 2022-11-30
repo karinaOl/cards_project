@@ -6,14 +6,20 @@ import Button from "@mui/material/Button";
 import { useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import { PATH } from "../../../../sc1-main/m1-ui/Main/Pages";
 import { LongMenu } from "../../../../sc1-main/m1-ui/common/CustomizedMenu/CustomizedMenu";
+import { CircularProgress } from "@mui/material";
 
 export const CardsHeader = (props: { setModalAddCard: (value: boolean) => void }) => {
     const { cardPackID } = useParams<"cardPackID">();
 
-    const packs = useAppSelector((state) => state.packs.cardPacks);
+    const packName = useAppSelector((state) => state.cards.packName);
 
-    const validPack = packs.find((elem) => elem._id === cardPackID);
-    const packName = validPack ? validPack.name : "Default Name";
+    if (!packName) {
+        return (
+            <div className="circularProgress">
+                <CircularProgress />
+            </div>
+        );
+    }
 
     return (
         <div className={s.cards}>

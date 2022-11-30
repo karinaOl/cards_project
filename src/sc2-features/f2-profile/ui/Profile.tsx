@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./Profile.module.css";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
@@ -13,8 +12,8 @@ import { InputTypeFile } from "../../../sc1-main/m1-ui/common/InputTypeFile/Inpu
 export const Profile = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const email = useAppSelector((state) => state.profile.email);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
     const dispatch = useAppDispatch();
-    const avatar = useAppSelector((state) => state.profile.avatar);
 
     const logoutHandler = () => {
         dispatch(logoutTC());
@@ -24,29 +23,19 @@ export const Profile = () => {
 
     return (
         <Grid container justifyContent={"center"}>
-            <Paper style={{ padding: "0 70px 20px" }}>
-                <div className={style.profile}>
-                    <h1>Personal information</h1>
-                    <div>
-                        <img
-                            style={{ borderRadius: "50%" }}
-                            className={style.profileImg}
-                            src={
-                                avatar
-                                    ? avatar
-                                    : "https://icones.pro/wp-content/uploads/2021/03/avatar-de-personne-icone-homme.png"
-                            }
-                            alt="profileImg"
-                        />
-                        <InputTypeFile />
-                    </div>
+            <Paper style={{ padding: "10px 60px 50px 70px" }}>
+                <div>
+                    <h2>Personal information</h2>
+                    <InputTypeFile />
                     <h3>
                         <EditableName />
                     </h3>
-                    <p>{email}</p>
-                    <Button variant="outlined" onClick={logoutHandler}>
-                        Logout
-                    </Button>
+                    <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                        <span style={{ marginBottom: "15px" }}>{email}</span>
+                        <Button variant="outlined" onClick={logoutHandler} disabled={isLoading}>
+                            Logout
+                        </Button>
+                    </div>
                 </div>
             </Paper>
         </Grid>

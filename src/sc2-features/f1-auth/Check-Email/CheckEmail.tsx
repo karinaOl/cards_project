@@ -33,10 +33,10 @@ export const CheckEmail = () => {
                     <FormGroup>
                         <FormControl variant="standard"></FormControl>
                         <FormLabel>
-                            <p style={{ textDecoration: "none" }}>
+                            <span style={{ textDecoration: "none" }}>
                                 We've sent an Email with instructions to{" "}
                                 <span style={{ fontWeight: "bold" }}>{recoveryPasswordEmail}</span>
-                            </p>
+                            </span>
                         </FormLabel>
                         <Button type={"submit"} variant={"contained"}>
                             <NavLink
@@ -47,7 +47,6 @@ export const CheckEmail = () => {
                             </NavLink>
                         </Button>
                     </FormGroup>
-                    <FormLabel></FormLabel>
                 </FormControl>
             </Paper>
         </Grid>

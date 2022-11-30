@@ -7,8 +7,9 @@ import TextField from "@mui/material/TextField/TextField";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { useDebounce } from "../../../../utils/useDebounce/useDebounceHook";
 import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
-import { findPackByNameAC, getPacksTC, setUserIdAC, sortPackListAC } from "../../bll/packsReducer";
+import { findPackByNameAC, getPacksTC, setCardsCountAC, setUserIdAC } from "../../bll/packsReducer";
 import { GetCardsPackRequestParamsType } from "../../dal/packs-api";
+import IconButton from "@mui/material/IconButton";
 
 function valuetext(value: number) {
     return `${value}°C`;
@@ -23,8 +24,9 @@ type SettingsBarType = {
 export const SettingsBar = (props: SettingsBarType) => {
     const dispatch = useAppDispatch();
     const userId = useAppSelector((state) => state.profile._id);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
 
-    const [value, setValue] = React.useState<number[]>([0, 110]);
+    const [sliderValue, setSliderValue] = React.useState<number[]>([0, 100]);
 
     const [debounceValue, setDebounceValue] = useState<string>("");
     const debouncedValue = useDebounce<string>(debounceValue, 500);
@@ -34,23 +36,17 @@ export const SettingsBar = (props: SettingsBarType) => {
         dispatch(findPackByNameAC(event.target.value));
     };
 
-    const sliderHandleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+    const sliderHandleChange = async (event: Event, newValue: number | number[] | any) => {
+        setSliderValue(newValue as number[]);
+        dispatch(setCardsCountAC(newValue));
+        dispatch(getPacksTC());
     };
-    const resetFilter = () => {
+    const resetFilter = async () => {
         setDebounceValue("");
+        await setSliderValue([0, 100]);
+        dispatch(setCardsCountAC([0, 100]));
         dispatch(findPackByNameAC(""));
-        dispatch(sortPackListAC("0updated"));
-        props.resetPackListFilter({
-            user_id: "",
-            packName: "",
-            min: 0,
-            max: 110,
-            sortPacks: "",
-            page: 0,
-            pageCount: 10,
-            block: false,
-        });
+        dispatch(getPacksTC());
     };
 
     const [activeMy, setActiveMy] = useState(false);
@@ -92,6 +88,7 @@ export const SettingsBar = (props: SettingsBarType) => {
                     id="outlined-basic"
                     label="Search"
                     variant="outlined"
+                    disabled={isLoading}
                 />
             </Box>
             <Box>
@@ -100,12 +97,14 @@ export const SettingsBar = (props: SettingsBarType) => {
                     <Button
                         variant={activeMy ? "contained" : "outlined"}
                         onClick={onMyPacksHandler}
+                        disabled={isLoading}
                     >
                         My
                     </Button>
                     <Button
                         variant={activeAll ? "contained" : "outlined"}
                         onClick={onAllPacksHandler}
+                        disabled={isLoading}
                     >
                         All
                     </Button>
@@ -114,18 +113,21 @@ export const SettingsBar = (props: SettingsBarType) => {
             <Box sx={{ width: 300 }}>
                 <div className={s.titleBlock}>Number of cards</div>
                 <div className={s.slider}>
-                    <span>{value[0]}</span>
+                    <span>{sliderValue[0]}</span>
                     <Slider
                         getAriaLabel={() => "Temperature range"}
-                        value={value}
+                        value={sliderValue}
                         onChange={sliderHandleChange}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
+                        disabled={isLoading}
                     />
-                    <span>{value[1]}</span>
+                    <span>{sliderValue[1]}</span>
                 </div>
             </Box>
-            <FilterAltRoundedIcon onClick={resetFilter} />
+            <IconButton disabled={isLoading} onClick={resetFilter}>
+                <FilterAltRoundedIcon />
+            </IconButton>
         </div>
     );
 };

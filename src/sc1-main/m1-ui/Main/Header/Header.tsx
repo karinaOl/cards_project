@@ -4,9 +4,6 @@ import style from "./Header.module.css";
 import { useAppSelector } from "../../../m2-bll/store";
 
 export const Header = () => {
-    const token = useAppSelector((state) => state.profile.token);
-    const isLoginIn = useAppSelector((state) => state.login.isLoggedIn);
-
     return (
         <div className={style.navbar}>
             <NavLink
@@ -69,14 +66,14 @@ export const Header = () => {
             >
                 packs
             </NavLink>
-            <NavLink
-                to={PATH.TEST}
-                className={({ isActive }) =>
-                    isActive ? `${style.item} ${style.active}` : style.item
-                }
-            >
-                test
-            </NavLink>
+            {/*<NavLink*/}
+            {/*    to={PATH.TEST}*/}
+            {/*    className={({ isActive }) =>*/}
+            {/*        isActive ? `${style.item} ${style.active}` : style.item*/}
+            {/*    }*/}
+            {/*>*/}
+            {/*    test*/}
+            {/*</NavLink>*/}
         </div>
     );
 };

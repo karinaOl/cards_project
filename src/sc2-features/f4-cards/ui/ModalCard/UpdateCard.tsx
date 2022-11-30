@@ -2,7 +2,7 @@ import { BasicModal } from "../../../BasicModal/BasicModal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { ChangeEvent, useState } from "react";
-import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
+import { useAppDispatch, useAppSelector } from "../../../../sc1-main/m2-bll/store";
 import { updateCardTC } from "../../bll/cardsReducer";
 import { useParams } from "react-router-dom";
 import s from "../ModalCard/ModalCard.module.css";
@@ -20,6 +20,7 @@ export const ModalUpdateCard = (props: UpdateCardType) => {
     const [question, setQuestion] = useState(props.question);
     const [answer, setAnswer] = useState(props.answer);
     const { cardPackID } = useParams<"cardPackID">();
+    const userId = useAppSelector((state) => state.profile._id);
 
     const onChangeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.currentTarget.value);
@@ -29,7 +30,7 @@ export const ModalUpdateCard = (props: UpdateCardType) => {
     };
     const updateCard = (cardID: string) => {
         const updatedCard: UpdateCardRequestDataType = { _id: cardID, question, answer };
-        dispatch(updateCardTC(cardPackID as string, updatedCard));
+        dispatch(updateCardTC(userId as string, cardPackID as string, updatedCard));
         props.setModalUpdateCard(false);
     };
 
