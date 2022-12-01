@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { PATH } from "../Pages";
 import style from "./Header.module.css";
-import { useAppSelector } from "../../../m2-bll/store";
 
 export const Header = () => {
     return (

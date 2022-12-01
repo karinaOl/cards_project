@@ -15,5 +15,7 @@
 }
 
 .active {
-    background-color: coral;
+    background-color: white;
+    color: #1976d2;
+    border: 1px #1976d2 solid;
 }

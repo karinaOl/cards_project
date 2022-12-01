@@ -7,6 +7,7 @@ import { ModalDeleteCard } from "./ModalCard/DeleteCard";
 import { useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { Navigate } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
+import style from "../ui/Cards.module.css";
 
 export const Cards = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
@@ -20,7 +21,7 @@ export const Cards = () => {
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN} />;
 
     return (
-        <div>
+        <div className={style.cards}>
             <CardsHeader setModalAddCard={setModalAddCard} />
             <CardsTable
                 setCardId={setCardId}

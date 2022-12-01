@@ -16,6 +16,7 @@ import { getCardsTC } from "../../bll/cardsReducer";
 import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import style from "../../../f3-packs/ui/PacksTable/PacksTable.module.css";
+import IconButton from "@mui/material/IconButton";
 
 type CardsTableType = {
     setModalDeleteCard: (value: boolean) => void;
@@ -30,6 +31,7 @@ export const CardsTable = (props: CardsTableType) => {
     const dispatch = useAppDispatch();
     const userId = useAppSelector((state) => state.profile._id);
     const { cardPackID } = useParams<"cardPackID">();
+    const isLoading = useAppSelector((state) => state.app.isLoading);
 
     useEffect(() => {
         if (cardPackID) {
@@ -56,11 +58,21 @@ export const CardsTable = (props: CardsTableType) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Question</TableCell>
-                            <TableCell>Answer</TableCell>
-                            <TableCell>Last Updated</TableCell>
-                            <TableCell>Grade</TableCell>
-                            <TableCell></TableCell>
+                            <TableCell>
+                                <strong>Question</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Answer</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Last Updated</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Grade</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Actions</strong>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -88,18 +100,34 @@ export const CardsTable = (props: CardsTableType) => {
                                 </TableCell>
                                 <TableCell>
                                     {row.user_id === userId && (
-                                        <BorderColorRoundedIcon
-                                            onClick={() =>
-                                                updateCardHandler(row._id, row.question, row.answer)
-                                            }
-                                            fontSize={"small"}
-                                        />
+                                        <IconButton
+                                            style={{ color: !isLoading ? "black" : "grey" }}
+                                            disabled={isLoading}
+                                        >
+                                            <BorderColorRoundedIcon
+                                                onClick={() =>
+                                                    updateCardHandler(
+                                                        row._id,
+                                                        row.question,
+                                                        row.answer
+                                                    )
+                                                }
+                                                fontSize={"small"}
+                                            />
+                                        </IconButton>
                                     )}
                                     {row.user_id === userId && (
-                                        <DeleteForeverRoundedIcon
-                                            fontSize={"small"}
-                                            onClick={() => deleteCardHandler(row._id, row.question)}
-                                        />
+                                        <IconButton
+                                            style={{ color: !isLoading ? "black" : "grey" }}
+                                            disabled={isLoading}
+                                        >
+                                            <DeleteForeverRoundedIcon
+                                                fontSize={"small"}
+                                                onClick={() =>
+                                                    deleteCardHandler(row._id, row.question)
+                                                }
+                                            />
+                                        </IconButton>
                                     )}
                                 </TableCell>
                             </TableRow>

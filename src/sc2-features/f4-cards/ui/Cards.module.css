@@ -1,5 +1,5 @@
 .cards {
-    margin: 0 130px;
+    margin: 0 130px 50px;
     text-align: start;
 }
 
@@ -10,6 +10,7 @@
 
 .input {
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .item {
@@ -28,6 +29,5 @@
 }
 
 .titleBlock {
-    font-size: 12px;
-    margin: 20px;
+    margin-bottom: 20px;
 }

@@ -31,6 +31,7 @@ export const LearnPage = () => {
     return (
         <div>
             <span>
+                {/*<NavLink className={style.navLink} to={PATH.PACKS}>*/}
                 <NavLink className={style.navLink} to={PATH.PACKS}>
                     ⇦ Back to Pack List
                 </NavLink>
