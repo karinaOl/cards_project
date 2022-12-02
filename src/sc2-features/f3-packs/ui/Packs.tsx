@@ -23,26 +23,22 @@ export const Packs = () => {
     const [cardsPackName, setCardsPackName] = useState("");
     const [packId, setPackId] = useState("");
     const [cardsPack, setCardsPack] = useState({} as PackType);
-    const isLoading = useAppSelector((state) => state.app.isLoading);
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
     const currentPage = useAppSelector((state) => state.packs.page);
     const countOfPacksOnPage = useAppSelector((state) => state.packs.pageCount);
     const packsTotalCount = useAppSelector((state) => state.packs.cardPacksTotalCount);
 
-    const cardsPerPage = [5, 10, 15, 20];
+    const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
+        dispatch(resetSettingsAC(data));
+    };
 
-    const pagesCount = Math.ceil(packsTotalCount / countOfPacksOnPage);
-
-    const changeCountOfCards = (e: SelectChangeEvent) => {
+    const changeCountOfPacksOnPage = (e: SelectChangeEvent) => {
         dispatch(changeCountOfPacksOnPageAC(+e.target.value));
     };
 
     const changeCurrentPage = (event: React.ChangeEvent<unknown>, value: number) => {
         dispatch(changeCurrentPageAC(value));
-    };
-    const resetPackListFilter = (data: GetCardsPackRequestParamsType) => {
-        dispatch(resetSettingsAC(data));
     };
 
     useEffect(() => {
@@ -71,35 +67,14 @@ export const Packs = () => {
                 setPackId={setPackId}
                 setCardsPackName={setCardsPackName}
             />
-            <div className={style.paginationAndSelectBlock}>
-                <Stack className={style.stack} spacing={4}>
-                    <Pagination
-                        count={pagesCount}
-                        page={currentPage}
-                        onChange={changeCurrentPage}
-                        disabled={isLoading}
-                    />
-                </Stack>
-                <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
-                    <div className={style.spanWithSelect}>
-                        <span className={style.showSpanText}>Show</span>
-                        <Select
-                            value={countOfPacksOnPage.toString()}
-                            onChange={changeCountOfCards}
-                            style={{ top: "2px" }}
-                            sx={{ top: "2px" }}
-                            disabled={isLoading}
-                        >
-                            {cardsPerPage.map((page, index) => (
-                                <MenuItem key={index} value={page}>
-                                    {page}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <span className={style.spanCardsText}>Cards per Page</span>
-                    </div>
-                </FormControl>
-            </div>
+            <PaginationWithSelectBlock
+                currentPage={currentPage}
+                countOfEssenceOnPage={countOfPacksOnPage}
+                essenceTotalCount={packsTotalCount}
+                changeCountOfEssenceOnPage={changeCountOfPacksOnPage}
+                changeCurrentPage={changeCurrentPage}
+                text="Packs per Page"
+            />
             {modalAddPack && (
                 <AddPackModal modalAddPack={modalAddPack} setModalAddPack={setModalAddPack} />
             )}
@@ -118,6 +93,54 @@ export const Packs = () => {
                     pack={cardsPack}
                 />
             )}
+        </div>
+    );
+};
+
+export type PaginationWithSelectBlockPropsType = {
+    currentPage: number;
+    countOfEssenceOnPage: number;
+    essenceTotalCount: number;
+    changeCountOfEssenceOnPage: (e: SelectChangeEvent) => void;
+    changeCurrentPage: (event: React.ChangeEvent<unknown>, value: number) => void;
+    text: string;
+};
+
+export const PaginationWithSelectBlock = (props: PaginationWithSelectBlockPropsType) => {
+    const isLoading = useAppSelector((state) => state.app.isLoading);
+    const cardsPerPage = [5, 10, 15, 20];
+
+    const pagesCount = Math.ceil(props.essenceTotalCount / props.countOfEssenceOnPage);
+
+    return (
+        <div className={style.paginationAndSelectBlock}>
+            <Stack className={style.stack} spacing={4}>
+                <Pagination
+                    count={pagesCount}
+                    page={props.currentPage}
+                    onChange={props.changeCurrentPage}
+                    disabled={isLoading}
+                />
+            </Stack>
+            <FormControl sx={{ m: -5, minWidth: 40 }} size="small">
+                <div className={style.spanWithSelect}>
+                    <span className={style.showSpanText}>Show</span>
+                    <Select
+                        value={props.countOfEssenceOnPage.toString()}
+                        onChange={props.changeCountOfEssenceOnPage}
+                        style={{ top: "2px" }}
+                        sx={{ top: "2px" }}
+                        disabled={isLoading}
+                    >
+                        {cardsPerPage.map((page, index) => (
+                            <MenuItem key={index} value={page}>
+                                {page}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <span className={style.spanCardsText}>{props.text}</span>
+                </div>
+            </FormControl>
         </div>
     );
 };
