@@ -23,7 +23,7 @@ import {
 } from "../../sc2-features/f2-profile/bll/profileReducer";
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { appReducer } from "./appReducer";
+import { AppActionType, appReducer } from "./appReducer";
 import { PacksActionType, packsReducer } from "../../sc2-features/f3-packs/bll/packsReducer";
 import { CardsActionType, cardsReducer } from "../../sc2-features/f4-cards/bll/cardsReducer";
 import {
@@ -46,6 +46,7 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type RootReducerType = ReturnType<typeof rootReducer>;
 type ActionType =
+    | AppActionType
     | LoginActionType
     | NewPasswordActionType
     | RecoveryPasswordActionType

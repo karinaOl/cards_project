@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { addPackTC } from "../../bll/packsReducer";
 import styles from "./AddPackModal.module.css";
+import { InputTypeFilePacks } from "./InputTypeFilePacks";
 
 type AddPackModalPropsType = {
     modalAddPack: boolean;
@@ -15,6 +16,7 @@ type AddPackModalPropsType = {
 export const AddPackModal = (props: AddPackModalPropsType) => {
     const dispatch = useAppDispatch();
     const [title, setTitle] = useState("");
+    const [cover, setCover] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
 
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,9 +26,10 @@ export const AddPackModal = (props: AddPackModalPropsType) => {
         setIsPrivate(e.currentTarget.checked);
     };
     const onClickAddPacksHandler = () => {
-        dispatch(addPackTC(title, isPrivate));
+        dispatch(addPackTC(title, cover, isPrivate));
         setTitle("");
         setIsPrivate(false);
+        setCover("");
         props.setModalAddPack(false);
     };
 
@@ -43,6 +46,9 @@ export const AddPackModal = (props: AddPackModalPropsType) => {
                 onChange={onChangeTitleHandler}
                 className={styles.textFiled}
             />
+            <div className={styles.inputType}>
+                <InputTypeFilePacks setCover={setCover} name={"ADD NEW COVER"} />
+            </div>
             <div className={styles.checkbox}>
                 <Checkbox checked={isPrivate} onChange={onChangeCheckboxHandler} />
                 <span>Private pack</span>
