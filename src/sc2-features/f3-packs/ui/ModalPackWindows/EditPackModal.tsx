@@ -7,6 +7,7 @@ import { updatePackTC } from "../../bll/packsReducer";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./EditPackModal.module.css";
+import { InputTypeFilePacks } from "./InputTypeFilePacks";
 
 type EditPackModalPropsType = {
     modalEditPack: boolean;
@@ -24,9 +25,12 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
 
     const [title, setTitle] = useState<string>(props.pack.name);
     const [isPrivate, setIsPrivate] = useState<boolean>(props.pack.private);
+    const [cover, setCover] = useState(props.pack.deckCover);
 
     const changePackHandler = () => {
-        dispatch(updatePackTC({ _id: props.pack._id, name: title, private: isPrivate }));
+        dispatch(
+            updatePackTC({ _id: props.pack._id, name: title, deckCover: cover, private: isPrivate })
+        );
         props.setModalEditPack(false);
     };
 
@@ -43,6 +47,11 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
             open={props.modalEditPack}
             setModal={props.setModalEditPack}
         >
+            {cover && (
+                <div className={styles.image}>
+                    <img src={cover} style={{ maxWidth: "100%" }} />
+                </div>
+            )}
             <TextField
                 label="Name pack"
                 variant="standard"
@@ -50,6 +59,9 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
                 onChange={onChangeTitleHandler}
                 className={styles.textFiled}
             />
+            <div className={styles.inputType}>
+                <InputTypeFilePacks setCover={setCover} name={"UPDATE NEW COVER"} />
+            </div>
             <div className={styles.checkbox}>
                 <Checkbox checked={isPrivate} onChange={onChangeCheckboxHandler} />
                 <span>Privet pack</span>

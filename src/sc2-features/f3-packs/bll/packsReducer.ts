@@ -134,12 +134,12 @@ export const getPacksTC = (): AppThunk => async (dispatch, getState) => {
 };
 
 export const addPackTC =
-    (name: string, isPrivate: boolean): AppThunk =>
+    (name: string, cover: string, isPrivate: boolean): AppThunk =>
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
             const response = await packsApi.createCardsPack({
-                cardsPack: { name, private: isPrivate },
+                cardsPack: { name, deckCover: cover, private: isPrivate },
             });
             await dispatch(getPacksTC());
             const successMessage = `Pack ${response.data.newCardsPack.name} was added`;

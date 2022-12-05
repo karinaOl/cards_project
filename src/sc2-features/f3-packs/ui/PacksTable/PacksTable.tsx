@@ -18,6 +18,7 @@ import style from "./PacksTable.module.css";
 import { sortPackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 import IconButton from "@mui/material/IconButton";
+import defaultCover from "./../../../../assets/images/images.png";
 
 type PacksTableType = {
     setModalDeletePack: (value: boolean) => void;
@@ -77,6 +78,7 @@ export const PacksTable = (props: PacksTableType) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow className={style.commonButtons}>
+                            <TableCell>Cover</TableCell>
                             <TableCell onClick={sortPackListByName}>
                                 Name
                                 <button>▼</button>
@@ -98,6 +100,12 @@ export const PacksTable = (props: PacksTableType) => {
                                 key={row._id}
                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                             >
+                                <TableCell>
+                                    <img
+                                        src={row.deckCover ? row.deckCover : defaultCover}
+                                        style={{ maxWidth: "150px" }}
+                                    />
+                                </TableCell>
                                 <TableCell component="th" scope="row">
                                     <NavLink
                                         to={PATH.CARDS + "/" + row._id}
