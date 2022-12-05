@@ -8,9 +8,9 @@ import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { Navigate, useParams } from "react-router-dom";
 import { PATH } from "../../../sc1-main/m1-ui/Main/Pages";
 import style from "../ui/Cards.module.css";
-import { PaginationWithSelectBlock } from "../../f3-packs/ui/Packs";
 import { getCardsTC } from "../bll/cardsReducer";
 import { SelectChangeEvent } from "@mui/material";
+import { PaginationWithSelectBlock } from "../../../utils/PaginationWithSelectBlock/PaginationWithSelectBlock";
 
 export const Cards = () => {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
