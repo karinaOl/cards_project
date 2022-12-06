@@ -62,6 +62,7 @@ import {
     updateUserAC,
     updateUserAvatarTC,
 } from "../../../../sc2-features/f2-profile/bll/profileReducer";
+import { setAppErrorAC } from "../../../m2-bll/appReducer";
 
 export const InputTypeFile = () => {
     const avatar = useAppSelector((state) => state.profile.avatar);
@@ -85,7 +86,7 @@ export const InputTypeFile = () => {
                     dispatch(updateUserAvatarTC(file64));
                 });
             } else {
-                alert("File size should be no more than 1 mb ");
+                dispatch(setAppErrorAC("File size should be no more than 200 KB "));
             }
         }
     };
