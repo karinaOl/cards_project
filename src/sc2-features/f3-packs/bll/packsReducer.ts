@@ -172,9 +172,9 @@ export const updatePackTC =
     async (dispatch) => {
         dispatch(setIsLoadingAC(true));
         try {
-            const response = await packsApi.updateCardsPack(data);
+            await packsApi.updateCardsPack(data);
             await dispatch(getPacksTC());
-            const successMessage = `Title has been changed to ${response.data.updatedCardsPack.name}`;
+            const successMessage = "Your pack has been changed ";
             successResponseUtils(successMessage, dispatch);
         } catch (e) {
             handleAppError(e, dispatch);

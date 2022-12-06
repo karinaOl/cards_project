@@ -8,6 +8,7 @@ import { logoutTC } from "../../../sc2-features/f2-profile/bll/profileReducer";
 import { NavLink } from "react-router-dom";
 import { PATH } from "./Pages";
 import defaultImg from "../../../assets/images/profile-img.png";
+import IconButton from "@mui/material/IconButton";
 
 export default function ButtonAppBar() {
     const isLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
@@ -38,7 +39,9 @@ export default function ButtonAppBar() {
                                     src={userAvatar ? userAvatar : defaultImg}
                                     alt="userAvatar"
                                 />
-                                <span style={{ margin: "10px" }}>{userName}</span>
+                                <IconButton style={{ color: "white", fontSize: "10px" }}>
+                                    <span style={{ margin: "10px" }}>{userName}</span>
+                                </IconButton>
                             </span>
                             <Button disabled={isLoading} onClick={logoutHandler} color="inherit">
                                 Logout

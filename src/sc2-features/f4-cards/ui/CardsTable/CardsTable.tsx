@@ -103,30 +103,20 @@ export const CardsTable = (props: CardsTableType) => {
                                         <IconButton
                                             style={{ color: !isLoading ? "black" : "grey" }}
                                             disabled={isLoading}
+                                            onClick={() =>
+                                                updateCardHandler(row._id, row.question, row.answer)
+                                            }
                                         >
-                                            <BorderColorRoundedIcon
-                                                onClick={() =>
-                                                    updateCardHandler(
-                                                        row._id,
-                                                        row.question,
-                                                        row.answer
-                                                    )
-                                                }
-                                                fontSize={"small"}
-                                            />
+                                            <BorderColorRoundedIcon fontSize={"small"} />
                                         </IconButton>
                                     )}
                                     {row.user_id === userId && (
                                         <IconButton
                                             style={{ color: !isLoading ? "black" : "grey" }}
                                             disabled={isLoading}
+                                            onClick={() => deleteCardHandler(row._id, row.question)}
                                         >
-                                            <DeleteForeverRoundedIcon
-                                                fontSize={"small"}
-                                                onClick={() =>
-                                                    deleteCardHandler(row._id, row.question)
-                                                }
-                                            />
+                                            <DeleteForeverRoundedIcon fontSize={"small"} />
                                         </IconButton>
                                     )}
                                 </TableCell>

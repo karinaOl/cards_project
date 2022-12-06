@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { Button } from "@mui/material";
 import { setAppErrorAC } from "../../../../sc1-main/m2-bll/appReducer";
 import { useAppDispatch } from "../../../../sc1-main/m2-bll/store";
@@ -15,7 +15,10 @@ export const InputTypeFilePacks = (props: InputTypeFilePacksPropsType) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0];
 
-            if (file.size < 1) {
+            const fileSize = file.size;
+            const fileSizeInMb = fileSize / 1024 ** 2;
+
+            if (fileSizeInMb < 1) {
                 convertFileToBase64(file, (file64: string) => {
                     dispatch(setAppErrorAC(null));
                     props.setCover(file64);

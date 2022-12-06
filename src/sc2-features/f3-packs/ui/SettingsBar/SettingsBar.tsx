@@ -53,7 +53,7 @@ export const SettingsBar = (props: SettingsBarType) => {
     const [activeAll, setActiveAll] = useState(true);
 
     useEffect(() => {
-        // if (userId) dispatch(setUserIdAC(userId)); // выводит сразу мои колоды
+        // if (userId) dispatch(setUserIdAC(userId)); // you could see my packs once the page was loaded
         dispatch(getPacksTC());
     }, [
         dispatch,

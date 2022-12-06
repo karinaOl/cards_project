@@ -18,7 +18,7 @@ import style from "./PacksTable.module.css";
 import { sortPackTC } from "../../bll/packsReducer";
 import { PackType } from "../../dal/packs-api";
 import IconButton from "@mui/material/IconButton";
-import defaultCover from "./../../../../assets/images/images.png";
+import defaultCover from "../../../../assets/images/images.png";
 
 type PacksTableType = {
     setModalDeletePack: (value: boolean) => void;
@@ -79,17 +79,9 @@ export const PacksTable = (props: PacksTableType) => {
                     <TableHead>
                         <TableRow className={style.commonButtons}>
                             <TableCell>Cover</TableCell>
-                            <TableCell onClick={sortPackListByName}>
-                                Name
-                                <button>▼</button>
-                            </TableCell>
-                            <TableCell onClick={sortPackListByCardsCount}>
-                                Cards
-                                <button>▼</button>
-                            </TableCell>
-                            <TableCell onClick={sortPackListByUpdatedTime}>
-                                Last Updated <button>▼</button>
-                            </TableCell>
+                            <TableCell onClick={sortPackListByName}>Name▼</TableCell>
+                            <TableCell onClick={sortPackListByCardsCount}>Cards▼</TableCell>
+                            <TableCell onClick={sortPackListByUpdatedTime}>Last Updated▼</TableCell>
                             <TableCell>Created by</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
@@ -104,6 +96,7 @@ export const PacksTable = (props: PacksTableType) => {
                                     <img
                                         src={row.deckCover ? row.deckCover : defaultCover}
                                         style={{ maxWidth: "150px" }}
+                                        alt={"deckCover"}
                                     />
                                 </TableCell>
                                 <TableCell component="th" scope="row">
@@ -121,34 +114,26 @@ export const PacksTable = (props: PacksTableType) => {
                                     <IconButton
                                         style={{ color: !isLoading ? "black" : "grey" }}
                                         disabled={isLoading}
+                                        onClick={() => learnHandler(row._id)}
                                     >
-                                        <SchoolRoundedIcon
-                                            onClick={() => learnHandler(row._id)}
-                                            fontSize={"small"}
-                                        />
+                                        <SchoolRoundedIcon fontSize={"small"} />
                                     </IconButton>
                                     {row.user_id === userId && (
                                         <IconButton
                                             style={{ color: !isLoading ? "black" : "grey" }}
                                             disabled={isLoading}
+                                            onClick={() => openModalEditHandler(row)}
                                         >
-                                            <BorderColorRoundedIcon
-                                                onClick={() => openModalEditHandler(row)}
-                                                fontSize={"small"}
-                                            />
+                                            <BorderColorRoundedIcon fontSize={"small"} />
                                         </IconButton>
                                     )}
                                     {row.user_id === userId && (
                                         <IconButton
                                             style={{ color: !isLoading ? "black" : "grey" }}
                                             disabled={isLoading}
+                                            onClick={() => openModalDelHandler(row._id, row.name)}
                                         >
-                                            <DeleteForeverRoundedIcon
-                                                onClick={() =>
-                                                    openModalDelHandler(row._id, row.name)
-                                                }
-                                                fontSize={"small"}
-                                            />
+                                            <DeleteForeverRoundedIcon fontSize={"small"} />
                                         </IconButton>
                                     )}
                                 </TableCell>

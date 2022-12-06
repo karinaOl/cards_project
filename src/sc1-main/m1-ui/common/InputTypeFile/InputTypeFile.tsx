@@ -77,7 +77,7 @@ export const InputTypeFile = () => {
             const fileSize = file.size;
             const fileSizeInMb = fileSize / 1024 ** 2;
 
-            if (fileSizeInMb < 1) {
+            if (fileSizeInMb < 0.2) {
                 convertFileToBase64(file, (file64: string) => {
                     setIsAvaBroken(false);
                     setAva(file64);
@@ -113,7 +113,12 @@ export const InputTypeFile = () => {
                 alt="ava"
             />
             <label>
-                <input type="file" onChange={uploadHandler} style={{ display: "none" }} />
+                <input
+                    type="file"
+                    onChange={uploadHandler}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                />
                 <IconButton disabled={isLoading} component="span">
                     <CloudUploadIcon />
                 </IconButton>
