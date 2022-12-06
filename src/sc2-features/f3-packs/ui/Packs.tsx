@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { MenuItem, Pagination, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../sc1-main/m2-bll/store";
 import { changeCountOfPacksOnPageAC, changeCurrentPageAC } from "../bll/packsReducer";
-import FormControl from "@mui/material/FormControl";
 import { PacksTable } from "./PacksTable/PacksTable";
 import { Title } from "../../../sc1-main/m1-ui/common/Title/Title";
 import style from "./Packs.module.css";
