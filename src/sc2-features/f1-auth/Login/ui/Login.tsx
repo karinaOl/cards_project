@@ -68,6 +68,16 @@ export const Login = () => {
             <Paper style={{ padding: "30px" }}>
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl>
+                        <FormLabel>
+                            <p>To log in use common test</p>
+                            <p>account credentials</p>
+                            <p>
+                                Email: <b>testp2505@gmail.com</b>
+                            </p>
+                            <p>
+                                Password: <b>test_test</b>
+                            </p>
+                        </FormLabel>
                         <Typography variant="h5" component="h3" sx={{ flexGrow: 1 }}>
                             Sign in
                         </Typography>
